@@ -5,17 +5,19 @@ return {
     local lualine = require("lualine")
     local lazy_status = require("lazy.status") -- to configure lazy pending updates count
 
+    -- Updated colors to match Rose Pine and WezTerm
     local colors = {
-      blue = "#65D1FF",
-      green = "#3EFFDC",
-      violet = "#FF61EF",
-      yellow = "#FFDA7B",
-      red = "#FF4A4A",
-      fg = "#c3ccdc",
-      bg = "#112638",
-      inactive_bg = "#2c3043",
+      blue = "#6CAADC", -- Softer blue to match Rose Pine
+      green = "#44FFB1", -- Matches Rose Pine's green
+      violet = "#A277FF", -- Softer violet, also from Rose Pine palette
+      yellow = "#FFE073", -- Subdued yellow
+      red = "#E52E2E", -- Less vibrant red
+      fg = "#CBE0F0", -- Rose Pine foreground color
+      bg = "#0D0D0D", -- Rose Pine background color
+      inactive_bg = "#2C2C2C", -- Inactive window/tab background
     }
 
+    -- Updated lualine theme configuration
     local my_lualine_theme = {
       normal = {
         a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
@@ -43,29 +45,53 @@ return {
         c = { bg = colors.bg, fg = colors.fg },
       },
       inactive = {
-        a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
-        b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-        c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+        a = { bg = colors.inactive_bg, fg = "#B0B0B0", gui = "bold" },
+        b = { bg = colors.inactive_bg, fg = "#B0B0B0" },
+        c = { bg = colors.inactive_bg, fg = "#B0B0B0" },
       },
     }
 
-    -- configure lualine with modified theme
+    -- Configure lualine with the updated theme
     lualine.setup({
       options = {
         theme = my_lualine_theme,
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
       },
       sections = {
+        lualine_a = {
+          { "mode", icon = " " }, -- Adds a Git-like icon to the mode
+        },
+        lualine_b = {
+          "branch", -- Shows Git branch
+          "diff", -- Shows added/modified/removed counts
+        },
+        lualine_c = {
+          { "filename", path = 1 }, -- Shows the file path
+        },
         lualine_x = {
           {
             lazy_status.updates,
             cond = lazy_status.has_updates,
-            color = { fg = "#ff9e64" },
+            color = { fg = "#ff9e64" }, -- Pending updates
           },
           { "encoding" },
           { "fileformat" },
           { "filetype" },
         },
+        lualine_y = { "progress" }, -- Displays percentage through the file
+        lualine_z = { "location" }, -- Displays line and column number
       },
+      inactive_sections = {
+        lualine_a = { "filename" },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = { "location" },
+        lualine_y = {},
+        lualine_z = {},
+      },
+      tabline = {},
+      extensions = { "fugitive" }, -- Git integration
     })
   end,
 }

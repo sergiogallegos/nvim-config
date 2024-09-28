@@ -21,7 +21,6 @@ return {
 
     mason_lspconfig.setup({
       ensure_installed = {
-        "tsserver",
         "html",
         "cssls",
         "tailwindcss",
@@ -31,7 +30,7 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
-        "clangd",  -- Add clangd for C/C++ support
+        "clangd", -- Add clangd for C/C++ support
       },
     })
 
@@ -48,8 +47,8 @@ return {
 
     -- Setup LSP
     local lspconfig = require("lspconfig")
-    lspconfig.clangd.setup {}
-    lspconfig.pyright.setup {}
+    lspconfig.clangd.setup({})
+    lspconfig.pyright.setup({})
     -- Add other LSP configurations here
   end,
 }
