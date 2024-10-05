@@ -63,7 +63,10 @@ return {
 
       highlight_groups = {
         -- Customize specific highlight groups, for example:
-        -- Comment = { fg = "foam", italic = true },
+        Comment = { fg = "foam", italic = false },
+        String = { fg = "foam", italic = false },
+        Keyworkd = { fg = "rose", italic = false },
+        Function = { fg = "gold", italic = false },
         -- VertSplit = { fg = "muted", bg = "muted" },
       },
 
