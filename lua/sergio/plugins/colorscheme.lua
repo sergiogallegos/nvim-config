@@ -18,7 +18,7 @@ return {
 
       styles = {
         bold = true, -- Enable bold styling
-        italic = true, -- Enable italic styling
+        italic = false, -- Enable italic styling
         transparency = true, -- Transparency is disabled, set to true if needed
       },
 
