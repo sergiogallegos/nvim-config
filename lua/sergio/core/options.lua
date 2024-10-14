@@ -5,6 +5,8 @@ local opt = vim.opt
 opt.relativenumber = true
 opt.number = true
 
+opt.colorcolumn = "100"
+
 -- tabs & indentation
 opt.tabstop = 2 -- 4 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 4 spaces for indent width
