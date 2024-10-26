@@ -4,7 +4,7 @@ return {
   priority = 1000,
   config = function()
     -- Set up VSCode Dark theme with custom options if needed
-    require('vscode').setup({
+    require("vscode").setup({
       -- Enable transparent background
       transparent = true,
 
@@ -16,16 +16,19 @@ return {
 
       -- Override highlight groups
       color_overrides = {
-        vscLineNumber = '#5c6370',  -- Customize the line number color
+        vscLineNumber = "#5c6370", -- Customize the line number color
       },
 
       group_overrides = {
         -- Customize specific highlight groups
-        Comment = { fg = '#6a9955', italic = true }, -- Italic green comments
-        Function = { fg = '#dcdcaa', bold = true },  -- Yellow functions
-        String = { fg = '#ce9178' },                -- Orange for strings
-        Keyword = { fg = '#569cd6', italic = true }, -- Blue for keywords
-        Error = { fg = '#f44747', bold = true },      -- Red for errors
+        Comment = { fg = "#6a9955", italic = true }, -- Italic green comments
+        Function = { fg = "#dcdcaa", bold = true }, -- Yellow functions
+        String = { fg = "#ce9178" }, -- Orange for strings
+        Keyword = { fg = "#569cd6", italic = true }, -- Blue for keywords
+        Error = { fg = "#f44747", bold = true }, -- Red for errors
+
+        -- Set a hight-contrast background color for current line
+        CursorLine = { bg = "#333a42" }, -- color for contrast
       },
     })
 
@@ -33,4 +36,3 @@ return {
     vim.cmd("colorscheme vscode")
   end,
 }
-
