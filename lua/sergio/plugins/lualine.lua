@@ -3,22 +3,23 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local lualine = require("lualine")
-    local lazy_status = require("lazy.status") -- to configure lazy pending updates count
 
-    -- Updated colors to match Rose Pine and WezTerm
+    -- Gruvbox Material colors
     local colors = {
-      blue = "#6CAADC", -- Softer blue to match Rose Pine
-      green = "#44FFB1", -- Matches Rose Pine's green
-      violet = "#A277FF", -- Softer violet, also from Rose Pine palette
-      yellow = "#FFE073", -- Subdued yellow
-      red = "#E52E2E", -- Less vibrant red
-      fg = "#CBE0F0", -- Rose Pine foreground color
-      bg = "#0D0D0D", -- Rose Pine background color
-      inactive_bg = "#2C2C2C", -- Inactive window/tab background
+      bg = "#282828",
+      fg = "#ebdbb2",
+      yellow = "#d8a657",
+      cyan = "#89b482",
+      darkblue = "#458588",
+      green = "#b8bb26",
+      orange = "#d65d0e",
+      violet = "#b16286",
+      magenta = "#d3869b",
+      blue = "#83a598",
+      red = "#fb4934",
     }
 
-    -- Updated lualine theme configuration
-    local my_lualine_theme = {
+    local gruvbox_theme = {
       normal = {
         a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
@@ -35,7 +36,7 @@ return {
         c = { bg = colors.bg, fg = colors.fg },
       },
       command = {
-        a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
+        a = { bg = colors.orange, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
       },
@@ -45,42 +46,26 @@ return {
         c = { bg = colors.bg, fg = colors.fg },
       },
       inactive = {
-        a = { bg = colors.inactive_bg, fg = "#B0B0B0", gui = "bold" },
-        b = { bg = colors.inactive_bg, fg = "#B0B0B0" },
-        c = { bg = colors.inactive_bg, fg = "#B0B0B0" },
+        a = { bg = colors.bg, fg = colors.fg },
+        b = { bg = colors.bg, fg = colors.fg },
+        c = { bg = colors.bg, fg = colors.fg },
       },
     }
 
-    -- Configure lualine with the updated theme
+    -- Configure lualine with Gruvbox Material theme
     lualine.setup({
       options = {
-        theme = my_lualine_theme,
+        theme = gruvbox_theme,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
       },
       sections = {
-        lualine_a = {
-          { "mode", icon = " " }, -- Adds a Git-like icon to the mode
-        },
-        lualine_b = {
-          "branch", -- Shows Git branch
-          "diff", -- Shows added/modified/removed counts
-        },
-        lualine_c = {
-          { "filename", path = 1 }, -- Shows the file path
-        },
-        lualine_x = {
-          {
-            lazy_status.updates,
-            cond = lazy_status.has_updates,
-            color = { fg = "#ff9e64" }, -- Pending updates
-          },
-          { "encoding" },
-          { "fileformat" },
-          { "filetype" },
-        },
-        lualine_y = { "progress" }, -- Displays percentage through the file
-        lualine_z = { "location" }, -- Displays line and column number
+        lualine_a = { { "mode", icon = "" } },
+        lualine_b = { "branch", "diff" },
+        lualine_c = { { "filename", path = 1 } },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
       },
       inactive_sections = {
         lualine_a = { "filename" },
@@ -90,8 +75,7 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      tabline = {},
-      extensions = { "fugitive" }, -- Git integration
+      extensions = { "fugitive" },
     })
   end,
 }
