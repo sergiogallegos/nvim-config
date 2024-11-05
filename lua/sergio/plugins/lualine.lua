@@ -4,22 +4,21 @@ return {
   config = function()
     local lualine = require("lualine")
 
-    -- Gruvbox Material colors
+    -- Zenbones color scheme for lualine
     local colors = {
-      bg = "#282828",
-      fg = "#ebdbb2",
-      yellow = "#d8a657",
-      cyan = "#89b482",
-      darkblue = "#458588",
-      green = "#b8bb26",
-      orange = "#d65d0e",
-      violet = "#b16286",
-      magenta = "#d3869b",
-      blue = "#83a598",
-      red = "#fb4934",
+      bg = "#121212",
+      fg = "#dcdccc",
+      yellow = "#f0dfaf",
+      cyan = "#8cd0d3",
+      green = "#7f9f7f",
+      orange = "#dfaf8f",
+      violet = "#dca3a3",
+      magenta = "#dc8cc3",
+      blue = "#6ca0a3",
+      red = "#cc9393",
     }
 
-    local gruvbox_theme = {
+    local zenbones_theme = {
       normal = {
         a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
@@ -52,12 +51,12 @@ return {
       },
     }
 
-    -- Configure lualine with Gruvbox Material theme
+    -- Configure lualine with Zenbones theme colors
     lualine.setup({
       options = {
-        theme = gruvbox_theme,
-        component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
+        theme = zenbones_theme,
+        component_separators = { left = "|", right = "|" },
+        section_separators = { left = "", right = "" },
       },
       sections = {
         lualine_a = { { "mode", icon = "" } },

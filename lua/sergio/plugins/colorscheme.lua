@@ -1,15 +1,15 @@
 return {
-  "sainnhe/gruvbox-material",
-  name = "gruvbox-material",
+  "mcchrish/zenbones.nvim",
+  dependencies = "rktjmp/lush.nvim",
+  name = "zenbones",
   priority = 1000,
   config = function()
-    -- Set up Gruvbox Material with custom options
-    vim.g.gruvbox_material_background = "hard" -- Options: 'hard', 'medium', 'soft'
-    vim.g.gruvbox_material_enable_italic = 1
-    vim.g.gruvbox_material_transparent_background = 1 -- Enable transparency
-    vim.g.gruvbox_material_disable_italic_comment = 1
+    -- Set up Zenbones with custom options
+    vim.g.zenbones_lightness = "dark" -- Set it to dark mode
+    vim.g.zenbones_transparent_background = 1 -- Enable transparency
+    vim.g.zenbones_dim_inactive = true -- Dim inactive splits or windows
 
     -- Apply the colorscheme
-    vim.cmd("colorscheme gruvbox-material")
+    vim.cmd("colorscheme zenbones")
   end,
 }
