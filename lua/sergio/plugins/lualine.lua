@@ -4,21 +4,21 @@ return {
   config = function()
     local lualine = require("lualine")
 
-    -- Zenbones color scheme for lualine
+    -- Rose Pine color scheme for lualine
     local colors = {
-      bg = "#121212",
-      fg = "#dcdccc",
-      yellow = "#f0dfaf",
-      cyan = "#8cd0d3",
-      green = "#7f9f7f",
-      orange = "#dfaf8f",
-      violet = "#dca3a3",
-      magenta = "#dc8cc3",
-      blue = "#6ca0a3",
-      red = "#cc9393",
+      bg = "#1f1d2e",
+      fg = "#e0def4",
+      yellow = "#f6c177",
+      cyan = "#9ccfd8",
+      green = "#31748f",
+      orange = "#ebbcba",
+      violet = "#c4a7e7",
+      magenta = "#eb6f92",
+      blue = "#3e8fb0",
+      red = "#eb6f92",
     }
 
-    local zenbones_theme = {
+    local rose_pine_theme = {
       normal = {
         a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
         b = { bg = colors.bg, fg = colors.fg },
@@ -51,10 +51,10 @@ return {
       },
     }
 
-    -- Configure lualine with Zenbones theme colors
+    -- Configure lualine with Rose Pine theme colors
     lualine.setup({
       options = {
-        theme = zenbones_theme,
+        theme = rose_pine_theme,
         component_separators = { left = "|", right = "|" },
         section_separators = { left = "", right = "" },
       },

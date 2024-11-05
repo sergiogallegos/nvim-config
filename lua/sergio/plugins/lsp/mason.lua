@@ -21,27 +21,38 @@ return {
 
     mason_lspconfig.setup({
       ensure_installed = {
-        "html",
-        "cssls",
-        "tailwindcss",
-        "svelte",
-        "lua_ls",
-        "graphql",
-        "emmet_ls",
-        "prismals",
-        "pyright",
-        "clangd", -- Add clangd for C/C++ support
+        "pyright",            -- Python
+        "jdtls",              -- Java
+        "clangd",             -- C/C++
+        "gopls",              -- Go
+        "rust_analyzer",      -- Rust
+        "zls",                -- Zig
+        "lua_ls",             -- Lua
+        "vimls",              -- Vim Script
+        "html",               -- HTML
+        "cssls",              -- CSS
+        "sqlls",              -- SQL
+        "omnisharp",          -- C#
+        "tailwindcss",        -- CSS Framework
+        "svelte",             -- Svelte
+        "graphql",            -- GraphQL
+        "emmet_ls",           -- Emmet
+        "prismals",           -- Prisma
       },
     })
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier",
-        "stylua",
-        "isort",
-        "black",
-        "pylint",
-        "eslint_d",
+        "prettier",           -- Formatter for JavaScript, HTML, CSS
+        "stylua",             -- Formatter for Lua
+        "isort",              -- Sort imports for Python
+        "black",              -- Formatter for Python
+        "pylint",             -- Linter for Python
+        "eslint_d",           -- Linter for JavaScript, TypeScript
+        "clang-format",       -- Formatter for C/C++
+        "rustfmt",            -- Formatter for Rust
+        "sql-formatter",      -- Formatter for SQL
+        "csharpier",          -- Formatter for C#
       },
     })
 
