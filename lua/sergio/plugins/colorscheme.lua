@@ -22,48 +22,49 @@ return {
       },
 
       palette = {
-        base = "#2a273f", -- Slightly lighter base for contrast
-        overlay = "#3e3b5e",
-        surface = "#4a456e",
-        muted = "#8e86a3", -- Lightened muted color
-        subtle = "#b0a4c1", -- Lightened subtle color
-        love = "#f2b3b6", -- Lighter red/pink
-        gold = "#f9e0b7", -- Lighter gold
-        rose = "#f7d3dc", -- Soft pink
-        pine = "#b0e3db", -- Light green/teal
-        foam = "#a6e2f0", -- Light blue
-        iris = "#c8b9f7", -- Light violet
+        base = "#1c1b29", -- Dark base to complement WezTerm background
+        overlay = "#282737", -- Slightly lighter overlay for contrast
+        surface = "#333248", -- Soft, dark surface color
+        muted = "#44415c", -- Muted dark gray
+        subtle = "#5a576f", -- Slightly lighter for subtle highlights
+        love = "#b87f9f", -- Brighter rose-pink for better readability
+        gold = "#e8c080", -- Brighter pastel gold
+        rose = "#d4a4b4", -- Soft rose for readability
+        pine = "#a5c3c9", -- Light teal-gray for subtle highlights
+        foam = "#9dc7de", -- Light blue-gray for function names
+        iris = "#c3b1e3", -- Soft lavender-gray for parentheses/punctuation
       },
 
       highlight_groups = {
-        -- Transparent backgrounds for main elements
-        Normal = { bg = "NONE", fg = "#e0def4" },
+        -- Set transparent backgrounds and adjusted foregrounds
+        Normal = { bg = "NONE", fg = "#e0def4" }, -- Light gray for readability
         NormalNC = { bg = "NONE", fg = "#e0def4" },
-        LineNr = { bg = "NONE", fg = "#e0def4" },
-        VertSplit = { fg = "#4a456e", bg = "NONE" },
+        LineNr = { bg = "NONE", fg = "#5a576f" }, -- Darker gray for line numbers
+        VertSplit = { fg = "#333248", bg = "NONE" },
         StatusLine = { bg = "NONE", fg = "#e0def4" },
         SignColumn = { bg = "NONE" },
 
-        -- Lighter text for improved visibility
-        Comment = { fg = "#a6e2f0" }, -- Lightened for readability
-        String = { fg = "#f9e0b7" },
-        Function = { fg = "#c8b9f7" },
-        Keyword = { fg = "#f7d3dc" },
+        -- Monochromatic and soft contrast text colors
+        Comment = { fg = "#5a576f" }, -- Darker gray for comments
+        String = { fg = "#d4a4b4" }, -- Soft rose for strings
+        Function = { fg = "#9dc7de" }, -- Light blue-gray for functions
+        Keyword = { fg = "#e8c080" }, -- Pastel gold for keywords
+        Punctuation = { fg = "#c3b1e3" }, -- Lavender-gray for parentheses/punctuation
 
         -- Disable selection highlighting in file tree
-        NvimTreeCursorLine = { bg = "NONE" }, -- For nvim-tree
+        NvimTreeCursorLine = { bg = "NONE" },
         NvimTreeVertSplit = { bg = "NONE" },
-        NERDTreeCursorLine = { bg = "NONE" }, -- For NERDTree (if applicable)
-        NERDTreeDir = { fg = "#c8b9f7" },
+        NERDTreeCursorLine = { bg = "NONE" },
+        NERDTreeDir = { fg = "#e0def4" }, -- Light gray for directories
       },
 
       before_highlight = function(group, highlight, palette)
-        -- Additional highlight adjustments if needed
+        -- Additional adjustments can be made here
       end,
     })
 
     -- Apply the colorscheme
     vim.cmd("colorscheme rose-pine")
-    vim.opt.cursorline = false -- Disabling line highlighting
+    vim.opt.cursorline = false -- Disable line highlighting
   end,
 }
