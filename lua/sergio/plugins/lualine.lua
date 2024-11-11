@@ -4,18 +4,18 @@ return {
   config = function()
     local lualine = require("lualine")
 
-    -- Rose Pine color scheme for lualine
+    -- Colors for lualine bar
     local colors = {
-      bg = "#1f1d2e",
-      fg = "#e0def4",
-      yellow = "#f6c177",
-      cyan = "#9ccfd8",
-      green = "#31748f",
-      orange = "#ebbcba",
-      violet = "#c4a7e7",
-      magenta = "#eb6f92",
-      blue = "#3e8fb0",
-      red = "#eb6f92",
+      bg = "#191724", -- Dark, soft background matching Rose Pine's primary background
+      fg = "#e0def4", -- Soft light gray for text
+      yellow = "#f6c177", -- Rose Pine's warm gold for highlights
+      cyan = "#9ccfd8", -- Soft, muted cyan
+      green = "#2a9d8f", -- Calm, deep green-teal from Rose Pine
+      orange = "#ebbcba", -- Warm peach for contrast
+      violet = "#c4a7e7", -- Soft lavender-pink, Rose Pine accent
+      magenta = "#eb6f92", -- Rose pink for highlights and alerts
+      blue = "#3e8fb0", -- Muted blue for active mode
+      red = "#eb6f92", -- Rose Pine’s soft red for replace/error modes
     }
 
     local rose_pine_theme = {
