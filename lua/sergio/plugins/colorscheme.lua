@@ -3,83 +3,67 @@ return {
   name = "rose-pine",
   priority = 1000,
   config = function()
-    -- Set up Rose Pine with custom options
     require("rose-pine").setup({
-      variant = "main",                   -- Options: "auto", "main", "moon", "dawn"
-      dark_variant = "main",              -- Dark variant option
-      dim_inactive_windows = false,       -- Dim inactive windows if desired
+      variant = "main",
+      dark_variant = "main",
+      dim_inactive_windows = false,
       extend_background_behind_borders = true,
 
       enable = {
         terminal = true,
-        legacy_highlights = true,         -- For compatibility with older Neovim versions
-        migrations = true,                -- Enable handling of deprecated options
+        legacy_highlights = true,
+        migrations = true,
       },
 
       styles = {
         bold = true,
-        italic = false,                   -- Disable italics if preferred
-        transparency = true,              -- Set transparency
-      },
-
-      groups = {
-        border = "muted",
-        link = "iris",
-        panel = "surface",
-
-        error = "love",
-        hint = "iris",
-        info = "foam",
-        note = "pine",
-        todo = "rose",
-        warn = "gold",
-
-        git_add = "foam",
-        git_change = "rose",
-        git_delete = "love",
-        git_dirty = "rose",
-        git_ignore = "muted",
-        git_merge = "iris",
-        git_rename = "pine",
-        git_stage = "iris",
-        git_text = "rose",
-        git_untracked = "subtle",
-
-        h1 = "iris",
-        h2 = "foam",
-        h3 = "rose",
-        h4 = "gold",
-        h5 = "pine",
-        h6 = "foam",
+        italic = false,
+        transparency = true,
       },
 
       palette = {
-        -- Customize the palette if needed for specific variants
-        -- moon = {
-        --     base = '#18191a',
-        --     overlay = '#363738',
-        -- },
+        base = "#2a273f", -- Slightly lighter base for contrast
+        overlay = "#3e3b5e",
+        surface = "#4a456e",
+        muted = "#8e86a3", -- Lightened muted color
+        subtle = "#b0a4c1", -- Lightened subtle color
+        love = "#f2b3b6", -- Lighter red/pink
+        gold = "#f9e0b7", -- Lighter gold
+        rose = "#f7d3dc", -- Soft pink
+        pine = "#b0e3db", -- Light green/teal
+        foam = "#a6e2f0", -- Light blue
+        iris = "#c8b9f7", -- Light violet
       },
 
       highlight_groups = {
-        -- Customize specific highlight groups if needed
-        -- Comment = { fg = "foam" },
-        -- VertSplit = { fg = "muted", bg = "muted" },
+        -- Transparent backgrounds for main elements
+        Normal = { bg = "NONE", fg = "#e0def4" },
+        NormalNC = { bg = "NONE", fg = "#e0def4" },
+        LineNr = { bg = "NONE", fg = "#e0def4" },
+        VertSplit = { fg = "#4a456e", bg = "NONE" },
+        StatusLine = { bg = "NONE", fg = "#e0def4" },
+        SignColumn = { bg = "NONE" },
+
+        -- Lighter text for improved visibility
+        Comment = { fg = "#a6e2f0" }, -- Lightened for readability
+        String = { fg = "#f9e0b7" },
+        Function = { fg = "#c8b9f7" },
+        Keyword = { fg = "#f7d3dc" },
+
+        -- Disable selection highlighting in file tree
+        NvimTreeCursorLine = { bg = "NONE" }, -- For nvim-tree
+        NvimTreeVertSplit = { bg = "NONE" },
+        NERDTreeCursorLine = { bg = "NONE" }, -- For NERDTree (if applicable)
+        NERDTreeDir = { fg = "#c8b9f7" },
       },
 
       before_highlight = function(group, highlight, palette)
-        -- Example customization of highlight groups
-        -- if highlight.undercurl then
-        --     highlight.undercurl = false
-        -- end
-        -- Customize colors dynamically if desired
-        -- if highlight.fg == palette.pine then
-        --     highlight.fg = palette.foam
-        -- end
+        -- Additional highlight adjustments if needed
       end,
     })
 
     -- Apply the colorscheme
     vim.cmd("colorscheme rose-pine")
+    vim.opt.cursorline = false -- Disabling line highlighting
   end,
 }
