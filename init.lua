@@ -1,4 +1,10 @@
-vim.opt.runtimepath:append("C:/Users/sheco/AppData/Local/nvim-data/site")  -- For Windows
+-- Set the correct runtime path for each OS
+if vim.loop.os_uname().sysname == "Windows_NT" then
+  vim.opt.runtimepath:append("C:/Users/sheco/AppData/Local/nvim-data/site")  -- For Windows
+else
+  vim.opt.runtimepath:append("~/.local/share/nvim/site")
+end
+
 vim.g.mapleader = ","
 vim.opt.termguicolors = true
 
@@ -15,4 +21,5 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
+
 require("lazy").setup({ import = "custom/plugins" }, { change_detection = { notify = false } })

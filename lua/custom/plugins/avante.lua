@@ -1,12 +1,16 @@
+local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
+
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   lazy = false,
   version = false,
   opts = {
-    -- add any additional options here if necessary
+    -- Any additional options can go here
   },
-  build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false",
+  build = is_windows
+    and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+    or "make",
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "stevearc/dressing.nvim",
@@ -24,12 +28,12 @@ return {
           drag_and_drop = {
             insert_mode = true,
           },
-          use_absolute_path = true, -- Required for Windows
+          use_absolute_path = is_windows,  -- Required for Windows only
         },
       },
     },
     {
-      'MeanderingProgrammer/render-markdown.nvim',
+      "MeanderingProgrammer/render-markdown.nvim",
       opts = {
         file_types = { "markdown", "Avante" },
       },
