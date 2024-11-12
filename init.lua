@@ -4,8 +4,8 @@ vim.g.mapleader = ","
 vim.opt.termguicolors = true
 
 -- Set the correct runtime path for each OS
-if vim.loop.os_uname().sysname == "Windows_NT" then
-  vim.opt.runtimepath:append("C:/Users/sheco/AppData/Local/nvim-data/site")  -- For Windows
+if is_windows then
+  vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")  -- For Windows
 else
   vim.opt.runtimepath:append("~/.local/share/nvim/site")
 end
