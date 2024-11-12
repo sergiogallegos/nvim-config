@@ -1,12 +1,15 @@
--- local treesitter = require "nvim-treesitter"
+-- lua/treesitter.lua
 
 local M = {}
 
 M.setup = function()
   local group = vim.api.nvim_create_augroup("custom-treesitter", { clear = true })
 
-  require("nvim-treesitter").setup {
-    -- ensure_install = { "core", "stable" },
+  require("nvim-treesitter.configs").setup {
+    -- ensure_installed = { "core", "stable" },
+    highlight = {
+      enable = true, -- Enable Treesitter syntax highlighting
+    },
   }
 
   local syntax_on = {
@@ -32,26 +35,8 @@ M.setup = function()
     callback = function()
       local parsers = require "nvim-treesitter.parsers"
 
-      parsers.lua = {
-        tier = 0,
-
-        ---@diagnostic disable-next-line: missing-fields
-        install_info = {
-          path = "~/plugins/tree-sitter-lua",
-          files = { "src/parser.c", "src/scanner.c" },
-        },
-      }
-
-      -- parsers.menhir = {
-      --   tier = 0,
-      --
-      --   ---@diagnostic disable-next-line: missing-fields
-      --   install_info = {
-      --     path = "~/git/tree-sitter-ocaml",
-      --     location = "grammars/menhir",
-      --     files = { "src/parser.c", "src/scanner.c" },
-      --   },
-      -- }
+      -- Remove the lua parser customization since plugins/tree-sitter-lua is missing
+      -- You can add it back here if you set up a tree-sitter-lua parser in the future
 
       parsers.cram = {
         tier = 0,

@@ -12,8 +12,11 @@ M.setup = function()
     generator = function()
       local segments = {}
 
+      -- Add mode
       table.insert(segments, extensions.mode)
       table.insert(segments, " ")
+
+      -- Add git branch
       table.insert(
         segments,
         subscribe.buf_autocmd("el-git-branch", "BufEnter", function(win, buf)
@@ -23,6 +26,8 @@ M.setup = function()
           end
         end)
       )
+
+      -- Add git changes
       table.insert(
         segments,
         subscribe.buf_autocmd("el-git-changes", "BufWritePost", function(win, buf)
@@ -32,17 +37,13 @@ M.setup = function()
           end
         end)
       )
-      table.insert(segments, function()
-        local task_count = #require("misery.scheduler").tasks
-        if task_count == 0 then
-          return ""
-        else
-          return string.format(" (Queued Events: %d)", task_count)
-        end
-      end)
+
+      -- Add split sections and file info
       table.insert(segments, sections.split)
       table.insert(segments, "%f")
       table.insert(segments, sections.split)
+
+      -- Add filetype and line/column information
       table.insert(segments, builtin.filetype)
       table.insert(segments, "[")
       table.insert(segments, builtin.line_with_width(3))
