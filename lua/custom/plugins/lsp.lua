@@ -62,9 +62,8 @@ return {
           },
         },
         zls = true,                  -- Zig
-        mojo = true,                 -- Mojo (remove `manual_install` to auto-install)
         ocamllsp = {                 -- OCaml
-          cmd = { "dune", "exec", "ocamllsp" },
+          cmd = { "dune", "exec", "ocaml-lsp" },
           settings = {
             codelens = { enable = true },
             inlayHints = { enable = true },
@@ -72,7 +71,6 @@ return {
           },
           filetypes = { "ocaml", "ocaml.interface", "reason" },
         },
-        hls = true,                  -- Haskell
         omnisharp = true,            -- C#
         ts_ls = true,                -- TypeScript (replacing deprecated tsserver)
       }
