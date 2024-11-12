@@ -1,6 +1,6 @@
 local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 vim.opt.termguicolors = true
 
 -- Set the correct runtime path for each OS
