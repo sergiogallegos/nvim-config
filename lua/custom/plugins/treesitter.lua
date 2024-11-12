@@ -7,10 +7,10 @@ return {
     lazy = false,
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { 
-          "lua", "elixir", "php", 
-          "java", "python", "c", "cpp", 
-          "rust", "go", "typescript" 
+        ensure_installed = {
+          "lua", "elixir", "php",
+          "java", "python", "c", "cpp",
+          "rust", "go", "typescript"
         },
         highlight = {
           enable = true,
