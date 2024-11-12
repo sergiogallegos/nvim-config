@@ -1,6 +1,6 @@
+vim.opt.runtimepath:append("C:/Users/sheco/AppData/Local/nvim-data/site")  -- For Windows
 vim.g.mapleader = ","
 vim.opt.termguicolors = true
-vim.opt.runtimepath:append("C:/Users/sheco/AppData/Local/nvim-data/site")  -- For Windows
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then

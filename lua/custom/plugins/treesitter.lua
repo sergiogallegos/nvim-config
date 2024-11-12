@@ -2,10 +2,15 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    branch = "main",
     lazy = false,
     config = function()
-      require("nvim-treesitter.configs").setup({
+      local ok, configs = pcall(require, "nvim-treesitter.configs")
+      if not ok then
+        print("Failed to load nvim-treesitter.configs")
+        return
+      end
+
+      configs.setup({
         ensure_installed = { "java", "python", "c", "cpp", "rust", "go" },
         highlight = {
           enable = true,
