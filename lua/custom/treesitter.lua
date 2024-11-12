@@ -1,28 +1,15 @@
--- lua/custom/treesitter.lua
-
 local M = {}
 
 M.setup = function()
-  -- Use this if you have custom parsers outside the standard Treesitter setup
-  local parsers = require("nvim-treesitter.parsers")
+  local treesitter = require("nvim-treesitter.configs")
 
-  parsers.cram = {
-    tier = 0,
-    install_info = {
-      path = "~/git/tree-sitter-cram",
-      files = { "src/parser.c" },
+  treesitter.setup({
+    ensure_installed = { "java", "python", "c", "cpp", "rust", "go" },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
     },
-  }
-
-  parsers.reason = {
-    tier = 0,
-    install_info = {
-      url = "https://github.com/reasonml-editor/tree-sitter-reason",
-      files = { "src/parser.c", "src/scanner.c" },
-      branch = "master",
-    },
-  }
-
+  })
 end
 
 return M
