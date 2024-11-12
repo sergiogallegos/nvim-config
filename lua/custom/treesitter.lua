@@ -23,16 +23,6 @@ M.setup = function()
     },
   }
 
-  -- Optional: custom parser for ocaml_mlx
-  parsers.ocaml_mlx = {
-    tier = 0,
-    install_info = {
-      url = "https://github.com/ocaml-mlx/tree-sitter-mlx",
-      files = { "src/parser.c", "src/scanner.c" },
-      branch = "master",
-    },
-    filetype = "ocaml.mlx",
-  }
 end
 
 return M
