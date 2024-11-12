@@ -1,13 +1,9 @@
-local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
-
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   lazy = false,
   version = false,
-  opts = {
-    -- Any additional options can go here
-  },
+  opts = {},
   build = is_windows
     and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
     or "make",
@@ -28,7 +24,7 @@ return {
           drag_and_drop = {
             insert_mode = true,
           },
-          use_absolute_path = is_windows,  -- Required for Windows only
+          use_absolute_path = is_windows,
         },
       },
     },
