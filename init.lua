@@ -6,7 +6,9 @@
 vim.g.mapleader = ","
 -- Enable true colors support
 vim.opt.termguicolors = true
-
+-- Treesitter runtime path
+vim.opt.runtimepath:append("C:/Users/sheco/AppData/Local/nvim-data/site") -- on windows
+-- vim.opt.runtimepath:append("~/.local/share/nvim/site") -- on macos
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
