@@ -63,7 +63,7 @@ return {
         },
         zls = true,                  -- Zig
         ocamllsp = {                 -- OCaml
-          cmd = { "dune", "exec", "ocaml-lsp" },
+          cmd = {"ocamllsp"},
           settings = {
             codelens = { enable = true },
             inlayHints = { enable = true },
