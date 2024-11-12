@@ -62,15 +62,6 @@ return {
           },
         },
         zls = true,                  -- Zig
-        ocamllsp = {                 -- OCaml
-          cmd = {"ocaml-lsp-server"},
-          settings = {
-            codelens = { enable = true },
-            inlayHints = { enable = true },
-            syntaxDocumentation = { enable = true },
-          },
-          filetypes = { "ocaml", "ocaml.interface", "reason" },
-        },
         omnisharp = true,            -- C#
         ts_ls = true,                -- TypeScript (replacing deprecated tsserver)
       }
