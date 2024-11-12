@@ -63,7 +63,7 @@ return {
         },
         zls = true,                  -- Zig
         ocamllsp = {                 -- OCaml
-          cmd = {"ocamllsp"},
+          cmd = {"ocaml-lsp-server"},
           settings = {
             codelens = { enable = true },
             inlayHints = { enable = true },
