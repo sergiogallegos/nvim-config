@@ -5,6 +5,7 @@ local extensions = require "el.extensions"
 local subscribe = require "el.subscribe"
 local sections = require "el.sections"
 
+-- Ensure global status line is enabled
 vim.opt.laststatus = 3
 
 M.setup = function()
@@ -12,50 +13,52 @@ M.setup = function()
     generator = function()
       local segments = {}
 
-      -- Add mode
+      -- Add mode indicator
       table.insert(segments, extensions.mode)
-      table.insert(segments, " ")
+      table.insert(segments, " ") -- Spacer for better visual separation
 
-      -- Add git branch
+      -- Add git branch (updates on BufEnter)
       table.insert(
         segments,
         subscribe.buf_autocmd("el-git-branch", "BufEnter", function(win, buf)
           local branch = extensions.git_branch(win, buf)
-          if branch then
-            return branch
-          end
+          return branch or "" -- Return empty if no branch
         end)
       )
 
-      -- Add git changes
+      -- Add git changes (updates on BufWritePost)
       table.insert(
         segments,
         subscribe.buf_autocmd("el-git-changes", "BufWritePost", function(win, buf)
           local changes = extensions.git_changes(win, buf)
-          if changes then
-            return changes
-          end
+          return changes or "" -- Return empty if no changes
         end)
       )
 
-      -- Add split sections and file info
-      table.insert(segments, sections.split)
-      table.insert(segments, "%f")
-      table.insert(segments, sections.split)
+      -- Add current file path
+      table.insert(segments, sections.split) -- Add separator for readability
+      table.insert(segments, builtin.file_relative)
 
-      -- Add filetype and line/column information
-      table.insert(segments, builtin.filetype)
-      table.insert(segments, "[")
-      table.insert(segments, builtin.line_with_width(3))
-      table.insert(segments, ":")
-      table.insert(segments, builtin.column_with_width(2))
-      table.insert(segments, "]")
+      -- Add line and column position
+      table.insert(segments, sections.collapse_builtin { "[", builtin.line, ":", builtin.column, "]" })
+
+      -- Add diagnostics (errors, warnings, etc.)
+      table.insert(
+        segments,
+        subscribe.buf_autocmd("el-diagnostics", "DiagnosticChanged", function(_, buf)
+          local diagnostics = extensions.diagnostic_count(buf)
+          return diagnostics or "" -- Return empty if no diagnostics
+        end)
+      )
+
+      -- Add total buffer percentage progress
+      table.insert(segments, sections.split) -- Add separator
+      table.insert(segments, builtin.percentage_through_file)
 
       return segments
     end,
   }
 end
 
-M.setup()
-
 return M
+
