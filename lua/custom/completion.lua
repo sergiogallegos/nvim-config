@@ -40,6 +40,12 @@ cmp.setup {
     },
     ["<C-Space>"] = cmp.mapping.complete(), -- Manual trigger for completion
     ["<C-e>"] = cmp.mapping.abort(), -- Abort completion
+    ["<Down>"] = cmp.mapping(function(fallback)
+      fallback() -- Allow Down arrow for normal cursor movement
+    end, { "i", "c" }),
+    ["<Up>"] = cmp.mapping(function(fallback)
+      fallback() -- Allow Up arrow for normal cursor movement
+    end, { "i", "c" }),
   }),
 
   formatting = {
