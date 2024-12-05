@@ -10,17 +10,83 @@ return {
       "b0o/SchemaStore.nvim", -- JSON/YAML schemas
     },
     config = function()
+      -- Detect the operating system and hostname
+      local is_windows = vim.loop.os_uname().sysname:match("Windows")
+      local is_mac = vim.loop.os_uname().sysname == "Darwin"
+      local hostname = vim.loop.os_gethostname()
+
       -- Default LSP capabilities
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+      -- Configure `jdtls` based on environment
+      local jdtls_cmd
+      if is_windows and hostname == "LAPTOP-FFSU8F5B" then
+        -- Windows Laptop (username: Sergio Gallegos)
+        jdtls_cmd = {
+          "C:\\Users\\SERGIO~1\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
+          "-configuration", "C:\\jdtls\\config",
+          "-data", "C:\\jdtls\\workspace",
+        }
+      elseif is_windows and hostname == "DESKTOP-SHECO" then
+        -- Windows PC (username: sheco)
+        jdtls_cmd = {
+          "C:\\Users\\sheco\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
+          "-configuration", "C:\\Users\\sheco\\.cache\\jdtls\\config",
+          "-data", "C:\\Users\\sheco\\.cache\\jdtls\\workspace",
+        }
+      elseif is_mac then
+        -- macOS (username: sergiogallegos)
+        jdtls_cmd = {
+          "/Users/sergiogallegos/.local/share/nvim/mason/bin/jdtls",
+          "-configuration", "/Users/sergiogallegos/.cache/jdtls/config",
+          "-data", "/Users/sergiogallegos/.cache/jdtls/workspace",
+        }
+      else
+        -- Default fallback
+        jdtls_cmd = { "jdtls" }
+      end
+
       -- Define LSP servers and configurations
       local servers = {
-        pyright = {}, -- Python
-        jdtls = {}, -- Java
-        clangd = { -- C, C++
-          init_options = { clangdFileStatus = true },
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+                typeCheckingMode = "strict",
+                logLevel = "Error",
+              },
+            },
+          },
         },
-        gopls = { -- Go
+        jdtls = {
+          cmd = jdtls_cmd,
+          root_dir = require("lspconfig.util").root_pattern(".git", "pom.xml", "build.gradle"),
+          settings = {
+            java = {
+              eclipse = { downloadSources = true },
+              configuration = { updateBuildConfiguration = "interactive" },
+              maven = { downloadSources = true },
+              implementationsCodeLens = { enabled = true },
+              referencesCodeLens = { enabled = true },
+              format = { enabled = true },
+            },
+          },
+          init_options = { bundles = {} },
+        },
+        clangd = {
+          cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=bundled", "--header-insertion=iwyu" },
+          init_options = { clangdFileStatus = true },
+          settings = {
+            ["clangd"] = {
+              diagnostics = { enable = true, suppress = { "pp_include_not_found" } },
+              inlayHints = { enable = true, parameterNames = true, typeHints = true },
+            },
+          },
+        },
+        gopls = {
           settings = {
             gopls = {
               analyses = { unusedparams = true, shadow = true },
@@ -34,7 +100,7 @@ return {
             },
           },
         },
-        rust_analyzer = { -- Rust
+        rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
               diagnostics = { enable = true },
@@ -45,7 +111,7 @@ return {
             },
           },
         },
-        jsonls = { -- JSON
+        jsonls = {
           settings = {
             json = {
               schemas = require("schemastore").json.schemas(),
