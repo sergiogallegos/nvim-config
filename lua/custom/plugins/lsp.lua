@@ -27,20 +27,6 @@ return {
           "-configuration", "C:\\jdtls\\config",
           "-data", "C:\\jdtls\\workspace",
         }
-      elseif is_windows and hostname == "DESKTOP-SHECO" then
-        -- Windows PC (username: sheco)
-        jdtls_cmd = {
-          "C:\\Users\\sheco\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
-          "-configuration", "C:\\Users\\sheco\\.cache\\jdtls\\config",
-          "-data", "C:\\Users\\sheco\\.cache\\jdtls\\workspace",
-        }
-      elseif is_mac then
-        -- macOS (username: sergiogallegos)
-        jdtls_cmd = {
-          "/Users/sergiogallegos/.local/share/nvim/mason/bin/jdtls",
-          "-configuration", "/Users/sergiogallegos/.cache/jdtls/config",
-          "-data", "/Users/sergiogallegos/.cache/jdtls/workspace",
-        }
       else
         -- Default fallback
         jdtls_cmd = { "jdtls" }
