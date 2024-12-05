@@ -69,8 +69,15 @@ cmp.setup {
   },
 
   window = {
-    completion = nil,
-    documentation = nil,
+    completion = {
+      border = "single",
+      winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:PmenuSel,Search:None",
+      scrollbar = false,
+    },
+    documentation = {
+      border = "single",
+      winhighlight = "NormalFloat:Normal,FloatBorder:Normal",
+    },
   },
 }
 
@@ -80,3 +87,14 @@ cmp.setup.filetype({ "sql" }, {
     { name = "buffer" },
   },
 })
+
+-- Command-Line Customizations
+vim.cmd [[
+  highlight CmdLine guibg=#1e1e1e guifg=#ffffff
+  highlight CmdLineBorder guibg=#1e1e1e guifg=#ffffff
+  highlight CmdLinePrompt guifg=#00ff00 guibg=#1e1e1e
+  highlight CmdLineCursor guifg=#ffffff guibg=#ff0000
+  highlight Pmenu guibg=#1e1e1e guifg=#ffffff
+  highlight PmenuSel guibg=#2e2e2e guifg=#ffffff
+  highlight FloatBorder guibg=#1e1e1e guifg=#1e1e1e
+]]
