@@ -119,6 +119,12 @@ return {
             },
           },
         },
+        ocamllsp = {
+          settings = {
+            codelens = { enable = true },
+            diagnostic = { merlin = { missingMerlin = "ignore"} },
+          },
+        },
       }
 
       -- Mason setup
