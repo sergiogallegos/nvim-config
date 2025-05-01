@@ -125,6 +125,13 @@ return {
             diagnostic = { merlin = { missingMerlin = "ignore"} },
           },
         },
+        zls = {
+          settings = {
+            zig = {
+              enable_build_on_save = true,
+            },
+          },
+        },
       }
 
       -- Mason setup
