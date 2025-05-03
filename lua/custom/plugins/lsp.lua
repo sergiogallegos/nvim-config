@@ -5,8 +5,9 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-      "j-hui/fidget.nvim", -- LSP progress UI
+      "j-hui/fidget.nvim",
       { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
+      { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
     },
     config = function()
       local is_windows = vim.loop.os_uname().sysname:match("Windows")
@@ -77,7 +78,6 @@ return {
             },
           },
         },
-        tsserver = {},
         gopls = {
           settings = {
             gopls = {
@@ -114,7 +114,9 @@ return {
 
       require("mason").setup()
       require("mason-lspconfig").setup {
-        ensure_installed = vim.tbl_keys(servers),
+        ensure_installed = vim.tbl_filter(function(name)
+          return name ~= "tsserver"
+        end, vim.tbl_keys(servers)),
         automatic_installation = true,
       }
 
@@ -124,6 +126,15 @@ return {
           capabilities = capabilities,
         }, config))
       end
+
+      require("typescript-tools").setup({
+        settings = {
+          tsserver_file_preferences = {
+            includeInlayParameterNameHints = "all",
+            includeCompletionsForModuleExports = true,
+          },
+        },
+      })
 
       vim.diagnostic.config {
         virtual_text = { spacing = 4, prefix = "●" },
@@ -146,6 +157,7 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           local bufnr = args.buf
+          local clients = vim.lsp.get_clients({ bufnr = bufnr })
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr })
           vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
