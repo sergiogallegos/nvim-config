@@ -7,46 +7,37 @@ return {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       "j-hui/fidget.nvim", -- LSP progress UI
       { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
-      "b0o/SchemaStore.nvim", -- JSON/YAML schemas
     },
     config = function()
-      -- Detect the operating system and hostname
       local is_windows = vim.loop.os_uname().sysname:match("Windows")
       local is_mac = vim.loop.os_uname().sysname == "Darwin"
       local hostname = vim.loop.os_gethostname()
 
-      -- Default LSP capabilities
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Configure `jdtls` based on environment
       local jdtls_cmd
       if is_windows and hostname == "LAPTOP-FFSU8F5B" then
-        -- Windows Laptop (username: Sergio Gallegos)
         jdtls_cmd = {
           "C:\\Users\\SERGIO~1\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
           "-configuration", "C:\\jdtls\\config",
           "-data", "C:\\jdtls\\workspace",
         }
       elseif is_windows and hostname == "DESKTOP-SHECO" then
-        -- Windows PC (username: sheco)
         jdtls_cmd = {
           "C:\\Users\\sheco\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
           "-configuration", "C:\\Users\\sheco\\.cache\\jdtls\\config",
           "-data", "C:\\Users\\sheco\\.cache\\jdtls\\workspace",
         }
       elseif is_mac then
-        -- macOS (username: sergiogallegos)
         jdtls_cmd = {
           "/Users/sergiogallegos/.local/share/nvim/mason/bin/jdtls",
           "-configuration", "/Users/sergiogallegos/.cache/jdtls/config",
           "-data", "/Users/sergiogallegos/.cache/jdtls/workspace",
         }
       else
-        -- Default fallback
         jdtls_cmd = { "jdtls" }
       end
 
-      -- Define LSP servers and configurations
       local servers = {
         pyright = {
           settings = {
@@ -86,6 +77,7 @@ return {
             },
           },
         },
+        tsserver = {},
         gopls = {
           settings = {
             gopls = {
@@ -111,20 +103,6 @@ return {
             },
           },
         },
-        jsonls = {
-          settings = {
-            json = {
-              schemas = require("schemastore").json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
-        ocamllsp = {
-          settings = {
-            codelens = { enable = true },
-            diagnostic = { merlin = { missingMerlin = "ignore"} },
-          },
-        },
         zls = {
           settings = {
             zig = {
@@ -134,14 +112,12 @@ return {
         },
       }
 
-      -- Mason setup
       require("mason").setup()
       require("mason-lspconfig").setup {
         ensure_installed = vim.tbl_keys(servers),
         automatic_installation = true,
       }
 
-      -- Setup LSP servers
       local lspconfig = require("lspconfig")
       for name, config in pairs(servers) do
         lspconfig[name].setup(vim.tbl_deep_extend("force", {
@@ -149,7 +125,6 @@ return {
         }, config))
       end
 
-      -- Diagnostics configuration
       vim.diagnostic.config {
         virtual_text = { spacing = 4, prefix = "●" },
         signs = true,
@@ -159,7 +134,6 @@ return {
         float = { border = "rounded" },
       }
 
-      -- Toggle diagnostics
       vim.keymap.set("", "<leader>l", function()
         local config = vim.diagnostic.config() or {}
         if config.virtual_text then
@@ -169,7 +143,6 @@ return {
         end
       end, { desc = "Toggle diagnostics display" })
 
-      -- Key mappings for LSP features
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           local bufnr = args.buf
@@ -182,10 +155,8 @@ return {
         end,
       })
 
-      -- Additional plugins
       require("lsp_lines").setup()
       require("fidget").setup()
     end,
   },
 }
-
