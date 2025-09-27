@@ -207,3 +207,9 @@ set("n", "<leader>sr", function()
   vim.cmd("set statusline=")
   vim.notify("Status line: Reset to default", vim.log.levels.INFO)
 end, { desc = "Status line: Reset to default" })
+
+-- Test command line status behavior
+set("n", "<leader>sc", function()
+  vim.notify("Testing command line status - press : or / to see it appear", vim.log.levels.INFO)
+  vim.cmd("echo 'Command line status will appear when you press : or /'")
+end, { desc = "Test command line status" })
