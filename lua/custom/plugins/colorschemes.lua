@@ -16,11 +16,22 @@ return {
         vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE", ctermbg = "NONE" })
-        -- Clear status line highlights to use default
-        vim.cmd("hi clear StatusLine")
-        vim.cmd("hi clear StatusLineNC")
+        vim.api.nvim_set_hl(0, "LineNr", { fg = "#666666", bg = "NONE", ctermfg = 8, ctermbg = "NONE" })
+        vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ffffff", bg = "NONE", ctermfg = 15, ctermbg = "NONE" })
+        -- Status line will be set explicitly below
+        
+        -- Command line transparency (only command line, not status line)
+        vim.api.nvim_set_hl(0, "MsgArea", { bg = "NONE", ctermbg = "NONE" })
+        vim.api.nvim_set_hl(0, "MoreMsg", { bg = "NONE", ctermbg = "NONE" })
+        vim.api.nvim_set_hl(0, "Question", { bg = "NONE", ctermbg = "NONE" })
+        
+        -- Ensure status line is visible and persistent
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1a1a1a", fg = "#E0E0E0", ctermbg = 0, ctermfg = 7 })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#1a1a1a", fg = "#E0E0E0", ctermbg = 0, ctermfg = 7 })
+        
+        -- Force status line to stay visible
+        vim.cmd("set laststatus=2")
+        vim.cmd("redrawstatus")
         vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "TabLineSel", { bg = "NONE", ctermbg = "NONE" })

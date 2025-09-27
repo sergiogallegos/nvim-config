@@ -172,6 +172,14 @@ set("n", "<leader>sr", function()
   vim.notify("Status line refreshed", vim.log.levels.INFO)
 end, { desc = "Refresh status line" })
 
+-- Force lualine refresh
+set("n", "<leader>sl", function()
+  vim.cmd("set statusline=")
+  vim.cmd("set laststatus=2")
+  vim.cmd("redrawstatus")
+  vim.notify("Status line reset and refreshed", vim.log.levels.INFO)
+end, { desc = "Reset and refresh status line" })
+
 -- Toggle status line
 set("n", "<leader>st", function()
   if vim.opt.laststatus:get() == 0 then
@@ -184,29 +192,9 @@ set("n", "<leader>st", function()
 end, { desc = "Toggle status line" })
 
 -- Custom status line formats
-set("n", "<leader>sf", function()
-  -- Simple format: filename + line:column
-  vim.cmd("set statusline=%f\\ %l:%c")
-  vim.notify("Status line: Simple format (filename + line:column)", vim.log.levels.INFO)
-end, { desc = "Status line: Simple format" })
+-- Removed conflicting status line keymaps that were overriding lualine-max
 
-set("n", "<leader>sd", function()
-  -- Detailed format: filename + mode + line:column + percentage
-  vim.cmd("set statusline=%f\\ %m\\ %l:%c\\ %p%%")
-  vim.notify("Status line: Detailed format (filename + mode + line:column + percentage)", vim.log.levels.INFO)
-end, { desc = "Status line: Detailed format" })
-
-set("n", "<leader>sc", function()
-  -- Custom format: filename + modified + readonly + line:column + encoding
-  vim.cmd("set statusline=%f\\ %m\\ %r\\ %l:%c\\ %{&fileencoding}")
-  vim.notify("Status line: Custom format (filename + modified + readonly + line:column + encoding)", vim.log.levels.INFO)
-end, { desc = "Status line: Custom format" })
-
-set("n", "<leader>sr", function()
-  -- Reset to default
-  vim.cmd("set statusline=")
-  vim.notify("Status line: Reset to default", vim.log.levels.INFO)
-end, { desc = "Status line: Reset to default" })
+-- Removed conflicting status line keymap
 
 -- Test command line status behavior
 set("n", "<leader>sc", function()

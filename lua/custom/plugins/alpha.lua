@@ -2,7 +2,7 @@ return {
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
-    enabled = true, -- Set to false to disable the startup screen
+    enabled = false, -- Disabled - using original Neovim home
     config = function()
       local alpha = require("alpha")
       local dashboard = require("alpha.themes.dashboard")

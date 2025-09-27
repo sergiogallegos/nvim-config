@@ -38,6 +38,21 @@ opt.termguicolors = true
 opt.laststatus = 2  -- Always show status line
 opt.cmdheight = 1   -- Command line height
 
+-- Command line transparency
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.api.nvim_set_hl(0, "MsgArea", { bg = "NONE", ctermbg = "NONE" })
+    vim.api.nvim_set_hl(0, "MoreMsg", { bg = "NONE", ctermbg = "NONE" })
+    vim.api.nvim_set_hl(0, "Question", { bg = "NONE", ctermbg = "NONE" })
+  end,
+  once = true,
+})
+
+-- Ensure line numbers are visible
+opt.number = true
+opt.relativenumber = true
+opt.signcolumn = "yes"
+
 -- Popup transparency settings
 opt.pumblend = 10   -- Light popup transparency
 opt.winblend = 10   -- Light window transparency
