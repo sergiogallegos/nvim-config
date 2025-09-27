@@ -18,8 +18,9 @@ return {
         vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE", ctermbg = "NONE" })
+        -- Clear status line highlights to use default
+        vim.cmd("hi clear StatusLine")
+        vim.cmd("hi clear StatusLineNC")
         vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "TabLineSel", { bg = "NONE", ctermbg = "NONE" })

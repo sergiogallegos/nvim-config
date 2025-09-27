@@ -166,44 +166,19 @@ set("n", "<leader>st", function()
   end
 end, { desc = "Toggle status line" })
 
--- Force reload lualine
-set("n", "<leader>sl", function()
-  vim.cmd("hi clear StatusLine")
-  vim.cmd("hi clear StatusLineNC")
-  vim.cmd("lua require('lualine').setup()")
+-- Basic status line controls
+set("n", "<leader>sr", function()
   vim.cmd("redrawstatus")
-  vim.notify("Lualine reloaded with colors!", vim.log.levels.INFO)
-end, { desc = "Reload lualine with colors" })
+  vim.notify("Status line refreshed", vim.log.levels.INFO)
+end, { desc = "Refresh status line" })
 
--- Clear any custom statusline to let lualine take over
-set("n", "<leader>sc", function()
-  vim.cmd("set statusline=")
-  vim.cmd("redrawstatus")
-  vim.notify("Status line cleared for lualine!", vim.log.levels.INFO)
-end, { desc = "Clear status line for lualine" })
-
--- Force lualine to reload
-set("n", "<leader>sl", function()
-  vim.cmd("set statusline=")
-  vim.cmd("lua require('lualine').setup()")
-  vim.cmd("redrawstatus")
-  vim.notify("Lualine reloaded!", vim.log.levels.INFO)
-end, { desc = "Reload lualine" })
-
--- Test if lualine is working
+-- Toggle status line
 set("n", "<leader>st", function()
-  local ok, lualine = pcall(require, "lualine")
-  if ok then
-    vim.notify("Lualine is loaded and working!", vim.log.levels.INFO)
+  if vim.opt.laststatus:get() == 0 then
+    vim.cmd("set laststatus=2")
+    vim.notify("Status line enabled", vim.log.levels.INFO)
   else
-    vim.notify("Lualine failed to load!", vim.log.levels.ERROR)
+    vim.cmd("set laststatus=0")
+    vim.notify("Status line disabled", vim.log.levels.INFO)
   end
-end, { desc = "Test lualine status" })
-
--- Explain status lines
-set("n", "<leader>se", function()
-  vim.notify("There are TWO status lines:", vim.log.levels.INFO)
-  vim.notify("1. Neovim status line (lualine) - shows mode, filename, etc.", vim.log.levels.INFO)
-  vim.notify("2. Terminal status line (tmux) - shows terminal info", vim.log.levels.INFO)
-  vim.notify("The black line at bottom is tmux, not Neovim!", vim.log.levels.INFO)
-end, { desc = "Explain status lines" })
+end, { desc = "Toggle status line" })
