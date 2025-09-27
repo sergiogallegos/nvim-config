@@ -34,7 +34,7 @@ opt.more = false
 
 opt.termguicolors = true
 
--- Status line settings
+-- Status line settings - RESET TO BASIC
 opt.laststatus = 2  -- Always show status line
 opt.cmdheight = 1   -- Command line height
 
