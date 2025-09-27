@@ -165,3 +165,12 @@ set("n", "<leader>st", function()
     vim.notify("Status line disabled", vim.log.levels.INFO)
   end
 end, { desc = "Toggle status line" })
+
+-- Force reload lualine
+set("n", "<leader>sl", function()
+  vim.cmd("hi clear StatusLine")
+  vim.cmd("hi clear StatusLineNC")
+  vim.cmd("lua require('lualine').setup()")
+  vim.cmd("redrawstatus")
+  vim.notify("Lualine reloaded with colors!", vim.log.levels.INFO)
+end, { desc = "Reload lualine with colors" })
