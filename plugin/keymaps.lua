@@ -174,3 +174,11 @@ set("n", "<leader>sl", function()
   vim.cmd("redrawstatus")
   vim.notify("Lualine reloaded with colors!", vim.log.levels.INFO)
 end, { desc = "Reload lualine with colors" })
+
+-- Test simple status line
+set("n", "<leader>ss", function()
+  vim.cmd("set laststatus=2")
+  vim.cmd("set statusline=🚀\\ %f\\ │\\ 📍\\ %l,%c\\ │\\ 📊\\ %P")
+  vim.cmd("redrawstatus")
+  vim.notify("Simple status line with emojis applied!", vim.log.levels.INFO)
+end, { desc = "Test simple status line" })
