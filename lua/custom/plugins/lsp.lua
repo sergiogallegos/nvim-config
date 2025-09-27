@@ -14,7 +14,13 @@ return {
       local is_mac = vim.loop.os_uname().sysname == "Darwin"
       local hostname = vim.loop.os_gethostname()
 
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      if not ok then
+        vim.notify("Failed to load cmp_nvim_lsp", vim.log.levels.ERROR)
+        return
+      end
+
+      local capabilities = cmp_nvim_lsp.default_capabilities()
 
       local jdtls_cmd
       if is_windows and hostname == "LAPTOP-FFSU8F5B" then
@@ -113,8 +119,20 @@ return {
         },
       }
 
-      require("mason").setup()
-      require("mason-lspconfig").setup {
+      local mason_ok, mason = pcall(require, "mason")
+      if not mason_ok then
+        vim.notify("Failed to load mason", vim.log.levels.ERROR)
+        return
+      end
+
+      local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+      if not mason_lspconfig_ok then
+        vim.notify("Failed to load mason-lspconfig", vim.log.levels.ERROR)
+        return
+      end
+
+      mason.setup()
+      mason_lspconfig.setup {
         ensure_installed = vim.tbl_filter(function(name)
           return name ~= "tsserver"
         end, vim.tbl_keys(servers)),

@@ -88,13 +88,13 @@ cmp.setup.filetype({ "sql" }, {
   },
 })
 
--- Command-Line Customizations
+-- Command-Line Customizations with transparency
 vim.cmd [[
-  highlight CmdLine guibg=#1e1e1e guifg=#ffffff
-  highlight CmdLineBorder guibg=#1e1e1e guifg=#ffffff
-  highlight CmdLinePrompt guifg=#00ff00 guibg=#1e1e1e
+  highlight CmdLine guibg=NONE guifg=#ffffff
+  highlight CmdLineBorder guibg=NONE guifg=#ffffff
+  highlight CmdLinePrompt guifg=#00ff00 guibg=NONE
   highlight CmdLineCursor guifg=#ffffff guibg=#ff0000
-  highlight Pmenu guibg=#1e1e1e guifg=#ffffff
-  highlight PmenuSel guibg=#2e2e2e guifg=#ffffff
-  highlight FloatBorder guibg=#1e1e1e guifg=#1e1e1e
+  highlight Pmenu guibg=NONE guifg=#ffffff
+  highlight PmenuSel guibg=NONE guifg=#ffffff
+  highlight FloatBorder guibg=NONE guifg=#ffffff
 ]]

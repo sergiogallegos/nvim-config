@@ -33,3 +33,7 @@ opt.shiftwidth = 4
 opt.more = false
 
 opt.termguicolors = true
+
+-- Transparency settings
+opt.pumblend = 20  -- Popup menu transparency
+opt.winblend = 20  -- Floating window transparency
