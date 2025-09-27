@@ -35,4 +35,37 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ import = "custom/plugins" }, { change_detection = { notify = false } })
+require("lazy").setup({ 
+  import = "custom/plugins" 
+}, { 
+  change_detection = { 
+    notify = false,
+    enabled = true,
+  },
+  install = {
+    missing = true,
+    colorscheme = { "custombuddy" },
+  },
+  ui = {
+    border = "rounded",
+  },
+  performance = {
+    cache = {
+      enabled = true,
+    },
+    reset_packpath = true,
+    rtp = {
+      reset = true,
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
