@@ -4,8 +4,9 @@ return {
   lazy = false,
   priority = 1000,
   config = function()
-    -- Force clear any existing statusline
+    -- Force clear any existing statusline and disable basic vim status line
     vim.cmd("set statusline=")
+    vim.cmd("set laststatus=0")  -- Disable basic vim status line completely
     
     local ok, lualine = pcall(require, "lualine")
     if not ok then
@@ -41,16 +42,17 @@ return {
       },
     })
     
-    -- Force refresh and ensure it stays
+    -- Force refresh and ensure lualine takes over
     vim.cmd("redrawstatus")
-    vim.cmd("set laststatus=2")
+    vim.cmd("set laststatus=0")  -- Disable basic vim status line, let lualine handle it
     
-    -- Auto-refresh on startup and ensure it loads
+    -- Auto-refresh on startup and ensure lualine takes over
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
-        vim.cmd("set laststatus=2")
+        vim.cmd("set laststatus=0")  -- Keep basic vim status line disabled
+        vim.cmd("set statusline=")    -- Clear any status line
         vim.cmd("redrawstatus")
-        vim.notify("Status line loaded on startup", vim.log.levels.INFO)
+        vim.notify("Lualine status line loaded (basic vim disabled)", vim.log.levels.INFO)
       end,
     })
     
