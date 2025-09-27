@@ -182,3 +182,11 @@ set("n", "<leader>ss", function()
   vim.cmd("redrawstatus")
   vim.notify("Simple status line with emojis applied!", vim.log.levels.INFO)
 end, { desc = "Test simple status line" })
+
+-- Force basic status line
+set("n", "<leader>sf", function()
+  vim.cmd("set laststatus=2")
+  vim.cmd("set statusline=%f\\ %h%w%m%r%=%-14.(%l,%c%V%)\\ %P")
+  vim.cmd("redrawstatus")
+  vim.notify("Basic status line forced!", vim.log.levels.INFO)
+end, { desc = "Force basic status line" })
