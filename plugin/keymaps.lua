@@ -96,3 +96,33 @@ set("n", "<leader>o", "<cmd>only<cr>", { desc = "Close other windows" })
 -- Quick access to common files
 set("n", "<leader>ev", "<cmd>edit ~/.config/nvim/init.lua<cr>", { desc = "Edit init.lua" })
 set("n", "<leader>sv", "<cmd>source ~/.config/nvim/init.lua<cr>", { desc = "Source init.lua" })
+
+-- Enhanced navigation
+set("n", "<leader>a", "<cmd>AerialToggle<cr>", { desc = "Toggle Aerial" })
+set("n", "{", "<cmd>AerialPrev<cr>", { desc = "Previous symbol" })
+set("n", "}", "<cmd>AerialNext<cr>", { desc = "Next symbol" })
+
+-- Git integration
+set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Open diffview" })
+set("n", "<leader>gD", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" })
+
+-- Code execution
+set("n", "<leader>r", "<cmd>SnipRun<cr>", { desc = "Run code snippet" })
+set("v", "<leader>r", "<cmd>SnipRun<cr>", { desc = "Run selected code" })
+
+-- Testing
+set("n", "<leader>tf", function()
+  require("neotest").run.run(vim.fn.expand("%"))
+end, { desc = "Test file" })
+set("n", "<leader>ts", function()
+  require("neotest").run.stop()
+end, { desc = "Stop test" })
+set("n", "<leader>td", function()
+  require("neotest").run.run_last()
+end, { desc = "Run last test" })
+set("n", "<leader>to", function()
+  require("neotest").output.open({ enter = true, auto_close = true })
+end, { desc = "Open test output" })
+set("n", "<leader>tS", function()
+  require("neotest").summary.toggle()
+end, { desc = "Toggle test summary" })
