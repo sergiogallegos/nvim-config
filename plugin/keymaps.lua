@@ -129,16 +129,16 @@ end, { desc = "Toggle test summary" })
 
 -- Popup styling test
 set("n", "<leader>pt", function()
-  -- Try completely different approach - solid colors
-  vim.cmd("hi Pmenu guibg=#2d2d2d guifg=#ffffff")
-  vim.cmd("hi PmenuSel guibg=#4a4a4a guifg=#ffff00")
-  vim.cmd("hi NormalFloat guibg=#2d2d2d guifg=#ffffff")
-  vim.cmd("hi FloatBorder guibg=#2d2d2d guifg=#cccccc")
-  vim.cmd("hi Cmdline guibg=#2d2d2d guifg=#ffffff")
-  vim.cmd("hi CmdlineIcon guibg=#2d2d2d guifg=#ffff00")
+  -- Try a more subtle approach - keep some transparency but fix colors
+  vim.cmd("hi Pmenu guibg=#1a1a1a guifg=#E0E0E0")
+  vim.cmd("hi PmenuSel guibg=#333333 guifg=#f8fe7a")
+  vim.cmd("hi NormalFloat guibg=#1a1a1a guifg=#E0E0E0")
+  vim.cmd("hi FloatBorder guibg=#1a1a1a guifg=#bbbbbb")
+  vim.cmd("hi Cmdline guibg=#1a1a1a guifg=#E0E0E0")
+  vim.cmd("hi CmdlineIcon guibg=#1a1a1a guifg=#f8fe7a")
   
-  vim.notify("Popup colors set to solid - test completion now", vim.log.levels.INFO)
-end, { desc = "Test solid popup colors" })
+  vim.notify("Popup colors fixed - test completion now", vim.log.levels.INFO)
+end, { desc = "Fix popup colors" })
 
 -- Debug popup colors
 set("n", "<leader>pd", function()

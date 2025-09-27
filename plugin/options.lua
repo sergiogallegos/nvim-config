@@ -39,8 +39,8 @@ opt.laststatus = 2  -- Always show status line
 opt.cmdheight = 1   -- Command line height
 
 -- Popup transparency settings
-opt.pumblend = 0   -- Disable popup transparency completely
-opt.winblend = 0   -- Disable window transparency completely
+opt.pumblend = 10   -- Light popup transparency
+opt.winblend = 10   -- Light window transparency
 opt.pumheight = 10 -- Maximum popup menu height
 opt.pumwidth = 20  -- Minimum popup menu width
 opt.termguicolors = true
