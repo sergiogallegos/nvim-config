@@ -1,33 +1,5 @@
 return {
   {
-    "Exafunction/codeium.nvim",
-    event = "VeryLazy",
-    config = function()
-      local ok, codeium = pcall(require, "codeium")
-      if not ok then
-        vim.notify("Failed to load codeium.nvim", vim.log.levels.ERROR)
-        return
-      end
-      
-      codeium.setup({
-        enable_autocmd = true,
-      })
-      
-      vim.keymap.set("i", "<C-g>", function()
-        return vim.fn["codeium#Accept"]()
-      end, { expr = true, silent = true })
-      vim.keymap.set("i", "<C-;>", function()
-        return vim.fn["codeium#CycleCompletions"](1)
-      end, { expr = true, silent = true })
-      vim.keymap.set("i", "<C-,>", function()
-        return vim.fn["codeium#CycleCompletions"](-1)
-      end, { expr = true, silent = true })
-      vim.keymap.set("i", "<C-x>", function()
-        return vim.fn["codeium#Clear"]()
-      end, { expr = true, silent = true })
-    end,
-  },
-  {
     "jackMort/ChatGPT.nvim",
     event = "VeryLazy",
     config = function()
