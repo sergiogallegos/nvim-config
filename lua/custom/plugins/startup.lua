@@ -1,14 +1,15 @@
 return {
   {
-    "lewis6991/impatient.nvim",
-    priority = 1000,
+    "dstein64/vim-startuptime",
+    cmd = "StartupTime",
     config = function()
-      local ok, impatient = pcall(require, "impatient")
-      if not ok then
-        vim.notify("Failed to load impatient.nvim", vim.log.levels.ERROR)
-        return
-      end
-      impatient.enable_profile()
+      vim.g.startuptime_tries = 10
+    end,
+  },
+  {
+    "lewis6991/impatient.nvim",
+    config = function()
+      require("impatient")
     end,
   },
 }

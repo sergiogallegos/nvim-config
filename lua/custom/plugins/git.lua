@@ -43,4 +43,39 @@ return {
       })
     end,
   },
+  {
+    "f-person/git-blame.nvim",
+    event = "VeryLazy",
+    config = function()
+      local ok, git_blame = pcall(require, "gitblame")
+      if not ok then
+        vim.notify("Failed to load git-blame.nvim", vim.log.levels.ERROR)
+        return
+      end
+      git_blame.setup({
+        enabled = true,
+        message_template = "  <author> • <date> • <summary>",
+        date_format = "%Y-%m-%d %H:%M",
+        virtual_text_column = 80,
+        highlight_group = "GitBlame",
+      })
+      
+      vim.keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>", { desc = "Toggle git blame" })
+    end,
+  },
+  {
+    "ThePrimeagen/git-worktree.nvim",
+    event = "VeryLazy",
+    config = function()
+      local ok, git_worktree = pcall(require, "git-worktree")
+      if not ok then
+        vim.notify("Failed to load git-worktree.nvim", vim.log.levels.ERROR)
+        return
+      end
+      git_worktree.setup()
+      
+      vim.keymap.set("n", "<leader>gw", "<cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>", { desc = "Git worktrees" })
+      vim.keymap.set("n", "<leader>gW", "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>", { desc = "Create git worktree" })
+    end,
+  },
 }

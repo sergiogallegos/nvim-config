@@ -25,10 +25,31 @@ return {
           rust = { "rustfmt" },
           c = { "clang_format" },
           cpp = { "clang_format" },
+          java = { "google-java-format" },
+          yaml = { "yamlfmt" },
+          toml = { "taplo" },
+          sql = { "sqlfluff" },
+          sh = { "shfmt" },
+          bash = { "shfmt" },
+          zsh = { "shfmt" },
         },
         format_on_save = {
           timeout_ms = 500,
           lsp_fallback = true,
+        },
+        formatters = {
+          stylua = {
+            prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+          },
+          black = {
+            prepend_args = { "--line-length", "88" },
+          },
+          prettier = {
+            prepend_args = { "--tab-width", "2", "--single-quote", "false" },
+          },
+          shfmt = {
+            prepend_args = { "-i", "2" },
+          },
         },
       })
 

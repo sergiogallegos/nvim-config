@@ -9,7 +9,7 @@ return {
         end
         
         colorbuddy.setup()  -- Ensure colorbuddy is initialized
-        vim.cmd.colorscheme("custombuddy") -- Set the color scheme to gruvbuddy
+        vim.cmd.colorscheme("custombuddy") -- Set the color scheme to custombuddy
         
         -- Set transparent background
         vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })

@@ -7,6 +7,8 @@ return {
       "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
       "williamboman/mason.nvim",
+      "jay-babu/mason-nvim-dap.nvim",
+      "mfussenegger/nvim-dap-python",
     },
     config = function()
       local dap = require "dap"
@@ -14,6 +16,14 @@ return {
 
       require("dapui").setup()
       require("dap-go").setup()
+      require("dap-python").setup("~/.local/share/nvim/mason/bin/debugpy")
+      
+      -- Mason DAP setup
+      require("mason-nvim-dap").setup({
+        ensure_installed = { "debugpy", "delve" },
+        automatic_installation = true,
+        handlers = {},
+      })
 
       require("nvim-dap-virtual-text").setup {
         -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
