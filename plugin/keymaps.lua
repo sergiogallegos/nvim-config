@@ -175,24 +175,17 @@ set("n", "<leader>sl", function()
   vim.notify("Lualine reloaded with colors!", vim.log.levels.INFO)
 end, { desc = "Reload lualine with colors" })
 
--- Test simple status line
-set("n", "<leader>ss", function()
-  vim.cmd("set laststatus=2")
-  vim.cmd("set statusline=🚀\\ %f\\ │\\ 📍\\ %l,%c\\ │\\ 📊\\ %P")
+-- Clear any custom statusline to let lualine take over
+set("n", "<leader>sc", function()
+  vim.cmd("set statusline=")
   vim.cmd("redrawstatus")
-  vim.notify("Simple status line with emojis applied!", vim.log.levels.INFO)
-end, { desc = "Test simple status line" })
+  vim.notify("Status line cleared for lualine!", vim.log.levels.INFO)
+end, { desc = "Clear status line for lualine" })
 
--- Force basic status line
-set("n", "<leader>sf", function()
-  vim.cmd("set laststatus=2")
-  vim.cmd("set statusline=%f\\ %h%w%m%r%=%-14.(%l,%c%V%)\\ %P")
-  vim.cmd("redrawstatus")
-  vim.notify("Basic status line forced!", vim.log.levels.INFO)
-end, { desc = "Force basic status line" })
-
--- Refresh lualine
+-- Force lualine to reload
 set("n", "<leader>sl", function()
+  vim.cmd("set statusline=")
+  vim.cmd("lua require('lualine').setup()")
   vim.cmd("redrawstatus")
-  vim.notify("Status line refreshed!", vim.log.levels.INFO)
-end, { desc = "Refresh status line" })
+  vim.notify("Lualine reloaded!", vim.log.levels.INFO)
+end, { desc = "Reload lualine" })
