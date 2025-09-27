@@ -182,3 +182,28 @@ set("n", "<leader>st", function()
     vim.notify("Status line disabled", vim.log.levels.INFO)
   end
 end, { desc = "Toggle status line" })
+
+-- Custom status line formats
+set("n", "<leader>sf", function()
+  -- Simple format: filename + line:column
+  vim.cmd("set statusline=%f\\ %l:%c")
+  vim.notify("Status line: Simple format (filename + line:column)", vim.log.levels.INFO)
+end, { desc = "Status line: Simple format" })
+
+set("n", "<leader>sd", function()
+  -- Detailed format: filename + mode + line:column + percentage
+  vim.cmd("set statusline=%f\\ %m\\ %l:%c\\ %p%%")
+  vim.notify("Status line: Detailed format (filename + mode + line:column + percentage)", vim.log.levels.INFO)
+end, { desc = "Status line: Detailed format" })
+
+set("n", "<leader>sc", function()
+  -- Custom format: filename + modified + readonly + line:column + encoding
+  vim.cmd("set statusline=%f\\ %m\\ %r\\ %l:%c\\ %{&fileencoding}")
+  vim.notify("Status line: Custom format (filename + modified + readonly + line:column + encoding)", vim.log.levels.INFO)
+end, { desc = "Status line: Custom format" })
+
+set("n", "<leader>sr", function()
+  -- Reset to default
+  vim.cmd("set statusline=")
+  vim.notify("Status line: Reset to default", vim.log.levels.INFO)
+end, { desc = "Status line: Reset to default" })
