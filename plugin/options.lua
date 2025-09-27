@@ -34,6 +34,10 @@ opt.more = false
 
 opt.termguicolors = true
 
+-- Status line settings
+opt.laststatus = 2  -- Always show status line
+opt.cmdheight = 1   -- Command line height
+
 -- Transparency settings
 opt.pumblend = 20  -- Popup menu transparency
 opt.winblend = 20  -- Floating window transparency
