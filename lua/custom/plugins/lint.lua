@@ -16,8 +16,8 @@ return {
         javascriptreact = { "eslint" },
         typescriptreact = { "eslint" },
         go = { "golangci_lint" },
-        -- c = { "clang_check" }, -- Disabled: clang_check not available
-        -- cpp = { "clang_check" }, -- Disabled: clang_check not available
+        c = { "clang_check", "clang_tidy" },
+        cpp = { "clang_check", "clang_tidy" },
         sh = { "shellcheck" },
       }
 
