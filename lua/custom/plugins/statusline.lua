@@ -45,8 +45,17 @@ return {
     vim.cmd("redrawstatus")
     vim.cmd("set laststatus=2")
     
-    -- Auto-refresh on startup
+    -- Auto-refresh on startup and ensure it loads
     vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        vim.cmd("set laststatus=2")
+        vim.cmd("redrawstatus")
+        vim.notify("Status line loaded on startup", vim.log.levels.INFO)
+      end,
+    })
+    
+    -- Also refresh on BufEnter to ensure it shows
+    vim.api.nvim_create_autocmd("BufEnter", {
       callback = function()
         vim.cmd("redrawstatus")
       end,

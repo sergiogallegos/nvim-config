@@ -199,3 +199,11 @@ set("n", "<leader>st", function()
     vim.notify("Lualine failed to load!", vim.log.levels.ERROR)
   end
 end, { desc = "Test lualine status" })
+
+-- Explain status lines
+set("n", "<leader>se", function()
+  vim.notify("There are TWO status lines:", vim.log.levels.INFO)
+  vim.notify("1. Neovim status line (lualine) - shows mode, filename, etc.", vim.log.levels.INFO)
+  vim.notify("2. Terminal status line (tmux) - shows terminal info", vim.log.levels.INFO)
+  vim.notify("The black line at bottom is tmux, not Neovim!", vim.log.levels.INFO)
+end, { desc = "Explain status lines" })
