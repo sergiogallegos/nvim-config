@@ -2,7 +2,11 @@ return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   lazy = false,
+  priority = 1000,
   config = function()
+    -- Force clear any existing statusline
+    vim.cmd("set statusline=")
+    
     local ok, lualine = pcall(require, "lualine")
     if not ok then
       vim.notify("Failed to load lualine", vim.log.levels.ERROR)
@@ -16,6 +20,8 @@ return {
         section_separators = "",
         icons_enabled = true,
         globalstatus = true,
+        disabled_filetypes = {},
+        always_divide_middle = true,
       },
       sections = {
         lualine_a = { "mode" },
@@ -34,5 +40,9 @@ return {
         lualine_z = {},
       },
     })
+    
+    -- Force refresh
+    vim.cmd("redrawstatus")
+    vim.cmd("set laststatus=2")
   end,
 }

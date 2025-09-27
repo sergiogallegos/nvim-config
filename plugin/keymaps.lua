@@ -189,3 +189,13 @@ set("n", "<leader>sl", function()
   vim.cmd("redrawstatus")
   vim.notify("Lualine reloaded!", vim.log.levels.INFO)
 end, { desc = "Reload lualine" })
+
+-- Test if lualine is working
+set("n", "<leader>st", function()
+  local ok, lualine = pcall(require, "lualine")
+  if ok then
+    vim.notify("Lualine is loaded and working!", vim.log.levels.INFO)
+  else
+    vim.notify("Lualine failed to load!", vim.log.levels.ERROR)
+  end
+end, { desc = "Test lualine status" })
