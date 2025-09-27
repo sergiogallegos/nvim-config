@@ -43,9 +43,48 @@ return {
         },
       })
       
-      -- Force status line to show
+      -- Force status line to show and hide command line status
       vim.cmd("set laststatus=2")
-      vim.cmd("set cmdheight=1")
+      vim.cmd("set cmdheight=0")  -- Hide command line status
+      vim.cmd("set showcmd")      -- Show mode in status line only
+      vim.cmd("set ruler")         -- Show position in status line only
+      
+      -- Hide the duplicate mode indicator
+      vim.cmd("set noshowmode")    -- Don't show mode in command line
+    end,
+  },
+  
+  -- Command line popup plugin
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    config = function()
+      local ok, noice = pcall(require, "noice")
+      if not ok then
+        vim.notify("Failed to load noice.nvim", vim.log.levels.ERROR)
+        return
+      end
+      
+      noice.setup({
+        lsp = {
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        presets = {
+          bottom_search = true,
+          command_palette = true,
+          long_message_to_split = true,
+          inc_rename = false,
+          lsp_doc_border = false,
+        },
+      })
     end,
   },
 }
