@@ -160,6 +160,26 @@ return {
         vim.api.nvim_set_hl(0, "CmpItemKind", { fg = "#bbbbbb", bg = "NONE" })
         vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#bbbbbb", bg = "NONE" })
         
+        -- Visual selection highlighting
+        vim.api.nvim_set_hl(0, "Visual", { 
+          bg = "#4a4a4a", 
+          fg = "#ffffff",
+          ctermbg = 240,
+          ctermfg = 15
+        })
+        vim.api.nvim_set_hl(0, "VisualNOS", { 
+          bg = "#4a4a4a", 
+          fg = "#ffffff",
+          ctermbg = 240,
+          ctermfg = 15
+        })
+        vim.api.nvim_set_hl(0, "VisualNC", { 
+          bg = "#3a3a3a", 
+          fg = "#cccccc",
+          ctermbg = 237,
+          ctermfg = 252
+        })
+        
         -- Command line popup
         vim.api.nvim_set_hl(0, "Cmdline", { 
           bg = "#1a1a1a", 

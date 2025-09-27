@@ -41,8 +41,15 @@ return {
       },
     })
     
-    -- Force refresh
+    -- Force refresh and ensure it stays
     vim.cmd("redrawstatus")
     vim.cmd("set laststatus=2")
+    
+    -- Auto-refresh on startup
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        vim.cmd("redrawstatus")
+      end,
+    })
   end,
 }
