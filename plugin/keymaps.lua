@@ -147,3 +147,10 @@ set("n", "<leader>pd", function()
   local result2 = vim.api.nvim_get_hl(0, { name = "NormalFloat" })
   print("NormalFloat: " .. vim.inspect(result2))
 end, { desc = "Debug popup colors" })
+
+-- Status line refresh
+set("n", "<leader>sr", function()
+  vim.cmd("redrawstatus")
+  vim.cmd("set laststatus=2")
+  vim.notify("Status line refreshed", vim.log.levels.INFO)
+end, { desc = "Refresh status line" })

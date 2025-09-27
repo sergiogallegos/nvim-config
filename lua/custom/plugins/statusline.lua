@@ -1,7 +1,7 @@
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  event = "VeryLazy",
+  lazy = false, -- Load immediately
   config = function()
     local ok, lualine = pcall(require, "lualine")
     if not ok then
@@ -16,6 +16,7 @@ return {
         section_separators = "",
         icons_enabled = true,
         globalstatus = true,
+        disabled_filetypes = {},
       },
       sections = {
         lualine_a = { "mode" },
@@ -34,5 +35,8 @@ return {
         lualine_z = {},
       },
     })
+    
+    -- Force refresh status line
+    vim.cmd("redrawstatus")
   end,
 }
