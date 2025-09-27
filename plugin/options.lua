@@ -38,16 +38,9 @@ opt.termguicolors = true
 opt.laststatus = 2  -- Always show status line
 opt.cmdheight = 1   -- Command line height
 
--- Enhanced transparency settings for better popup integration
-opt.pumblend = 15  -- Popup menu transparency (reduced for better visibility)
-opt.winblend = 15  -- Floating window transparency (reduced for better visibility)
+-- Popup transparency settings
+opt.pumblend = 0   -- Disable popup transparency completely
+opt.winblend = 0   -- Disable window transparency completely
 opt.pumheight = 10 -- Maximum popup menu height
 opt.pumwidth = 20  -- Minimum popup menu width
-
--- Force better popup rendering
-opt.pumblend = 15
-opt.winblend = 15
 opt.termguicolors = true
-
--- Additional transparency settings
-vim.g.transparency = true

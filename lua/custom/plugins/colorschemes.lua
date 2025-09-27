@@ -209,7 +209,6 @@ return {
           blend = 20 
         })
         
-        print("Popup styling applied successfully!")
       end,
       lazy = false,
       priority = 1000,

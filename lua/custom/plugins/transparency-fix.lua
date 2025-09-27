@@ -139,7 +139,6 @@ return {
           ctermfg = 253
         })
         
-        print("🎨 Transparency fix applied!")
       end
       
       -- Apply immediately
