@@ -191,10 +191,8 @@ set("n", "<leader>sf", function()
   vim.notify("Basic status line forced!", vim.log.levels.INFO)
 end, { desc = "Force basic status line" })
 
--- Force working status line
-set("n", "<leader>sw", function()
-  vim.cmd("set laststatus=2")
-  vim.cmd("set statusline=%f\\ %h%w%m%r%=%-14.(%l,%c%V%)\\ %P")
+-- Refresh lualine
+set("n", "<leader>sl", function()
   vim.cmd("redrawstatus")
-  vim.notify("Working status line forced!", vim.log.levels.INFO)
-end, { desc = "Force working status line" })
+  vim.notify("Status line refreshed!", vim.log.levels.INFO)
+end, { desc = "Refresh status line" })
