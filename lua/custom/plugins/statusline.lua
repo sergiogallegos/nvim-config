@@ -2,44 +2,83 @@
 -- This file configures both main status line and command line status
 
 return {
-  -- Custom status line configuration
+  -- Feline.nvim - Minimal, stylish, and fast status line
   {
-    "nvim-lualine/lualine.nvim",
+    "feline-nvim/feline.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     priority = 1000,
     config = function()
-      local ok, lualine = pcall(require, "lualine")
+      local ok, feline = pcall(require, "feline")
       if not ok then
-        vim.notify("Failed to load lualine", vim.log.levels.ERROR)
+        vim.notify("Failed to load feline", vim.log.levels.ERROR)
         return
       end
       
-      lualine.setup({
-        options = {
-          theme = "auto",
-          component_separators = "",
-          section_separators = "",
-          icons_enabled = true,
-          globalstatus = true,
-          disabled_filetypes = {},
-          always_divide_middle = true,
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch", "diff" },
-          lualine_c = { "filename" },
-          lualine_x = { "diagnostics", "filetype" },
-          lualine_y = { "location" },
-          lualine_z = { "progress" },
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = { "filename" },
-          lualine_x = { "location" },
-          lualine_y = {},
-          lualine_z = {},
+      -- Feline configuration - Simple and clean
+      feline.setup({
+        theme = "default",
+        default_bg = "#1a1a1a",
+        default_fg = "#E0E0E0",
+        components = {
+          active = {
+            {
+              {
+                provider = "vi_mode",
+                icon = "",
+                hl = function()
+                  return {
+                    name = require("feline.providers.vi_mode").get_mode_highlight_name(),
+                    fg = require("feline.providers.vi_mode").get_mode_color(),
+                    style = "bold",
+                  }
+                end,
+                right_sep = " ",
+              },
+              {
+                provider = "file_info",
+                hl = {
+                  fg = "#E0E0E0",
+                  style = "bold",
+                },
+                right_sep = " ",
+              },
+              {
+                provider = "git_branch",
+                icon = " ",
+                hl = {
+                  fg = "#81a2be",
+                  style = "bold",
+                },
+                right_sep = " ",
+              },
+            },
+            {
+              {
+                provider = "file_type",
+                hl = {
+                  fg = "#E0E0E0",
+                  style = "bold",
+                },
+                right_sep = " ",
+              },
+              {
+                provider = "position",
+                hl = {
+                  fg = "#E0E0E0",
+                  style = "bold",
+                },
+                right_sep = " ",
+              },
+              {
+                provider = "line_percentage",
+                hl = {
+                  fg = "#E0E0E0",
+                  style = "bold",
+                },
+              },
+            },
+          },
         },
       })
       
