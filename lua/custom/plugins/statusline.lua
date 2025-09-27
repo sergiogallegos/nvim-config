@@ -1,10 +1,10 @@
--- Status line configuration - Back to lualine.nvim
--- This file configures the status line using lualine.nvim
+-- Status line configuration - lualine-max (AI-powered)
+-- This file configures the enhanced status line using lualine-max
 
 return {
-  -- lualine.nvim - Fast and easy to configure status line
+  -- lualine-max - AI-powered enhanced status line
   {
-    "nvim-lualine/lualine.nvim",
+    "sergiogallegos/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
     priority = 1000,
@@ -17,7 +17,7 @@ return {
       
       lualine.setup({
         options = {
-          theme = "auto",
+          theme = "minimal", -- Use lualine-max minimal theme
           component_separators = "",
           section_separators = "",
           icons_enabled = true,
@@ -26,20 +26,41 @@ return {
           always_divide_middle = true,
         },
         sections = {
-          lualine_a = { "mode" },
-          lualine_b = { "branch", "diff" },
-          lualine_c = { "filename" },
-          lualine_x = { "diagnostics", "filetype" },
-          lualine_y = { "location" },
-          lualine_z = { "progress" },
+          lualine_a = { "modern_mode" }, -- AI-powered minimal mode
+          lualine_b = { "minimal_git" }, -- Smart git with caching
+          lualine_c = { "smart_filename" }, -- Intelligent filename handling
+          lualine_x = { "smart_diagnostics", "filetype" }, -- Context-aware diagnostics
+          lualine_y = { "adaptive_progress" }, -- Dynamic progress indicator
+          lualine_z = { "location" },
         },
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          lualine_c = { "filename" },
+          lualine_c = { "smart_filename" },
           lualine_x = { "location" },
           lualine_y = {},
           lualine_z = {},
+        },
+        -- AI-powered features
+        ai_features = {
+          context_awareness = {
+            enabled = true,
+            learning_rate = 0.1,
+            adaptation_threshold = 0.7,
+          },
+          predictive_loading = {
+            enabled = true,
+            preload_threshold = 0.8,
+            learning_enabled = true,
+          },
+        },
+        -- Performance optimizations
+        performance = {
+          smart_caching = {
+            enabled = true,
+            cache_ttl = 150,
+            max_cache_size = 2000,
+          },
         },
       })
       
