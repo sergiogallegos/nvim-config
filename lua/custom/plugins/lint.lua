@@ -16,15 +16,18 @@ return {
         javascriptreact = { "eslint" },
         typescriptreact = { "eslint" },
         go = { "golangci_lint" },
-        c = { "clang_check" },
-        cpp = { "clang_check" },
+        -- c = { "clang_check" }, -- Disabled: clang_check not available
+        -- cpp = { "clang_check" }, -- Disabled: clang_check not available
         sh = { "shellcheck" },
       }
 
-      -- Auto-lint on save
+      -- Auto-lint on save (with error handling)
       vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         callback = function()
-          lint.try_lint()
+          local ok, _ = pcall(lint.try_lint)
+          if not ok then
+            -- Silently ignore linting errors to avoid disrupting workflow
+          end
         end,
       })
 
