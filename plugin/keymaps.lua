@@ -126,3 +126,50 @@ end, { desc = "Open test output" })
 set("n", "<leader>tS", function()
   require("neotest").summary.toggle()
 end, { desc = "Toggle test summary" })
+
+-- Popup styling test
+set("n", "<leader>pt", function()
+  vim.cmd("hi clear Pmenu")
+  vim.cmd("hi clear PmenuSel")
+  vim.cmd("hi clear NormalFloat")
+  vim.cmd("hi clear FloatBorder")
+  vim.cmd("hi clear Cmdline")
+  
+  vim.api.nvim_set_hl(0, "Pmenu", { 
+    bg = "#1a1a1a", 
+    fg = "#E0E0E0", 
+    blend = 15,
+    ctermbg = 235,
+    ctermfg = 253
+  })
+  vim.api.nvim_set_hl(0, "PmenuSel", { 
+    bg = "#2d2d2d", 
+    fg = "#f8fe7a", 
+    blend = 15,
+    ctermbg = 237,
+    ctermfg = 11
+  })
+  vim.api.nvim_set_hl(0, "NormalFloat", { 
+    bg = "#1a1a1a", 
+    fg = "#E0E0E0", 
+    blend = 15,
+    ctermbg = 235,
+    ctermfg = 253
+  })
+  vim.api.nvim_set_hl(0, "FloatBorder", { 
+    bg = "#1a1a1a", 
+    fg = "#bbbbbb", 
+    blend = 15,
+    ctermbg = 235,
+    ctermfg = 250
+  })
+  vim.api.nvim_set_hl(0, "Cmdline", { 
+    bg = "#1a1a1a", 
+    fg = "#E0E0E0", 
+    blend = 15,
+    ctermbg = 235,
+    ctermfg = 253
+  })
+  
+  vim.notify("🎨 Popup transparency fixed! Try completion now.", vim.log.levels.INFO)
+end, { desc = "Fix popup transparency" })
