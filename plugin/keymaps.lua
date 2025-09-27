@@ -154,3 +154,14 @@ set("n", "<leader>sr", function()
   vim.cmd("set laststatus=2")
   vim.notify("Status line refreshed", vim.log.levels.INFO)
 end, { desc = "Refresh status line" })
+
+-- Toggle status line visibility
+set("n", "<leader>st", function()
+  if vim.opt.laststatus:get() == 0 then
+    vim.cmd("set laststatus=2")
+    vim.notify("Status line enabled", vim.log.levels.INFO)
+  else
+    vim.cmd("set laststatus=0")
+    vim.notify("Status line disabled", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle status line" })
