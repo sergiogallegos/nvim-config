@@ -146,11 +146,9 @@ return {
         },
       }
       
-      -- Setup heirline properly
+      -- Setup heirline properly - ONLY status line, no winbar
       heirline.setup({
         statusline = StatusLine,
-        winbar = StatusLine,
-        tabline = StatusLine,
         opts = {
           disable_winbar_cb = function(args)
             return conditions.buffer_matches({
@@ -160,11 +158,19 @@ return {
         },
       })
       
+      -- Clear any conflicting status line settings
+      vim.cmd("set statusline=")
+      vim.cmd("hi clear StatusLine")
+      vim.cmd("hi clear StatusLineNC")
+      vim.cmd("hi clear WinBar")
+      vim.cmd("hi clear WinBarNC")
+      
       -- Force status line to show
       vim.cmd("set laststatus=2")
       vim.cmd("set cmdheight=1")
       vim.cmd("set showcmd")
       vim.cmd("set ruler")
+      vim.cmd("set winbar=")
     end,
   },
 }
