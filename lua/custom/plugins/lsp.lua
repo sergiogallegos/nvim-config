@@ -46,6 +46,7 @@ return {
       end
 
       local servers = {
+        -- Existing servers
         pyright = {
           settings = {
             python = {
@@ -117,6 +118,69 @@ return {
             },
           },
         },
+        
+        -- New language servers
+        elixirls = {
+          cmd = { "elixir-ls" },
+          filetypes = { "elixir", "eelixir" },
+          root_dir = require("lspconfig.util").root_pattern("mix.exs", ".git"),
+        },
+        julials = {
+          cmd = { "julia", "--project=@nvim", "-e", "using LanguageServer; run(LanguageServerInstance(stdin, stdout))" },
+          filetypes = { "julia" },
+          root_dir = require("lspconfig.util").root_pattern("Project.toml", ".git"),
+        },
+        intelephense = {
+          cmd = { "intelephense", "--stdio" },
+          filetypes = { "php" },
+          root_dir = require("lspconfig.util").root_pattern("composer.json", ".git"),
+        },
+        omnisharp = {
+          cmd = { "OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+          filetypes = { "cs", "vb" },
+          root_dir = require("lspconfig.util").root_pattern("*.sln", "*.csproj", ".git"),
+        },
+        sqls = {
+          cmd = { "sqls" },
+          filetypes = { "sql", "mysql" },
+          root_dir = require("lspconfig.util").root_pattern(".git"),
+          settings = {
+            sqls = {
+              connections = {
+                {
+                  driver = 'mysql',
+                  dataSourceName = 'user:password@tcp(127.0.0.1:3306)/dbname',
+                },
+                {
+                  driver = 'postgresql',
+                  dataSourceName = 'host=127.0.0.1 port=5432 user=user password=password dbname=dbname sslmode=disable',
+                },
+              },
+            },
+          },
+        },
+        lua_ls = {
+          cmd = { "lua-language-server" },
+          filetypes = { "lua" },
+          root_dir = require("lspconfig.util").root_pattern(".git"),
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT',
+                path = vim.split(package.path, ';'),
+              },
+              diagnostics = {
+                globals = { 'vim' },
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+              },
+              telemetry = {
+                enable = false,
+              },
+            },
+          },
+        },
       }
 
       local mason_ok, mason = pcall(require, "mason")
@@ -134,6 +198,7 @@ return {
       mason.setup()
       mason_lspconfig.setup {
         ensure_installed = vim.tbl_filter(function(name)
+          -- Exclude problematic servers
           return name ~= "tsserver"
         end, vim.tbl_keys(servers)),
         automatic_installation = true,
