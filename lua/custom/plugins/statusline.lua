@@ -1,6 +1,6 @@
 -- Status line configuration - lualine-max (ENHANCED VERSION)
 return {
-  -- lualine-max - Enhanced configuration with AI features
+  -- lualine-max - Enhanced configuration
   {
     'https://github.com/sergiogallegos/lualine-max.nvim',
     dependencies = { 
@@ -44,11 +44,6 @@ return {
               lualine_x = { 'location' },
               lualine_y = {},
               lualine_z = {}
-            },
-            -- AI Features (if available in lualine-max)
-            ai_features = {
-              context_awareness = { enabled = true },
-              predictive_loading = { enabled = true },
             },
             -- Performance optimizations
             performance = {

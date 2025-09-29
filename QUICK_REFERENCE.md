@@ -94,12 +94,6 @@
 | `F3` | Step over |
 | `F4` | Step out |
 
-### AI
-| Key | Action |
-|-----|--------|
-| `<Space>ai` | Open ChatGPT |
-| `<Space>ae` | Edit with instruction |
-| `<Space>ag` | Run ChatGPT action |
 
 ## 🔧 Troubleshooting
 

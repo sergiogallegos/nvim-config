@@ -9,7 +9,6 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 - **Completion**: nvim-cmp with LSP, snippets, and path completion
 - **Fuzzy Finding**: Telescope with fzf-native for fast searching
 - **Git Integration**: Complete git workflow with diffview, git-conflict, and git-blame
-- **AI Integration**: ChatGPT.nvim for AI-assisted coding
 - **Debugging**: nvim-dap with multiple language adapters
 - **Testing**: Neotest with support for Go, Python, and Jest
 
@@ -34,7 +33,6 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 │       ├── plugins/        # Plugin configurations
 │       │   ├── lsp.lua     # LSP and language servers
 │       │   ├── git.lua     # Git-related plugins
-│       │   ├── ai.lua      # AI integration
 │       │   ├── dap.lua     # Debugging
 │       │   └── ...         # Other plugin configs
 │       └── snippets/       # Custom snippets
@@ -129,10 +127,6 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 - `F3` - Step over
 - `F4` - Step out
 
-#### AI
-- `<Space>ai` - Open ChatGPT
-- `<Space>ae` - Edit with instruction
-- `<Space>ag` - Run ChatGPT action
 
 #### File Management
 - `<Space>e` - Open file explorer (Oil)
@@ -226,8 +220,7 @@ The configuration uses a custom colorbuddy-based theme. To modify colors:
 - **git-blame.nvim** - Git blame
 - **git-worktree.nvim** - Worktree management
 
-### AI & Productivity
-- **ChatGPT.nvim** - AI integration
+### Productivity
 - **harpoon** - File navigation
 - **persistence.nvim** - Session management
 - **oil.nvim** - File explorer
