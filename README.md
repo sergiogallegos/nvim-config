@@ -143,6 +143,7 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 - `<Space>cf` - Fix status line visibility
 - `<Space>cl` - Re-initialize lualine-max
 - `<Space>csd` - Debug status line
+- `<Space>cds` - Debug colorscheme loading
 
 #### Transparency
 - `<Space>ct` - Toggle background transparency
@@ -172,10 +173,14 @@ The configuration includes 8 CustomBuddy variants with **Rose Pine as the defaul
 - **custombuddy-vscode** - VS Code (professional, familiar)
 - **custombuddy-xcode** - Xcode (Apple-inspired, macOS)
 
-To switch colorschemes:
+To change the default colorscheme:
+1. Edit `lua/custom/plugins/colorschemes.lua` and change line 39: `vim.cmd.colorscheme("custombuddy-rosepine")`
+2. Replace with any of the available variants listed in the file comments
+3. Restart Neovim
+
+To temporarily switch colorschemes:
 1. Use key bindings: `<Space>cn` (next), `<Space>cp` (previous), `<Space>cs` (picker)
 2. Command line: `:colorscheme custombuddy-craftz`
-3. Edit `lua/custom/plugins/colorschemes.lua` and change the colorscheme name
 
 See `COLORSCHEME_REFERENCE.md` for detailed information about each variant.
 

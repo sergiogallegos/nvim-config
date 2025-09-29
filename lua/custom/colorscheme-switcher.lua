@@ -84,11 +84,54 @@ function M.set_colorscheme(name)
     if ok then
       current_index = index
       
-      -- Re-apply status line configuration after colorscheme change
-      -- Use a small delay to ensure colorscheme is fully loaded
+      -- Ensure status line stays visible after colorscheme change
+      vim.cmd("set laststatus=2")
+      vim.cmd("redrawstatus")
+      
+      -- Re-initialize lualine after a small delay to ensure colorscheme is fully loaded
       vim.defer_fn(function()
-        M._ensure_status_line_visible()
-      end, 50)
+        local ok, lualine = pcall(require, "lualine")
+        if ok then
+          -- Re-setup lualine with the proper configuration
+          lualine.setup({
+            options = {
+              theme = 'auto',
+              component_separators = { left = '', right = '' },
+              section_separators = { left = '', right = '' },
+              disabled_filetypes = {
+                statusline = { 'alpha', 'dashboard', 'lazy', 'mason', 'TelescopePrompt' },
+              },
+              always_divide_middle = true,
+              globalstatus = false,
+              refresh = {
+                statusline = 1000, -- Slower refresh for stability
+              },
+            },
+            sections = {
+              lualine_a = { 'mode' },
+              lualine_b = { 'branch', 'diff', 'diagnostics' },
+              lualine_c = { 'filename' },
+              lualine_x = { 'encoding', 'fileformat', 'filetype' },
+              lualine_y = { 'progress' },
+              lualine_z = { 'location' }
+            },
+            inactive_sections = {
+              lualine_a = {},
+              lualine_b = {},
+              lualine_c = { 'filename' },
+              lualine_x = { 'location' },
+              lualine_y = {},
+              lualine_z = {}
+            },
+            -- Performance optimizations
+            performance = {
+              smart_caching = { enabled = true },
+              lazy_loading = { enabled = true },
+            },
+          })
+          lualine.refresh()
+        end
+      end, 150)
       
       vim.notify("Colorscheme: " .. name, vim.log.levels.INFO)
     else
@@ -105,10 +148,7 @@ function M._ensure_status_line_visible()
   vim.cmd("set laststatus=2")
   vim.cmd("redrawstatus")
   
-  -- Re-initialize lualine-max after colorscheme change
-  M._reinitialize_lualine()
-  
-  -- Ensure status line has proper colors
+  -- Simple status line colors - no complex re-initialization
   vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1a1a1a", fg = "#f8f8f2", ctermbg = 0, ctermfg = 7 })
   vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#1a1a1a", fg = "#e0e0e0", ctermbg = 0, ctermfg = 7 })
 end
@@ -163,6 +203,7 @@ function M._reinitialize_lualine()
     if setup_ok then
       -- Force refresh of lualine
       lualine.refresh()
+      vim.notify("Lualine re-initialized successfully", vim.log.levels.INFO)
     else
       vim.notify("Failed to re-initialize lualine: " .. tostring(setup_err), vim.log.levels.ERROR)
     end

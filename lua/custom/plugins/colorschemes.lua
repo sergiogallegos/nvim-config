@@ -21,63 +21,40 @@ return {
         -- "custombuddy-xcode"  - Xcode (Apple-inspired, macOS)
         -- "custombuddy-rosepine" - Rose Pine (beautiful, warm) - inspired by Rose Pine
         
-        -- Try to load custombuddy-rosepine as default, fallback to custombuddy, then default
-        local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
-        if not ok then
-          -- Fallback to original custombuddy
-          local ok2, err2 = pcall(vim.cmd.colorscheme, "custombuddy")
-          if not ok2 then
-            vim.notify("CustomBuddy not available, using default colorscheme. Error: " .. tostring(err2), vim.log.levels.WARN)
-            vim.cmd.colorscheme("default")
+        -- Load Rose Pine as default colorscheme
+        -- Simple and direct approach - no automatic switching
+        -- 
+        -- To change the default colorscheme in the future, simply replace the line below:
+        -- vim.cmd.colorscheme("custombuddy-rosepine")
+        -- 
+        -- Available options:
+        -- "custombuddy" - Original CustomBuddy
+        -- "custombuddy-craftz" - Craftz variant
+        -- "custombuddy-prime" - Prime variant  
+        -- "custombuddy-tj" - TJ variant
+        -- "custombuddy-cursor" - Cursor variant
+        -- "custombuddy-vscode" - VS Code variant
+        -- "custombuddy-xcode" - Xcode variant
+        -- "custombuddy-rosepine" - Rose Pine variant (current default)
+        
+        -- Load Rose Pine with error handling after a delay to ensure it loads last
+        vim.defer_fn(function()
+          local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
+          if ok then
+            vim.notify("Rose Pine colorscheme loaded successfully!", vim.log.levels.INFO)
           else
-            vim.notify("Rose Pine not available, using original CustomBuddy. Error: " .. tostring(err), vim.log.levels.INFO)
+            vim.notify("Failed to load Rose Pine: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
+            vim.cmd.colorscheme("custombuddy")
           end
-        end
+        end, 100)
         
         -- Ensure status line is visible after colorscheme load
         vim.cmd("set laststatus=2")
         vim.cmd("redrawstatus")
         
-        -- Enable transparency for terminal backgrounds
-        -- This overrides the colorscheme to make backgrounds truly transparent
-        vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "CursorLine", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "CursorColumn", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "FoldColumn", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "VertSplit", { bg = "NONE", ctermbg = "NONE" })
-        vim.api.nvim_set_hl(0, "WinSeparator", { bg = "NONE", ctermbg = "NONE" })
-        
-        -- Keep status line visible but with transparency
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#1a1a1a", fg = "#f8f8f2", ctermbg = 0, ctermfg = 7 })
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#1a1a1a", fg = "#e0e0e0", ctermbg = 0, ctermfg = 7 })
-        
-        -- Make floating windows semi-transparent
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1a1a1a", fg = "#f8f8f2", blend = 20 })
-        vim.api.nvim_set_hl(0, "FloatBorder", { bg = "#1a1a1a", fg = "#7daea3", blend = 20 })
-        
-        -- Make popup menus semi-transparent
-        vim.api.nvim_set_hl(0, "Pmenu", { bg = "#1a1a1a", fg = "#f8f8f2", blend = 20 })
-        vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#2a2a2a", fg = "#f1fa8c", blend = 20 })
-        vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#2a2a2a", blend = 20 })
-        vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#7daea3", blend = 20 })
-        
-        -- Make telescope semi-transparent
-        vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "#1a1a1a", fg = "#f8f8f2", blend = 20 })
-        vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "#1a1a1a", fg = "#7daea3", blend = 20 })
-        vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = "#1a1a1a", fg = "#f8f8f2", blend = 20 })
-        vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = "#1a1a1a", fg = "#f8f8f2", blend = 20 })
-        vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { bg = "#1a1a1a", fg = "#f8f8f2", blend = 20 })
-        vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = "#2a2a2a", fg = "#f1fa8c", blend = 20 })
-        
-        -- Force status line to stay visible
-        vim.cmd("set laststatus=2")
-        vim.cmd("redrawstatus")
+        -- Note: Transparency is now controlled by the transparency module
+        -- Use <Space>ct to toggle transparency on/off
+        -- The Rose Pine colorscheme will show its full colors by default
         
       end,
       lazy = false,
