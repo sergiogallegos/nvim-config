@@ -2,7 +2,18 @@ return {
   {
     "jackMort/ChatGPT.nvim",
     event = "VeryLazy",
+    enabled = function()
+      -- Only enable if OPENAI_API_KEY is set
+      return vim.fn.getenv("OPENAI_API_KEY") ~= ""
+    end,
     config = function()
+      -- Check if API key is available
+      local api_key = vim.fn.getenv("OPENAI_API_KEY")
+      if api_key == "" then
+        vim.notify("ChatGPT.nvim: OPENAI_API_KEY not set. Set it to use AI features.", vim.log.levels.WARN)
+        return
+      end
+      
       local ok, chatgpt = pcall(require, "chatgpt")
       if not ok then
         vim.notify("Failed to load ChatGPT.nvim", vim.log.levels.ERROR)
@@ -192,6 +203,35 @@ return {
       vim.keymap.set("v", "<leader>ae", "<cmd>ChatGPTEditWithInstruction<cr>", { desc = "Edit with instruction" })
       vim.keymap.set("n", "<leader>ag", "<cmd>ChatGPTRun<cr>", { desc = "Run ChatGPT" })
       vim.keymap.set("v", "<leader>ag", "<cmd>ChatGPTRun<cr>", { desc = "Run ChatGPT" })
+    end,
+  },
+  -- Fallback keymaps when ChatGPT is not available
+  {
+    "nvim-lua/plenary.nvim", -- Ensure plenary is loaded for the fallback
+    event = "VeryLazy",
+    config = function()
+      -- Only set fallback keymaps if ChatGPT is not enabled
+      if vim.fn.getenv("OPENAI_API_KEY") == "" then
+        vim.keymap.set("n", "<leader>ai", function()
+          vim.notify("ChatGPT: Set OPENAI_API_KEY environment variable to use AI features", vim.log.levels.INFO)
+        end, { desc = "ChatGPT (API key required)" })
+        
+        vim.keymap.set("n", "<leader>ae", function()
+          vim.notify("ChatGPT: Set OPENAI_API_KEY environment variable to use AI features", vim.log.levels.INFO)
+        end, { desc = "Edit with instruction (API key required)" })
+        
+        vim.keymap.set("v", "<leader>ae", function()
+          vim.notify("ChatGPT: Set OPENAI_API_KEY environment variable to use AI features", vim.log.levels.INFO)
+        end, { desc = "Edit with instruction (API key required)" })
+        
+        vim.keymap.set("n", "<leader>ag", function()
+          vim.notify("ChatGPT: Set OPENAI_API_KEY environment variable to use AI features", vim.log.levels.INFO)
+        end, { desc = "Run ChatGPT (API key required)" })
+        
+        vim.keymap.set("v", "<leader>ag", function()
+          vim.notify("ChatGPT: Set OPENAI_API_KEY environment variable to use AI features", vim.log.levels.INFO)
+        end, { desc = "Run ChatGPT (API key required)" })
+      end
     end,
   },
 }
