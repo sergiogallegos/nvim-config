@@ -148,14 +148,12 @@ set("n", "<leader>pd", function()
   print("NormalFloat: " .. vim.inspect(result2))
 end, { desc = "Debug popup colors" })
 
--- Status line refresh
+-- Status line controls
 set("n", "<leader>sr", function()
   vim.cmd("redrawstatus")
-  vim.cmd("set laststatus=2")
   vim.notify("Status line refreshed", vim.log.levels.INFO)
 end, { desc = "Refresh status line" })
 
--- Toggle status line visibility
 set("n", "<leader>st", function()
   if vim.opt.laststatus:get() == 0 then
     vim.cmd("set laststatus=2")
@@ -165,36 +163,6 @@ set("n", "<leader>st", function()
     vim.notify("Status line disabled", vim.log.levels.INFO)
   end
 end, { desc = "Toggle status line" })
-
--- Basic status line controls
-set("n", "<leader>sr", function()
-  vim.cmd("redrawstatus")
-  vim.notify("Status line refreshed", vim.log.levels.INFO)
-end, { desc = "Refresh status line" })
-
--- Force lualine refresh
-set("n", "<leader>sl", function()
-  vim.cmd("set statusline=")
-  vim.cmd("set laststatus=2")
-  vim.cmd("redrawstatus")
-  vim.notify("Status line reset and refreshed", vim.log.levels.INFO)
-end, { desc = "Reset and refresh status line" })
-
--- Toggle status line
-set("n", "<leader>st", function()
-  if vim.opt.laststatus:get() == 0 then
-    vim.cmd("set laststatus=2")
-    vim.notify("Status line enabled", vim.log.levels.INFO)
-  else
-    vim.cmd("set laststatus=0")
-    vim.notify("Status line disabled", vim.log.levels.INFO)
-  end
-end, { desc = "Toggle status line" })
-
--- Custom status line formats
--- Removed conflicting status line keymaps that were overriding lualine-max
-
--- Removed conflicting status line keymap
 
 -- Test command line status behavior
 set("n", "<leader>sc", function()

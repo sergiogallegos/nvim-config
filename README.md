@@ -1,298 +1,264 @@
-# 🚀 Neovim Configuration
+# Neovim Configuration
 
-A comprehensive, modern Neovim configuration optimized for development with transparency support, multi-language linting, and professional-grade tooling.
+A modern, feature-rich Neovim configuration optimized for development productivity.
 
-## ✨ Features
+## 🚀 Features
 
-### 🎨 **Visual & UI**
-- **Transparent background** with beautiful transparency effects
-- **Custom colorscheme** with colorbuddy.nvim
-- **Beautiful startup screen** with ASCII art and quick actions
-- **Enhanced notifications** with nvim-notify
-- **Better input dialogs** with dressing.nvim
-- **Smooth animations** and visual feedback
+### Core Functionality
+- **LSP Support**: Comprehensive language server support for 15+ languages
+- **Completion**: nvim-cmp with LSP, snippets, and path completion
+- **Fuzzy Finding**: Telescope with fzf-native for fast searching
+- **Git Integration**: Complete git workflow with diffview, git-conflict, and git-blame
+- **AI Integration**: ChatGPT.nvim for AI-assisted coding
+- **Debugging**: nvim-dap with multiple language adapters
+- **Testing**: Neotest with support for Go, Python, and Jest
 
-### 🔧 **Core Functionality**
-- **Lazy.nvim** plugin manager for fast startup
-- **LSP support** for 10+ programming languages
-- **Comprehensive linting** for code quality
-- **Auto-formatting** with conform.nvim
-- **Session management** with persistence.nvim
-- **Undo tree visualization** with undotree
+### Visual & UI
+- **Custom Theme**: colorbuddy-based theme with transparency effects
+- **Status Line**: lualine-max with enhanced features
+- **Syntax Highlighting**: Treesitter with 20+ language parsers
+- **File Explorer**: Oil.nvim for modern file management
 
-### 🧭 **Navigation & Search**
-- **Telescope** for fuzzy finding and file navigation
-- **Aerial** for code outline and symbol navigation
-- **Flash** for advanced jump navigation
-- **Harpoon** for quick file switching
-- **Oil** for file system navigation
-
-### 🔍 **Code Understanding**
-- **Treesitter** for syntax highlighting and parsing
-- **LSP diagnostics** with virtual text and lines
-- **Code actions** and refactoring
-- **Symbol navigation** and go-to-definition
-- **Inlay hints** for better code understanding
-
-### 🧪 **Development Tools**
-- **Neotest** for running tests in multiple languages
-- **Sniprun** for code execution and testing
-- **DAP** for debugging support
-- **Git integration** with gitsigns and diffview
-- **Conflict resolution** with git-conflict.nvim
-
-### 📝 **Editing Enhancements**
-- **Auto-pairs** for bracket completion
-- **Comment** for smart commenting
-- **Illuminate** for highlighting word under cursor
-- **Indent guides** with indent-blankline
-- **Trouble** for diagnostics management
-
-## 🛠️ **Supported Languages**
-
-### **LSP Support**
-- **Python** (pyright)
-- **JavaScript/TypeScript** (tsserver, typescript-tools)
-- **Go** (gopls)
-- **Rust** (rust-analyzer)
-- **C/C++** (clangd)
-- **Java** (jdtls)
-- **Lua** (lua-language-server)
-- **Zig** (zls)
-- **PHP** (intelephense)
-- **Bash** (bash-language-server)
-- **SQL** (sqlls)
-- **C#** (omnisharp)
-
-### **Linting Support**
-- **Python**: flake8
-- **JavaScript/TypeScript**: eslint
-- **Go**: golangci-lint
-- **C/C++**: clang-check, clang-tidy
-- **Rust**: cargo
-- **Java**: checkstyle
-- **SQL**: sqlfluff
-- **Shell**: shellcheck
-- **Zig**: zig
-- **Lua**: luacheck
-
-## ⌨️ **Key Bindings**
-
-### **Leader Key: `<Space>`**
-
-#### **File Operations**
-- `<leader>w` - Save file
-- `<leader>q` - Quit
-- `<leader>Q` - Quit all
-- `<leader>e` - Open file explorer (Oil)
-- `<leader>u` - Toggle undo tree
-
-#### **Navigation**
-- `<leader>a` - Toggle Aerial (code outline)
-- `{` / `}` - Navigate symbols
-- `<leader>f` - Find files (Telescope)
-- `<leader>r` - Recently used files
-- `<leader>t` - Find text
-
-#### **LSP & Code Actions**
-- `gd` - Go to definition
-- `gr` - Go to references
-- `K` - Hover information
-- `<leader>ca` - Code actions
-- `<leader>rn` - Rename symbol
-- `<leader>f` - Format code
-- `<leader>l` - Toggle diagnostics display
-
-#### **Git Operations**
-- `<leader>gd` - Open git diff (diffview)
-- `<leader>gD` - Close git diff
-- `<leader>gw` - Grep string
-
-#### **Testing**
-- `<leader>tf` - Test file
-- `<leader>ts` - Stop test
-- `<leader>td` - Run last test
-- `<leader>to` - Open test output
-- `<leader>tS` - Toggle test summary
-
-#### **Code Execution**
-- `<leader>r` - Run code snippet (SnipRun)
-- `<leader>r` (visual) - Run selected code
-
-#### **Configuration**
-- `<leader>ev` - Edit init.lua
-- `<leader>sv` - Source init.lua
-- `<leader>c` - Open configuration
-- `<leader>l` - Open Lazy plugin manager
-
-#### **Window Management**
-- `<C-h/j/k/l>` - Navigate splits
-- `<leader>=` - Equalize windows
-- `<leader>o` - Close other windows
-- `<M-,/.>` - Resize splits horizontally
-- `<M-t/s>` - Resize splits vertically
-
-#### **Diagnostics**
-- `]d` / `[d` - Next/Previous diagnostic
-- `<leader>xx` - Toggle trouble
-- `<leader>xw` - Workspace diagnostics
-- `<leader>xd` - Document diagnostics
-
-## 🚀 **Quick Start**
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url> ~/.config/nvim
-   ```
-
-2. **Install dependencies**
-   ```bash
-   # Install LLVM tools for C/C++ linting
-   brew install llvm
-   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
-   
-   # Install other linters
-   brew install shellcheck flake8 golangci-lint luacheck checkstyle
-   npm install -g eslint
-   pip3 install sqlfluff --break-system-packages
-   ```
-
-3. **Start Neovim**
-   ```bash
-   nvim
-   ```
-
-4. **Install plugins**
-   - Press `<leader>l` to open Lazy
-   - Press `i` to install all plugins
-   - Wait for installation to complete
-
-## 🎯 **Configuration Structure**
+## 📁 Structure
 
 ```
 ~/.config/nvim/
-├── init.lua                 # Main configuration
-├── plugin/                  # Plugin configurations
-│   ├── keymaps.lua         # Key bindings
+├── init.lua                 # Main configuration entry point
+├── lazy-lock.json          # Plugin version lock file
+├── README.md               # This documentation
+├── lua/
+│   └── custom/
+│       ├── completion.lua  # Completion configuration
+│       ├── telescope.lua   # Telescope configuration
+│       ├── treesitter.lua  # Treesitter configuration
+│       ├── plugins/        # Plugin configurations
+│       │   ├── lsp.lua     # LSP and language servers
+│       │   ├── git.lua     # Git-related plugins
+│       │   ├── ai.lua      # AI integration
+│       │   ├── dap.lua     # Debugging
+│       │   └── ...         # Other plugin configs
+│       └── snippets/       # Custom snippets
+├── plugin/                 # Plugin-specific configurations
+│   ├── keymaps.lua         # Key mappings
 │   ├── options.lua         # Neovim options
 │   └── ...
-├── lua/custom/
-│   ├── plugins/            # Plugin definitions
-│   │   ├── lsp.lua         # LSP configuration
-│   │   ├── lint.lua        # Linting setup
-│   │   ├── telescope.lua   # Fuzzy finding
-│   │   └── ...
-│   └── completion.lua      # Completion setup
-└── README.md               # This file
+└── colors/                 # Color schemes
+    └── colorbuddy.vim      # Custom theme
 ```
 
-## 🔧 **Customization**
+## 🔧 Installation
 
-### **Disable Startup Screen**
-Edit `lua/custom/plugins/alpha.lua`:
-```lua
-enabled = false, -- Set to false to disable
-```
+1. **Prerequisites**:
+   ```bash
+   # Install Neovim 0.9+
+   brew install neovim  # macOS
+   # or
+   sudo apt install neovim  # Ubuntu/Debian
+   ```
 
-### **Add New Linters**
-Edit `lua/custom/plugins/lint.lua`:
-```lua
-lint.linters_by_ft = {
-  your_language = { "your_linter" },
-}
-```
+2. **Clone Configuration**:
+   ```bash
+   git clone <your-repo> ~/.config/nvim
+   cd ~/.config/nvim
+   ```
 
-### **Custom Key Bindings**
-Edit `plugin/keymaps.lua`:
-```lua
-vim.keymap.set("n", "<your-key>", "<your-command>", { desc = "Description" })
-```
+3. **Install Dependencies**:
+   ```bash
+   # Install LSP servers (optional - Mason will install them automatically)
+   # Python
+   pip install pyright black isort
+   
+   # Node.js
+   npm install -g typescript-language-server prettier
+   
+   # Go
+   go install golang.org/x/tools/gopls@latest
+   ```
 
-## 🎨 **Themes & Colors**
+4. **Start Neovim**:
+   ```bash
+   nvim
+   # Lazy.nvim will automatically install all plugins
+   ```
 
-- **Custom colorscheme** with colorbuddy.nvim
-- **Transparent background** support
-- **Syntax highlighting** with Treesitter
-- **LSP diagnostics** with virtual text
-- **Git integration** with gitsigns
+## ⌨️ Key Mappings
 
-## 📦 **Plugin List**
+### Leader Key: `<Space>`
 
-### **Core**
-- lazy.nvim - Plugin manager
-- plenary.nvim - Lua utilities
-- impatient.nvim - Startup optimization
+#### Navigation
+- `<Space>fd` - Find files
+- `<Space>ft` - Git files
+- `<Space>fg` - Multi-ripgrep search
+- `<Space>fb` - Buffers
+- `<Space>/` - Fuzzy find in current buffer
+- `<Space>a` - Toggle Aerial (symbol outline)
+- `{` / `}` - Previous/Next symbol
 
-### **LSP & Completion**
-- nvim-lspconfig - LSP configuration
-- mason.nvim - LSP server installer
-- nvim-cmp - Completion engine
-- lsp_lines.nvim - LSP diagnostics
-- fidget.nvim - LSP progress
+#### Git
+- `<Space>gd` - Open diffview
+- `<Space>gD` - Close diffview
+- `<Space>gb` - Toggle git blame
+- `<Space>gw` - Git worktrees
+- `<Space>gW` - Create git worktree
+- `]c` / `[c` - Next/Previous git hunk
+- `<Space>hs` - Stage hunk
+- `<Space>hr` - Reset hunk
 
-### **Navigation & Search**
-- telescope.nvim - Fuzzy finder
-- aerial.nvim - Code outline
-- flash.nvim - Jump navigation
-- harpoon - File switching
-- oil.nvim - File explorer
+#### LSP
+- `gd` - Go to definition
+- `gr` - Go to references
+- `K` - Hover information
+- `<Space>ca` - Code actions
+- `<Space>rn` - Rename symbol
+- `<Space>f` - Format code
+- `]d` / `[d` - Next/Previous diagnostic
 
-### **Development**
-- neotest - Testing framework
-- sniprun - Code execution
-- nvim-dap - Debugging
-- conform.nvim - Formatting
-- nvim-lint - Linting
+#### Testing
+- `<Space>tf` - Test file
+- `<Space>ts` - Stop test
+- `<Space>td` - Run last test
+- `<Space>to` - Open test output
+- `<Space>tS` - Toggle test summary
 
-### **Git**
-- gitsigns.nvim - Git integration
-- diffview.nvim - Git diffs
-- git-conflict.nvim - Merge conflicts
+#### Debugging
+- `<Space>b` - Toggle breakpoint
+- `<Space>gb` - Run to cursor
+- `<Space>?` - Eval variable under cursor
+- `F1` - Continue
+- `F2` - Step into
+- `F3` - Step over
+- `F4` - Step out
 
-### **UI & Visual**
-- alpha-nvim - Startup screen
-- nvim-notify - Notifications
-- dressing.nvim - Input dialogs
-- trouble.nvim - Diagnostics
-- indent-blankline - Indent guides
+#### AI
+- `<Space>ai` - Open ChatGPT
+- `<Space>ae` - Edit with instruction
+- `<Space>ag` - Run ChatGPT action
 
-## 🐛 **Troubleshooting**
+#### File Management
+- `<Space>e` - Open file explorer (Oil)
+- `-` - Open parent directory
+- `<Space>-` - Toggle floating file explorer
 
-### **Common Issues**
+#### Other
+- `<Space>w` - Save file
+- `<Space>q` - Quit
+- `<Space>Q` - Quit all
+- `<Space>h` - Clear highlights
+- `<Space>u` - Toggle undo tree
+- `<Space>r` - Run code snippet
+- `<Space>tt` - Toggle inlay hints
 
-1. **LSP not working**
-   - Run `:LspInfo` to check LSP status
-   - Install language servers with `:Mason`
+## 🎨 Customization
 
-2. **Linting errors**
-   - Check if linters are installed
-   - Run `:checkhealth` for diagnostics
+### Colorscheme
+The configuration uses a custom colorbuddy-based theme. To modify colors:
 
-3. **Startup errors**
-   - Check `:messages` for error details
-   - Update plugins with `:Lazy sync`
+1. Edit `colors/colorbuddy.vim`
+2. Modify highlight groups in `lua/custom/plugins/colorschemes.lua`
 
-### **Performance**
-- Use `:Lazy profile` to check startup time
-- Disable unused plugins
-- Check `:checkhealth` for system issues
+### Adding New Plugins
+1. Create a new file in `lua/custom/plugins/`
+2. Follow the existing pattern:
+   ```lua
+   return {
+     {
+       "author/plugin-name",
+       config = function()
+         require("plugin-name").setup({
+           -- configuration
+         })
+       end,
+     },
+   }
+   ```
 
-## 📚 **Documentation**
+### Adding New LSP Servers
+1. Add the server to `lua/custom/plugins/lsp.lua`
+2. Add it to the `servers` table
+3. Mason will automatically install it
 
-- [Neovim Documentation](https://neovim.io/doc/)
-- [Lazy.nvim](https://github.com/folke/lazy.nvim)
-- [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-- [LSP Configuration](https://github.com/neovim/nvim-lspconfig)
+## 🔍 Troubleshooting
 
-## 🤝 **Contributing**
+### Common Issues
 
-Feel free to submit issues and enhancement requests!
+1. **Plugins not loading**:
+   ```bash
+   :Lazy sync
+   ```
 
-## 📄 **License**
+2. **LSP not working**:
+   ```bash
+   :Mason
+   # Install the required LSP server
+   ```
 
-This configuration is open source and available under the MIT License.
+3. **Colors not displaying**:
+   ```bash
+   :colorscheme custombuddy
+   ```
+
+4. **Performance issues**:
+   ```bash
+   :StartupTime
+   # Check startup performance
+   ```
+
+### Debug Commands
+- `<Space>pd` - Debug popup colors
+- `<Space>pt` - Fix popup colors
+- `<Space>sr` - Refresh status line
+- `<Space>st` - Toggle status line
+
+## 📦 Plugin List
+
+### Core Plugins
+- **lazy.nvim** - Plugin manager
+- **nvim-lspconfig** - LSP configuration
+- **mason.nvim** - LSP/DAP installer
+- **nvim-cmp** - Completion engine
+- **telescope.nvim** - Fuzzy finder
+- **treesitter** - Syntax highlighting
+
+### Git Plugins
+- **gitsigns.nvim** - Git signs
+- **diffview.nvim** - Git diff viewer
+- **git-conflict.nvim** - Conflict resolution
+- **git-blame.nvim** - Git blame
+- **git-worktree.nvim** - Worktree management
+
+### AI & Productivity
+- **ChatGPT.nvim** - AI integration
+- **harpoon** - File navigation
+- **persistence.nvim** - Session management
+- **oil.nvim** - File explorer
+
+### Development
+- **nvim-dap** - Debugging
+- **neotest** - Testing framework
+- **conform.nvim** - Code formatting
+- **nvim-lint** - Linting
+- **sniprun** - Code execution
+
+## 🚀 Performance
+
+This configuration is optimized for performance:
+- Lazy loading for most plugins
+- Disabled unnecessary built-in plugins
+- Smart caching enabled
+- Startup time monitoring
+
+## 📝 License
+
+This configuration is for personal use. Feel free to adapt it for your needs.
+
+## 🤝 Contributing
+
+If you find issues or have improvements:
+1. Fork the repository
+2. Make your changes
+3. Test thoroughly
+4. Submit a pull request
 
 ---
 
-**Happy coding with Neovim! 🚀✨**
+**Happy coding! 🎉**
