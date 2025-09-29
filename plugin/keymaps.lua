@@ -169,3 +169,30 @@ set("n", "<leader>sc", function()
   vim.notify("Testing command line status - press : or / to see it appear", vim.log.levels.INFO)
   vim.cmd("echo 'Command line status will appear when you press : or /'")
 end, { desc = "Test command line status" })
+
+-- Colorscheme switching
+local colorscheme_switcher = require("custom.colorscheme-switcher")
+
+set("n", "<leader>cn", colorscheme_switcher.next_colorscheme, { desc = "Next colorscheme" })
+set("n", "<leader>cp", colorscheme_switcher.prev_colorscheme, { desc = "Previous colorscheme" })
+set("n", "<leader>cs", colorscheme_switcher.picker, { desc = "Colorscheme picker" })
+set("n", "<leader>cc", function()
+  vim.notify("Current colorscheme: " .. colorscheme_switcher.get_current_colorscheme(), vim.log.levels.INFO)
+end, { desc = "Show current colorscheme" })
+set("n", "<leader>cr", colorscheme_switcher.refresh_variants, { desc = "Refresh colorscheme variants" })
+set("n", "<leader>cf", colorscheme_switcher.fix_status_line, { desc = "Fix status line visibility" })
+set("n", "<leader>cl", colorscheme_switcher.reinitialize_lualine, { desc = "Re-initialize lualine-max" })
+
+-- Debug status line
+set("n", "<leader>csd", function()
+  local status = vim.opt.laststatus:get()
+  local statusline = vim.api.nvim_get_hl(0, { name = "StatusLine" })
+  vim.notify("Status line: " .. status .. " | Colors: " .. vim.inspect(statusline), vim.log.levels.INFO)
+end, { desc = "Debug status line" })
+
+-- Transparency controls
+local transparency = require("custom.transparency")
+
+set("n", "<leader>ct", transparency.toggle_transparency, { desc = "Toggle background transparency" })
+set("n", "<leader>ce", transparency.enable_transparency, { desc = "Enable transparency" })
+set("n", "<leader>cd", transparency.disable_transparency, { desc = "Disable transparency" })

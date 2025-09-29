@@ -13,10 +13,11 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 - **Testing**: Neotest with support for Go, Python, and Jest
 
 ### Visual & UI
-- **Custom Theme**: colorbuddy-based theme with transparency effects
+- **Custom Theme**: 7 CustomBuddy variants with transparency effects
 - **Status Line**: lualine-max with enhanced features
 - **Syntax Highlighting**: Treesitter with 20+ language parsers
 - **File Explorer**: Oil.nvim for modern file management
+- **Colorscheme Switching**: Easy switching between theme variants
 
 ## 📁 Structure
 
@@ -133,6 +134,21 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 - `-` - Open parent directory
 - `<Space>-` - Toggle floating file explorer
 
+#### Colorscheme
+- `<Space>cn` - Next colorscheme variant
+- `<Space>cp` - Previous colorscheme variant
+- `<Space>cs` - Colorscheme picker (Telescope)
+- `<Space>cc` - Show current colorscheme
+- `<Space>cr` - Refresh colorscheme variants
+- `<Space>cf` - Fix status line visibility
+- `<Space>cl` - Re-initialize lualine-max
+- `<Space>csd` - Debug status line
+
+#### Transparency
+- `<Space>ct` - Toggle background transparency
+- `<Space>ce` - Enable transparency
+- `<Space>cd` - Disable transparency
+
 #### Other
 - `<Space>w` - Save file
 - `<Space>q` - Quit
@@ -145,10 +161,23 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 ## 🎨 Customization
 
 ### Colorscheme
-The configuration uses a custom colorbuddy-based theme. To modify colors:
+The configuration includes 8 CustomBuddy variants with **Rose Pine as the default**:
 
-1. Edit `colors/colorbuddy.vim`
-2. Modify highlight groups in `lua/custom/plugins/colorschemes.lua`
+- **custombuddy-rosepine** - Rose Pine (beautiful, warm) - **DEFAULT** 🌹
+- **custombuddy** - Original (warm, comfortable)
+- **custombuddy-craftz** - Modern, vibrant (blue accents)
+- **custombuddy-prime** - High contrast (green accents)
+- **custombuddy-tj** - Professional, subtle (blue accents)
+- **custombuddy-cursor** - Cursor IDE (clean, modern)
+- **custombuddy-vscode** - VS Code (professional, familiar)
+- **custombuddy-xcode** - Xcode (Apple-inspired, macOS)
+
+To switch colorschemes:
+1. Use key bindings: `<Space>cn` (next), `<Space>cp` (previous), `<Space>cs` (picker)
+2. Command line: `:colorscheme custombuddy-craftz`
+3. Edit `lua/custom/plugins/colorschemes.lua` and change the colorscheme name
+
+See `COLORSCHEME_REFERENCE.md` for detailed information about each variant.
 
 ### Adding New Plugins
 1. Create a new file in `lua/custom/plugins/`

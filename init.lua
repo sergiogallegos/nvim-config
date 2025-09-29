@@ -44,7 +44,7 @@ require("lazy").setup({
   },
   install = {
     missing = true,
-    colorscheme = { "custombuddy" },
+    colorscheme = { "custombuddy-rosepine", "custombuddy", "custombuddy-craftz", "custombuddy-prime", "custombuddy-tj", "custombuddy-cursor", "custombuddy-vscode", "custombuddy-xcode" },
   },
   ui = {
     border = "rounded",
