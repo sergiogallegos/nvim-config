@@ -1,35 +1,20 @@
 -- Transparency configuration for Neovim
--- Provides easy transparency management for terminal backgrounds
+-- Simplified since colorbuddy now has built-in transparency support
 
 local M = {}
 
 -- Current transparency state
 local is_transparent = true
 
--- Enable transparency
+-- Enable transparency (simplified - colorbuddy handles most of this)
 function M.enable_transparency()
-  -- Main editor background
+  -- Only override specific elements that might need transparency
   vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
   vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
   vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
   
-  -- Line numbers and cursor
-  vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "CursorLine", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "CursorColumn", { bg = "NONE", ctermbg = "NONE" })
-  
-  -- Folding
-  vim.api.nvim_set_hl(0, "Folded", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "FoldColumn", { bg = "NONE", ctermbg = "NONE" })
-  
-  -- Splits
-  vim.api.nvim_set_hl(0, "VertSplit", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "WinSeparator", { bg = "NONE", ctermbg = "NONE" })
-  
   is_transparent = true
-  vim.notify("Transparency enabled", vim.log.levels.INFO)
+  vim.notify("Transparency enabled (colorbuddy native transparency active)", vim.log.levels.INFO)
 end
 
 -- Disable transparency (solid background)
@@ -58,7 +43,7 @@ function M.disable_transparency()
   vim.api.nvim_set_hl(0, "WinSeparator", { bg = bg_color, fg = "#7daea3" })
   
   is_transparent = false
-  vim.notify("Transparency disabled", vim.log.levels.INFO)
+  vim.notify("Transparency disabled (solid backgrounds forced)", vim.log.levels.INFO)
 end
 
 -- Toggle transparency

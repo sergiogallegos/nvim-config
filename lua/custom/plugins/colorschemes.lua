@@ -52,9 +52,10 @@ return {
         vim.cmd("set laststatus=2")
         vim.cmd("redrawstatus")
         
-        -- Note: Transparency is now controlled by the transparency module
+        -- Note: All CustomBuddy themes now have built-in transparency support
         -- Use <Space>ct to toggle transparency on/off
-        -- The Rose Pine colorscheme will show its full colors by default
+        -- Themes will automatically use transparent backgrounds when transparency is enabled
+        -- Use <Space>cd to force solid backgrounds if needed
         
       end,
       lazy = false,
