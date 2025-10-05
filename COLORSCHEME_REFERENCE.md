@@ -4,17 +4,17 @@ This document provides a quick reference for the 8 CustomBuddy colorscheme varia
 
 ## Available Variants
 
-### 1. **CustomBuddy Rose Pine** (`custombuddy-rosepine`) - **DEFAULT** 🌹
-- **Style**: Beautiful, warm, aesthetic
-- **Accent**: Blue theme with warm tones
-- **Best for**: Developers who love beautiful, aesthetic colors
-- **Inspiration**: Rose Pine color palette
-
-### 2. **CustomBuddy Original** (`custombuddy`)
+### 1. **CustomBuddy Original** (`custombuddy`) - **DEFAULT** 🎨
 - **Style**: Warm, comfortable
 - **Accent**: Mixed warm colors
 - **Best for**: General development, long coding sessions
 - **Inspiration**: Original CustomBuddy design
+
+### 2. **CustomBuddy Rose Pine** (`custombuddy-rosepine`)
+- **Style**: Beautiful, warm, aesthetic
+- **Accent**: Blue theme with warm tones
+- **Best for**: Developers who love beautiful, aesthetic colors
+- **Inspiration**: Rose Pine color palette
 
 ### 3. **CustomBuddy Craftz** (`custombuddy-craftz`)
 - **Style**: Modern, vibrant
@@ -96,12 +96,12 @@ All variants include:
 
 ## Recommendations
 
+- **For General Use**: `custombuddy` (original) - **DEFAULT**
 - **For Web Development**: `custombuddy-craftz` or `custombuddy-cursor`
 - **For Terminal Work**: `custombuddy-prime`
 - **For Professional Use**: `custombuddy-tj` or `custombuddy-vscode`
 - **For macOS Development**: `custombuddy-xcode`
 - **For Beautiful Aesthetics**: `custombuddy-rosepine`
-- **For General Use**: `custombuddy` (original)
 
 ## Troubleshooting
 

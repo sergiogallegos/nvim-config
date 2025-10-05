@@ -21,34 +21,34 @@ return {
         -- "custombuddy-xcode"  - Xcode (Apple-inspired, macOS)
         -- "custombuddy-rosepine" - Rose Pine (beautiful, warm) - inspired by Rose Pine
         
-        -- Load Rose Pine as default colorscheme
+        -- Load Original CustomBuddy as default colorscheme
         -- Simple and direct approach - no automatic switching
         -- 
         -- To change the default colorscheme in the future, simply replace the line below:
-        -- vim.cmd.colorscheme("custombuddy-rosepine")
+        -- vim.cmd.colorscheme("custombuddy")
         -- 
         -- Available options:
-        -- "custombuddy" - Original CustomBuddy
+        -- "custombuddy" - Original CustomBuddy (current default)
         -- "custombuddy-craftz" - Craftz variant
         -- "custombuddy-prime" - Prime variant  
         -- "custombuddy-tj" - TJ variant
         -- "custombuddy-cursor" - Cursor variant
         -- "custombuddy-vscode" - VS Code variant
         -- "custombuddy-xcode" - Xcode variant
-        -- "custombuddy-rosepine" - Rose Pine variant (current default)
+        -- "custombuddy-rosepine" - Rose Pine variant
         
         -- Set transparent background immediately to prevent flash
         vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
         
-        -- Load Rose Pine immediately (no delay needed with native transparency)
-        local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
+        -- Load Original CustomBuddy immediately (no delay needed with native transparency)
+        local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
         if ok then
-          vim.notify("Rose Pine colorscheme loaded successfully!", vim.log.levels.INFO)
+          vim.notify("Original CustomBuddy colorscheme loaded successfully!", vim.log.levels.INFO)
         else
-          vim.notify("Failed to load Rose Pine: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
-          vim.cmd.colorscheme("custombuddy")
+          vim.notify("Failed to load CustomBuddy: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
+          vim.cmd.colorscheme("default")
         end
         
         -- Ensure status line is visible after colorscheme load

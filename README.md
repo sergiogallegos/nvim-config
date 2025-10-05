@@ -162,10 +162,10 @@ A modern, feature-rich Neovim configuration optimized for development productivi
 ## 🎨 Customization
 
 ### Colorscheme
-The configuration includes 8 CustomBuddy variants with **Rose Pine as the default**:
+The configuration includes 8 CustomBuddy variants with **Original CustomBuddy as the default**:
 
-- **custombuddy-rosepine** - Rose Pine (beautiful, warm) - **DEFAULT** 🌹
-- **custombuddy** - Original (warm, comfortable)
+- **custombuddy** - Original (warm, comfortable) - **DEFAULT** 🎨
+- **custombuddy-rosepine** - Rose Pine (beautiful, warm)
 - **custombuddy-craftz** - Modern, vibrant (blue accents)
 - **custombuddy-prime** - High contrast (green accents)
 - **custombuddy-tj** - Professional, subtle (blue accents)
@@ -174,7 +174,7 @@ The configuration includes 8 CustomBuddy variants with **Rose Pine as the defaul
 - **custombuddy-xcode** - Xcode (Apple-inspired, macOS)
 
 To change the default colorscheme:
-1. Edit `lua/custom/plugins/colorschemes.lua` and change line 39: `vim.cmd.colorscheme("custombuddy-rosepine")`
+1. Edit `lua/custom/plugins/colorschemes.lua` and change line 46: `vim.cmd.colorscheme("custombuddy")`
 2. Replace with any of the available variants listed in the file comments
 3. Restart Neovim
 
