@@ -2,7 +2,10 @@ return {
   {
     "folke/persistence.nvim",
     event = "BufReadPre",
-    opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } },
+    opts = { 
+      options = { "buffers", "curdir", "tabpages", "winsize", "help", "skiprtp" },
+      -- Don't save/restore globals to avoid colorscheme conflicts
+    },
     -- stylua: ignore
     keys = {
       { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },

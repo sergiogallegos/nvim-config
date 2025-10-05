@@ -22,8 +22,8 @@ end
 -- Function to get available colorscheme variants
 local function get_available_variants()
   local all_variants = {
-    "custombuddy-rosepine", -- Rose Pine (beautiful, warm) - inspired by Rose Pine - DEFAULT
-    "custombuddy",        -- Original (warm, comfortable)
+    "custombuddy",        -- Original (warm, comfortable) - DEFAULT
+    "custombuddy-rosepine", -- Rose Pine (beautiful, warm) - inspired by Rose Pine
     "custombuddy-craftz", -- Modern, vibrant (blue accents) - inspired by craftzdog
     "custombuddy-prime",  -- High contrast (green accents) - inspired by ThePrimeagen
     "custombuddy-tj",     -- Professional, subtle (blue accents) - inspired by tjdevries

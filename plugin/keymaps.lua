@@ -194,30 +194,30 @@ end, { desc = "Debug status line" })
 set("n", "<leader>cds", function()
   local current_colorscheme = vim.g.colors_name or "none"
   local available_colors = vim.fn.getcompletion("", "color")
-  local rosepine_available = vim.tbl_contains(available_colors, "custombuddy-rosepine")
+  local custombuddy_available = vim.tbl_contains(available_colors, "custombuddy")
   
-  vim.notify("Current: " .. current_colorscheme .. " | Rose Pine available: " .. tostring(rosepine_available), vim.log.levels.INFO)
+  vim.notify("Current: " .. current_colorscheme .. " | CustomBuddy available: " .. tostring(custombuddy_available), vim.log.levels.INFO)
   
-  -- Try to load Rose Pine directly
-  local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
+  -- Try to load CustomBuddy directly
+  local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
   if ok then
-    vim.notify("Rose Pine loaded successfully!", vim.log.levels.INFO)
+    vim.notify("CustomBuddy loaded successfully!", vim.log.levels.INFO)
   else
-    vim.notify("Failed to load Rose Pine: " .. tostring(err), vim.log.levels.ERROR)
+    vim.notify("Failed to load CustomBuddy: " .. tostring(err), vim.log.levels.ERROR)
   end
 end, { desc = "Debug colorscheme loading" })
 
--- Force load Rose Pine
+-- Force load CustomBuddy
 set("n", "<leader>crp", function()
-  local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
+  local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
   if ok then
     vim.cmd("set laststatus=2")
     vim.cmd("redrawstatus")
-    vim.notify("Rose Pine loaded successfully!", vim.log.levels.INFO)
+    vim.notify("CustomBuddy loaded successfully!", vim.log.levels.INFO)
   else
-    vim.notify("Failed to load Rose Pine: " .. tostring(err), vim.log.levels.ERROR)
+    vim.notify("Failed to load CustomBuddy: " .. tostring(err), vim.log.levels.ERROR)
   end
-end, { desc = "Force load Rose Pine" })
+end, { desc = "Force load CustomBuddy" })
 
 -- Force fix lualine
 set("n", "<leader>clf", function()
