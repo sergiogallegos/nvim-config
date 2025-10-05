@@ -42,14 +42,30 @@ return {
         vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
         vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
         
-        -- Load Original CustomBuddy immediately (no delay needed with native transparency)
-        local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
-        if ok then
-          vim.notify("Original CustomBuddy colorscheme loaded successfully!", vim.log.levels.INFO)
-        else
-          vim.notify("Failed to load CustomBuddy: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
-          vim.cmd.colorscheme("default")
-        end
+        -- Load Original CustomBuddy with multiple attempts to ensure it loads correctly
+        vim.defer_fn(function()
+          -- Force clear any existing colorscheme
+          vim.g.colors_name = nil
+          
+          local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
+          if ok then
+            vim.notify("Original CustomBuddy colorscheme loaded successfully!", vim.log.levels.INFO)
+          else
+            vim.notify("Failed to load CustomBuddy: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
+            vim.cmd.colorscheme("default")
+          end
+        end, 200)
+        
+        -- Additional attempt after a longer delay to override any other colorscheme
+        vim.defer_fn(function()
+          if vim.g.colors_name ~= "custombuddy" then
+            vim.g.colors_name = nil
+            local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
+            if ok then
+              vim.notify("CustomBuddy colorscheme force-loaded successfully!", vim.log.levels.INFO)
+            end
+          end
+        end, 500)
         
         -- Ensure status line is visible after colorscheme load
         vim.cmd("set laststatus=2")

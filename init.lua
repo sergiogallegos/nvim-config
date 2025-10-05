@@ -15,6 +15,9 @@ vim.deprecate = function() end
 vim.g.mapleader = " "
 vim.opt.termguicolors = true
 
+-- Set default colorscheme early to prevent conflicts
+vim.g.colors_name = "custombuddy"
+
 -- Set the correct runtime path for each OS
 if is_windows then
   vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")  -- For Windows
