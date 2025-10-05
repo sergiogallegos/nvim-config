@@ -37,16 +37,19 @@ return {
         -- "custombuddy-xcode" - Xcode variant
         -- "custombuddy-rosepine" - Rose Pine variant (current default)
         
-        -- Load Rose Pine with error handling after a delay to ensure it loads last
-        vim.defer_fn(function()
-          local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
-          if ok then
-            vim.notify("Rose Pine colorscheme loaded successfully!", vim.log.levels.INFO)
-          else
-            vim.notify("Failed to load Rose Pine: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
-            vim.cmd.colorscheme("custombuddy")
-          end
-        end, 100)
+        -- Set transparent background immediately to prevent flash
+        vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+        vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
+        vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+        
+        -- Load Rose Pine immediately (no delay needed with native transparency)
+        local ok, err = pcall(vim.cmd.colorscheme, "custombuddy-rosepine")
+        if ok then
+          vim.notify("Rose Pine colorscheme loaded successfully!", vim.log.levels.INFO)
+        else
+          vim.notify("Failed to load Rose Pine: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
+          vim.cmd.colorscheme("custombuddy")
+        end
         
         -- Ensure status line is visible after colorscheme load
         vim.cmd("set laststatus=2")

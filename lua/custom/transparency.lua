@@ -6,6 +6,16 @@ local M = {}
 -- Current transparency state
 local is_transparent = true
 
+-- Initialize transparency immediately to prevent flash
+local function init_transparency()
+  vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+  vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
+  vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+end
+
+-- Set transparency immediately on module load
+init_transparency()
+
 -- Enable transparency (simplified - colorbuddy handles most of this)
 function M.enable_transparency()
   -- Only override specific elements that might need transparency
