@@ -199,24 +199,14 @@ set("n", "<leader>cds", function()
   vim.notify("Current: " .. current_colorscheme .. " | CustomBuddy available: " .. tostring(custombuddy_available), vim.log.levels.INFO)
   
   -- Try to load CustomBuddy directly
-  local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
-  if ok then
-    vim.notify("CustomBuddy loaded successfully!", vim.log.levels.INFO)
-  else
-    vim.notify("Failed to load CustomBuddy: " .. tostring(err), vim.log.levels.ERROR)
-  end
+  pcall(vim.cmd.colorscheme, "custombuddy")
 end, { desc = "Debug colorscheme loading" })
 
 -- Force load CustomBuddy
 set("n", "<leader>crp", function()
-  local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
-  if ok then
-    vim.cmd("set laststatus=2")
-    vim.cmd("redrawstatus")
-    vim.notify("CustomBuddy loaded successfully!", vim.log.levels.INFO)
-  else
-    vim.notify("Failed to load CustomBuddy: " .. tostring(err), vim.log.levels.ERROR)
-  end
+  pcall(vim.cmd.colorscheme, "custombuddy")
+  vim.cmd("set laststatus=2")
+  vim.cmd("redrawstatus")
 end, { desc = "Force load CustomBuddy" })
 
 -- Force fix lualine

@@ -48,10 +48,7 @@ return {
           vim.g.colors_name = nil
           
           local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
-          if ok then
-            vim.notify("Original CustomBuddy colorscheme loaded successfully!", vim.log.levels.INFO)
-          else
-            vim.notify("Failed to load CustomBuddy: " .. tostring(err) .. " - Using fallback", vim.log.levels.WARN)
+          if not ok then
             vim.cmd.colorscheme("default")
           end
         end, 200)
@@ -60,10 +57,7 @@ return {
         vim.defer_fn(function()
           if vim.g.colors_name ~= "custombuddy" then
             vim.g.colors_name = nil
-            local ok, err = pcall(vim.cmd.colorscheme, "custombuddy")
-            if ok then
-              vim.notify("CustomBuddy colorscheme force-loaded successfully!", vim.log.levels.INFO)
-            end
+            pcall(vim.cmd.colorscheme, "custombuddy")
           end
         end, 500)
         
