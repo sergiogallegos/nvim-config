@@ -1,258 +1,137 @@
+-- LSP Configuration - Professional setup
 return {
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-      "j-hui/fidget.nvim",
-      { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
-      { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local is_windows = vim.loop.os_uname().sysname:match("Windows")
-      local is_mac = vim.loop.os_uname().sysname == "Darwin"
-      local hostname = vim.loop.os_gethostname()
-
-      local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      if not ok then
-        vim.notify("Failed to load cmp_nvim_lsp", vim.log.levels.ERROR)
-        return
-      end
-
-      local capabilities = cmp_nvim_lsp.default_capabilities()
-
-      local jdtls_cmd
-      if is_windows and hostname == "LAPTOP-FFSU8F5B" then
-        jdtls_cmd = {
-          "C:\\Users\\SERGIO~1\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
-          "-configuration", "C:\\jdtls\\config",
-          "-data", "C:\\jdtls\\workspace",
-        }
-      elseif is_windows and hostname == "DESKTOP-SHECO" then
-        jdtls_cmd = {
-          "C:\\Users\\sheco\\AppData\\Local\\nvim-data\\mason\\bin\\jdtls.CMD",
-          "-configuration", "C:\\Users\\sheco\\.cache\\jdtls\\config",
-          "-data", "C:\\Users\\sheco\\.cache\\jdtls\\workspace",
-        }
-      elseif is_mac then
-        jdtls_cmd = {
-          "/Users/sergiogallegos/.local/share/nvim/mason/bin/jdtls",
-          "-configuration", "/Users/sergiogallegos/.cache/jdtls/config",
-          "-data", "/Users/sergiogallegos/.cache/jdtls/workspace",
-        }
-      else
-        jdtls_cmd = { "jdtls" }
-      end
-
-      local servers = {
-        -- Existing servers
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                diagnosticMode = "workspace",
-                typeCheckingMode = "basic",
-                logLevel = "Error",
-              },
-            },
-          },
-        },
-        jdtls = {
-          cmd = jdtls_cmd,
-          root_dir = require("lspconfig.util").root_pattern(".git", "pom.xml", "build.gradle"),
-          settings = {
-            java = {
-              eclipse = { downloadSources = true },
-              configuration = { updateBuildConfiguration = "interactive" },
-              maven = { downloadSources = true },
-              implementationsCodeLens = { enabled = true },
-              referencesCodeLens = { enabled = true },
-              format = { enabled = true },
-            },
-          },
-          init_options = { bundles = {} },
-        },
-        clangd = {
-          cmd = { "clangd", "--background-index", "--clang-tidy", "--completion-style=bundled", "--header-insertion=iwyu" },
-          init_options = { clangdFileStatus = true },
-          settings = {
-            ["clangd"] = {
-              diagnostics = { enable = true, suppress = { "pp_include_not_found" } },
-              inlayHints = { enable = true, parameterNames = true, typeHints = true },
-            },
-          },
-        },
-        gopls = {
-          settings = {
-            gopls = {
-              analyses = { unusedparams = true, shadow = true },
-              staticcheck = true,
-              hints = {
-                assignVariableTypes = true,
-                constantValues = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-            },
-          },
-        },
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              diagnostics = { enable = true },
-              checkOnSave = true ,
-              cargo = { allFeatures = true },
-              check = { command = "clippy" },
-              procMacro = { enable = true },
-              inlayHints = { enable = true },
-            },
-          },
-        },
-        zls = {
-          settings = {
-            zig = {
-              enable_build_on_save = true,
-            },
-          },
-        },
+      -- Enhanced LSP capabilities
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      
+      -- Enhanced LSP settings
+      local on_attach = function(client, bufnr)
+        local opts = { noremap = true, silent = true, buffer = bufnr }
         
-        -- New language servers
-        elixirls = {
-          cmd = { "elixir-ls" },
-          filetypes = { "elixir", "eelixir" },
-          root_dir = require("lspconfig.util").root_pattern("mix.exs", ".git"),
-        },
-        julials = {
-          cmd = { "julia", "--project=@nvim", "-e", "using LanguageServer; run(LanguageServerInstance(stdin, stdout))" },
-          filetypes = { "julia" },
-          root_dir = require("lspconfig.util").root_pattern("Project.toml", ".git"),
-        },
-        intelephense = {
-          cmd = { "intelephense", "--stdio" },
-          filetypes = { "php" },
-          root_dir = require("lspconfig.util").root_pattern("composer.json", ".git"),
-        },
-        omnisharp = {
-          cmd = { "OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-          filetypes = { "cs", "vb" },
-          root_dir = require("lspconfig.util").root_pattern("*.sln", "*.csproj", ".git"),
-        },
-        sqls = {
-          cmd = { "sqls" },
-          filetypes = { "sql", "mysql" },
-          root_dir = require("lspconfig.util").root_pattern(".git"),
-          settings = {
-            sqls = {
-              connections = {
-                {
-                  driver = 'mysql',
-                  dataSourceName = 'user:password@tcp(127.0.0.1:3306)/dbname',
-                },
-                {
-                  driver = 'postgresql',
-                  dataSourceName = 'host=127.0.0.1 port=5432 user=user password=password dbname=dbname sslmode=disable',
-                },
-              },
-            },
-          },
-        },
-        lua_ls = {
-          cmd = { "lua-language-server" },
-          filetypes = { "lua" },
-          root_dir = require("lspconfig.util").root_pattern(".git"),
-          settings = {
-            Lua = {
-              runtime = {
-                version = 'LuaJIT',
-                path = vim.split(package.path, ';'),
-              },
-              diagnostics = {
-                globals = { 'vim' },
-              },
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-              },
-              telemetry = {
-                enable = false,
-              },
-            },
-          },
-        },
-      }
-
-      local mason_ok, mason = pcall(require, "mason")
-      if not mason_ok then
-        vim.notify("Failed to load mason", vim.log.levels.ERROR)
-        return
-      end
-
-      local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-      if not mason_lspconfig_ok then
-        vim.notify("Failed to load mason-lspconfig", vim.log.levels.ERROR)
-        return
-      end
-
-      mason.setup()
-      mason_lspconfig.setup {
-        ensure_installed = vim.tbl_filter(function(name)
-          -- Exclude problematic servers
-          return name ~= "tsserver"
-        end, vim.tbl_keys(servers)),
-        automatic_installation = true,
-      }
-
-      local lspconfig = require("lspconfig")
-      for name, config in pairs(servers) do
-        lspconfig[name].setup(vim.tbl_deep_extend("force", {
-          capabilities = capabilities,
-        }, config))
-      end
-
-      require("typescript-tools").setup({
-        settings = {
-          tsserver_file_preferences = {
-            includeInlayParameterNameHints = "all",
-            includeCompletionsForModuleExports = true,
-          },
-        },
-      })
-
-      vim.diagnostic.config {
-        virtual_text = { spacing = 4, prefix = "●" },
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-        float = { border = "rounded" },
-      }
-
-      vim.keymap.set("", "<leader>l", function()
-        local config = vim.diagnostic.config() or {}
-        if config.virtual_text then
-          vim.diagnostic.config { virtual_text = false, virtual_lines = true }
-        else
-          vim.diagnostic.config { virtual_text = true, virtual_lines = false }
+        -- LSP keymaps
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<leader>f", function()
+          vim.lsp.buf.format { async = true }
+        end, opts)
+        
+        -- Enhanced LSP features
+        if client.supports_method("textDocument/inlayHints") then
+          vim.lsp.inlay_hint.enable(true)
         end
-      end, { desc = "Toggle diagnostics display" })
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local bufnr = args.buf
-          local clients = vim.lsp.get_clients({ bufnr = bufnr })
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr })
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
-          vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = bufnr })
-          vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { buffer = bufnr })
-          vim.keymap.set("n", "<space>f", vim.lsp.buf.format, { buffer = bufnr })
-        end,
+      end
+      
+      -- Language servers with error handling
+      local lspconfig = require("lspconfig")
+      
+      -- Helper function to safely setup LSP servers
+      local function safe_setup(server_name, config)
+        local ok, server = pcall(require, "lspconfig." .. server_name)
+        if ok then
+          server.setup(config)
+        else
+          vim.notify("LSP server " .. server_name .. " not available", vim.log.levels.WARN)
+        end
+      end
+      
+      -- C/C++ (clangd)
+      safe_setup("clangd", {
+        on_attach = on_attach,
+        capabilities = capabilities,
       })
-
-      require("lsp_lines").setup()
-      require("fidget").setup()
+      
+      -- Python (pyright)
+      safe_setup("pyright", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      
+      -- JavaScript/TypeScript (ts_ls)
+      safe_setup("ts_ls", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      
+      -- Go (gopls)
+      safe_setup("gopls", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      
+      -- Rust (rust_analyzer)
+      safe_setup("rust_analyzer", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            checkOnSave = true,
+            cargo = {
+              buildScripts = {
+                enable = true,
+              },
+            },
+          },
+        },
+      })
+      
+      -- SQL (sqls) - Only if available
+      safe_setup("sqls", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      
+      -- C# (omnisharp) - Only if available
+      safe_setup("omnisharp", {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+      
+      -- Note: Zig (zls) removed as it's not commonly installed
+      -- You can install it manually if needed: https://github.com/zigtools/zls
+    end,
+  },
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup({
+        ui = {
+          border = "rounded",
+        },
+      })
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "clangd",        -- C/C++
+          "pyright",       -- Python
+          "ts_ls",         -- JavaScript/TypeScript
+          "gopls",         -- Go
+          "rust_analyzer", -- Rust
+          -- Note: sqls and omnisharp removed as they may not be available
+          -- You can install them manually if needed
+        },
+        automatic_installation = true,
+      })
     end,
   },
 }
