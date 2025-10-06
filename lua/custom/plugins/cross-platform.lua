@@ -69,7 +69,7 @@ return {
     config = function()
       if not platform.is_windows then
         require("which-key").setup({
-          window = {
+          win = {
             border = "rounded",
           },
           show_help = true,
@@ -140,7 +140,7 @@ return {
   -- Platform-specific clipboard
   {
     "AckslD/nvim-neoclip.lua",
-    enabled = platform.config.clipboard.win32yank or platform.config.clipboard.pbcopy or platform.config.clipboard.xclip,
+    enabled = false, -- Temporarily disabled due to sqlite.lua dependency issues
     config = function()
       if platform.config.clipboard.win32yank or platform.config.clipboard.pbcopy or platform.config.clipboard.xclip then
         require("neoclip").setup({

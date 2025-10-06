@@ -96,6 +96,7 @@ require("lazy").setup({
   -- Ultimate configuration - Best of ThePrimeagen + TJ DeVries
   { import = "custom.plugins.ultimate" },
   { import = "custom.plugins.lsp" },
+  { import = "custom.plugins.completion" },
   { import = "custom.plugins.git" },
   { import = "custom.plugins.colors" },
   

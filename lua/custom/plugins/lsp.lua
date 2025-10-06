@@ -42,10 +42,8 @@ return {
       
       -- Helper function to safely setup LSP servers
       local function safe_setup(server_name, config)
-        local ok, server = pcall(require, "lspconfig." .. server_name)
-        if ok then
-          server.setup(config)
-        else
+        local ok, server = pcall(lspconfig[server_name].setup, config)
+        if not ok then
           vim.notify("LSP server " .. server_name .. " not available", vim.log.levels.WARN)
         end
       end
@@ -131,6 +129,11 @@ return {
           -- You can install them manually if needed
         },
         automatic_installation = true,
+        -- Explicitly exclude problematic language servers
+        exclude = {
+          "elixirls",      -- Requires Elixir language
+          "julials",       -- Requires Julia language
+        },
       })
     end,
   },

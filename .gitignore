@@ -1,0 +1,198 @@
+# Neovim Configuration .gitignore
+# This file ensures platform-specific and generated files are not tracked
+
+# =============================================================================
+# PLUGIN MANAGEMENT FILES
+# =============================================================================
+
+# Lazy.nvim lock file - contains specific commit hashes for reproducibility
+# Keep this file for consistent plugin versions across environments
+# lazy-lock.json
+
+# Mason packages - these are downloaded and installed automatically
+# ~/.local/share/nvim/mason/
+# ~/.local/share/nvim/lazy/
+
+# =============================================================================
+# PLATFORM-SPECIFIC FILES
+# =============================================================================
+
+# Windows-specific files
+*.exe
+*.dll
+*.bat
+*.cmd
+*.ps1
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon?
+
+# Linux-specific files
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# NEOVIM RUNTIME FILES
+# =============================================================================
+
+# Neovim state and cache directories
+# These contain user-specific data and should not be shared
+~/.local/state/nvim/
+~/.local/share/nvim/
+~/.cache/nvim/
+
+# Session files
+Session.vim
+Sessionx.vim
+*.session
+*.sessionx
+
+# Swap files
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# =============================================================================
+# LOG FILES
+# =============================================================================
+
+# LSP and diagnostic logs
+*.log
+lsp.log
+diag.log
+
+# =============================================================================
+# USER-SPECIFIC CONFIGURATIONS
+# =============================================================================
+
+# Personal keymaps and settings that shouldn't be shared
+# Uncomment if you have personal configs you want to keep local
+# lua/custom/personal/
+# lua/custom/local/
+
+# =============================================================================
+# DEVELOPMENT AND TESTING
+# =============================================================================
+
+# Test files
+test_*
+*_test.lua
+*_test.vim
+
+# Temporary development files
+scratch/
+temp/
+dev/
+
+# =============================================================================
+# PLUGIN-SPECIFIC IGNORES
+# =============================================================================
+
+# Telescope cache
+.telescope/
+
+# Harpoon marks (user-specific)
+harpoon_marks
+
+# Undo tree files
+.undotree/
+
+# Mini.sessions
+.sessions/
+
+# =============================================================================
+# SECURITY AND SENSITIVE DATA
+# =============================================================================
+
+# API keys and secrets
+*.secret
+*.key
+.env
+.env.local
+
+# Personal notes and TODO files
+notes/
+personal/
+private/
+
+# =============================================================================
+# BACKUP AND ARCHIVE FILES
+# =============================================================================
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Configuration backups
+*.backup
+*.bak
+config.backup
+
+# =============================================================================
+# IDE AND EDITOR FILES
+# =============================================================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Vim
+.vimrc.local
+.vimrc.backup
+
+# =============================================================================
+# DOCUMENTATION GENERATED FILES
+# =============================================================================
+
+# Generated documentation
+doc/
+docs/generated/
+
+# Help tags
+tags
+TAGS
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
+
+# Large binary files
+*.bin
+*.dat
+*.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
