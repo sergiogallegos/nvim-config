@@ -1,82 +1,69 @@
--- Transparency configuration for Neovim
--- Simplified since colorbuddy now has built-in transparency support
-
+-- Cross-platform Transparency Configuration
 local M = {}
+local platform = require("custom.platform")
 
--- Current transparency state
-local is_transparent = true
-
--- Initialize transparency immediately to prevent flash
-local function init_transparency()
-  vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
+-- Cross-platform transparency function
+function M.ColorMyPencils(color)
+  -- Only set transparency, don't change colorscheme
+  -- The colorscheme will be set by the colors plugin
+  
+  -- Set transparency (cross-platform)
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+  vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
+  
+  -- Platform-specific transparency settings
+  if platform.is_windows then
+    -- Windows PowerShell transparency
+    vim.api.nvim_set_hl(0, "MsgArea", { bg = "none" })
+    vim.api.nvim_set_hl(0, "MoreMsg", { bg = "none" })
+    vim.api.nvim_set_hl(0, "Question", { bg = "none" })
+    -- Status line for Windows
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none", fg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none", fg = "#cccccc" })
+  elseif platform.is_macos then
+    -- macOS transparency
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none", fg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none", fg = "#cccccc" })
+  else
+    -- Linux transparency
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none", fg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none", fg = "#cccccc" })
+  end
 end
 
--- Set transparency immediately on module load
-init_transparency()
-
--- Enable transparency (simplified - colorbuddy handles most of this)
-function M.enable_transparency()
-  -- Only override specific elements that might need transparency
-  vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
-  vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
-  
-  is_transparent = true
-  vim.notify("Transparency enabled (colorbuddy native transparency active)", vim.log.levels.INFO)
-end
-
--- Disable transparency (solid background)
-function M.disable_transparency()
-  local bg_color = "#1a1a1a"
-  local fg_color = "#f8f8f2"
-  
-  -- Main editor background
-  vim.api.nvim_set_hl(0, "Normal", { bg = bg_color, fg = fg_color })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = bg_color, fg = fg_color })
-  vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = bg_color, fg = fg_color })
-  
-  -- Line numbers and cursor
-  vim.api.nvim_set_hl(0, "SignColumn", { bg = bg_color, fg = "#6a6a6a" })
-  vim.api.nvim_set_hl(0, "LineNr", { bg = bg_color, fg = "#6a6a6a" })
-  vim.api.nvim_set_hl(0, "CursorLineNr", { bg = bg_color, fg = "#f1fa8c" })
-  vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2a2a2a" })
-  vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#2a2a2a" })
-  
-  -- Folding
-  vim.api.nvim_set_hl(0, "Folded", { bg = bg_color, fg = "#6a6a6a" })
-  vim.api.nvim_set_hl(0, "FoldColumn", { bg = bg_color, fg = "#6a6a6a" })
-  
-  -- Splits
-  vim.api.nvim_set_hl(0, "VertSplit", { bg = bg_color, fg = "#7daea3" })
-  vim.api.nvim_set_hl(0, "WinSeparator", { bg = bg_color, fg = "#7daea3" })
-  
-  is_transparent = false
-  vim.notify("Transparency disabled (solid backgrounds forced)", vim.log.levels.INFO)
-end
-
--- Toggle transparency
+-- Cross-platform toggle transparency
 function M.toggle_transparency()
-  if is_transparent then
-    M.disable_transparency()
+  local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+  if normal_bg == "NONE" then
+    -- Disable transparency (platform-specific backgrounds)
+    local bg_color = platform.is_windows and "#1a1a1a" or platform.is_macos and "#0d1117" or "#1e1e1e"
+    vim.api.nvim_set_hl(0, "Normal", { bg = bg_color })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg_color })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = bg_color })
+    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = bg_color })
+    
+    -- Platform-specific status line
+    if platform.is_windows then
+      vim.api.nvim_set_hl(0, "MsgArea", { bg = bg_color })
+      vim.api.nvim_set_hl(0, "MoreMsg", { bg = bg_color })
+      vim.api.nvim_set_hl(0, "Question", { bg = bg_color })
+    end
+    
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "#000000", fg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#000000", fg = "#cccccc" })
+    vim.notify("Transparency disabled (" .. (platform.is_windows and "Windows" or platform.is_macos and "macOS" or "Linux") .. ")", vim.log.levels.INFO)
   else
-    M.enable_transparency()
+    -- Enable transparency
+    M.ColorMyPencils()
+    vim.notify("Transparency enabled (" .. (platform.is_windows and "Windows" or platform.is_macos and "macOS" or "Linux") .. ")", vim.log.levels.INFO)
   end
 end
 
--- Get current transparency state
-function M.is_transparent()
-  return is_transparent
-end
-
--- Set transparency state
-function M.set_transparency(state)
-  if state then
-    M.enable_transparency()
-  else
-    M.disable_transparency()
-  end
+-- Initialize transparency
+function M.init()
+  M.ColorMyPencils()
 end
 
 return M

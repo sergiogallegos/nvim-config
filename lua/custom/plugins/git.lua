@@ -1,81 +1,52 @@
+-- Git Integration - Professional setup
 return {
   {
-    "sindrets/diffview.nvim",
-    event = "VeryLazy",
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local ok, diffview = pcall(require, "diffview")
-      if not ok then
-        vim.notify("Failed to load diffview.nvim", vim.log.levels.ERROR)
-        return
-      end
-      diffview.setup({
-        enhanced_diff_hl = true,
-        view = {
-          merge_tool = {
-            layout = "diff3_mixed",
-            disable_diagnostics = true,
-          },
-        },
-      })
-
-      vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Open diffview" })
-      vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" })
-    end,
-  },
-  {
-    "akinsho/git-conflict.nvim",
-    event = "VeryLazy",
-    config = function()
-      local ok, git_conflict = pcall(require, "git-conflict")
-      if not ok then
-        vim.notify("Failed to load git-conflict.nvim", vim.log.levels.ERROR)
-        return
-      end
-      git_conflict.setup({
-        default_mappings = true,
-        default_commands = true,
-        disable_diagnostics = false,
-        list_opener = "copen",
-        highlights = {
-          incoming = "DiffAdd",
-          current = "DiffText",
-        },
-      })
-    end,
-  },
-  {
-    "f-person/git-blame.nvim",
-    event = "VeryLazy",
-    config = function()
-      local ok, git_blame = pcall(require, "gitblame")
-      if not ok then
-        vim.notify("Failed to load git-blame.nvim", vim.log.levels.ERROR)
-        return
-      end
-      git_blame.setup({
-        enabled = true,
-        message_template = "  <author> • <date> • <summary>",
-        date_format = "%Y-%m-%d %H:%M",
-        virtual_text_column = 80,
-        highlight_group = "GitBlame",
-      })
+      local ok, gitsigns = pcall(require, "gitsigns")
+      if not ok then return end
       
-      vim.keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>", { desc = "Toggle git blame" })
-    end,
-  },
-  {
-    "ThePrimeagen/git-worktree.nvim",
-    event = "VeryLazy",
-    config = function()
-      local ok, git_worktree = pcall(require, "git-worktree")
-      if not ok then
-        vim.notify("Failed to load git-worktree.nvim", vim.log.levels.ERROR)
-        return
-      end
-      git_worktree.setup()
-      
-      vim.keymap.set("n", "<leader>gw", "<cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>", { desc = "Git worktrees" })
-      vim.keymap.set("n", "<leader>gW", "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>", { desc = "Create git worktree" })
+      gitsigns.setup({
+        signs = {
+          add = { text = "│" },
+          change = { text = "│" },
+          delete = { text = "_" },
+          topdelete = { text = "‾" },
+          changedelete = { text = "~" },
+        },
+        on_attach = function(bufnr)
+          local gs = package.loaded.gitsigns
+          
+          -- Navigation
+          vim.keymap.set("n", "]c", function()
+            if vim.wo.diff then return "]c" end
+            vim.schedule(function() gs.next_hunk() end)
+            return "<Ignore>"
+          end, { expr = true, desc = "Next hunk" })
+          
+          vim.keymap.set("n", "[c", function()
+            if vim.wo.diff then return "[c" end
+            vim.schedule(function() gs.prev_hunk() end)
+            return "<Ignore>"
+          end, { expr = true, desc = "Prev hunk" })
+          
+          -- Actions
+          vim.keymap.set("n", "<leader>hs", gs.stage_hunk, { desc = "Stage hunk" })
+          vim.keymap.set("n", "<leader>hr", gs.reset_hunk, { desc = "Reset hunk" })
+          vim.keymap.set("v", "<leader>hs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { desc = "Stage hunk" })
+          vim.keymap.set("v", "<leader>hr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { desc = "Reset hunk" })
+          vim.keymap.set("n", "<leader>hS", gs.stage_buffer, { desc = "Stage buffer" })
+          vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+          vim.keymap.set("n", "<leader>hR", gs.reset_buffer, { desc = "Reset buffer" })
+          vim.keymap.set("n", "<leader>hp", gs.preview_hunk, { desc = "Preview hunk" })
+          vim.keymap.set("n", "<leader>hb", function() gs.blame_line({ full = true }) end, { desc = "Blame line" })
+          vim.keymap.set("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "Toggle blame" })
+          vim.keymap.set("n", "<leader>hd", gs.diffthis, { desc = "Diff this" })
+          vim.keymap.set("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Diff this ~" })
+          vim.keymap.set("n", "<leader>td", gs.toggle_deleted, { desc = "Toggle deleted" })
+        end,
+      })
     end,
   },
 }

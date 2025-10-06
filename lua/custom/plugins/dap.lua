@@ -8,22 +8,49 @@ return {
       "nvim-neotest/nvim-nio",
       "williamboman/mason.nvim",
       "jay-babu/mason-nvim-dap.nvim",
-      "mfussenegger/nvim-dap-python",
     },
     config = function()
-      local dap = require "dap"
-      local ui = require "dapui"
+      local ok, dap = pcall(require, "dap")
+      if not ok then return end
+      
+      local ok_ui, ui = pcall(require, "dapui")
+      if not ok_ui then return end
 
       require("dapui").setup()
-      require("dap-go").setup()
-      require("dap-python").setup("~/.local/share/nvim/mason/bin/debugpy")
       
-      -- Mason DAP setup
-      require("mason-nvim-dap").setup({
-        ensure_installed = { "debugpy", "delve" },
-        automatic_installation = true,
-        handlers = {},
-      })
+      local ok_go, dap_go = pcall(require, "dap-go")
+      if ok_go then
+        dap_go.setup()
+      end
+      
+      -- Python debugging setup (without nvim-dap-python plugin)
+      dap.adapters.python = {
+        type = "executable",
+        command = "python",
+        args = { "-m", "debugpy.adapter" },
+      }
+      
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "launch",
+          name = "Launch file",
+          program = "${file}",
+          pythonPath = function()
+            return "python"
+          end,
+        },
+      }
+      
+      -- Mason DAP setup (simplified)
+      local ok, mason_dap = pcall(require, "mason-nvim-dap")
+      if ok then
+        mason_dap.setup({
+          ensure_installed = { "debugpy", "delve" },
+          automatic_installation = true,
+          handlers = {},
+        })
+      end
 
       require("nvim-dap-virtual-text").setup {
         -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...

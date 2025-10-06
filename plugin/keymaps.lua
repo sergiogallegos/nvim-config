@@ -1,223 +1,110 @@
+-- Minimal keymaps - only essential ones
 local set = vim.keymap.set
-local k = vim.keycode
-local f = require "custom.f"
-local fn = f.fn
 
--- Basic movement keybinds, these make navigating splits easy for me
-set("n", "<c-j>", "<c-w><c-j>", { desc = "Move to split below" })
-set("n", "<c-k>", "<c-w><c-k>", { desc = "Move to split above" })
-set("n", "<c-l>", "<c-w><c-l>", { desc = "Move to split right" })
-set("n", "<c-h>", "<c-w><c-h>", { desc = "Move to split left" })
+-- Basic navigation
+set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+set("n", "<C-j>", "<C-w>j", { desc = "Move to below window" })
+set("n", "<C-k>", "<C-w>k", { desc = "Move to above window" })
+set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
-set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })
-set("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Execute the current file" })
-
--- Toggle hlsearch if it's on, otherwise just do "enter"
-set("n", "<CR>", function()
-  ---@diagnostic disable-next-line: undefined-field
-  if vim.v.hlsearch == 1 then
-    vim.cmd.nohl()
-    return ""
-  else
-    return k "<CR>"
-  end
-end, { expr = true })
-
--- Normally these are not good mappings, but I have left/right on my thumb
--- cluster, so navigating tabs is quite easy this way.
-set("n", "<left>", "gT")
-set("n", "<right>", "gt")
-
--- There are builtin keymaps for this now, but I like that it shows
--- the float when I navigate to the error - so I override them.
-set("n", "]d", fn(vim.diagnostic.jump, { count = 1, float = true }))
-set("n", "[d", fn(vim.diagnostic.jump, { count = -1, float = true }))
-
--- These mappings control the size of splits (height/width)
-set("n", "<M-,>", "<c-w>5<", { desc = "Decrease split width" })
-set("n", "<M-.>", "<c-w>5>", { desc = "Increase split width" })
-set("n", "<M-t>", "<C-W>+", { desc = "Increase split height" })
-set("n", "<M-s>", "<C-W>-", { desc = "Decrease split height" })
-
-set("n", "<M-j>", function()
-  if vim.opt.diff:get() then
-    vim.cmd [[normal! ]c]]
-  else
-    vim.cmd [[m .+1<CR>==]]
-  end
-end)
-
-set("n", "<M-k>", function()
-  if vim.opt.diff:get() then
-    vim.cmd [[normal! [c]]
-  else
-    vim.cmd [[m .-2<CR>==]]
-  end
-end)
-
-set("n", "<space>tt", function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
-end, { desc = "Toggle inlay hints" })
-
-vim.api.nvim_set_keymap("n", "<leader>t", "<Plug>PlenaryTestFile", { noremap = false, silent = false })
-
-set("n", "j", function(...)
-  local count = vim.v.count
-
-  if count == 0 then
-    return "gj"
-  else
-    return "j"
-  end
-end, { expr = true })
-
-set("n", "k", function(...)
-  local count = vim.v.count
-
-  if count == 0 then
-    return "gk"
-  else
-    return "k"
-  end
-end, { expr = true })
-
--- Additional useful keymaps
+-- Essential file operations
 set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
-set("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear highlights" })
-set("n", "<leader>e", "<cmd>Oil<cr>", { desc = "Open file explorer" })
-set("n", "<leader>u", "<cmd>UndotreeToggle<cr>", { desc = "Toggle undo tree" })
+set("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
 
--- Better window management
+-- Window management
 set("n", "<leader>=", "<cmd>wincmd =<cr>", { desc = "Equalize windows" })
 set("n", "<leader>o", "<cmd>only<cr>", { desc = "Close other windows" })
 
--- Quick access to common files
-set("n", "<leader>ev", "<cmd>edit ~/.config/nvim/init.lua<cr>", { desc = "Edit init.lua" })
-set("n", "<leader>sv", "<cmd>source ~/.config/nvim/init.lua<cr>", { desc = "Source init.lua" })
+-- Toggle line numbers
+set("n", "<leader>n", function()
+  vim.opt.number = not vim.opt.number
+  vim.opt.relativenumber = not vim.opt.relativenumber
+end, { desc = "Toggle line numbers" })
 
--- Enhanced navigation
-set("n", "<leader>a", "<cmd>AerialToggle<cr>", { desc = "Toggle Aerial" })
-set("n", "{", "<cmd>AerialPrev<cr>", { desc = "Previous symbol" })
-set("n", "}", "<cmd>AerialNext<cr>", { desc = "Next symbol" })
-
--- Git integration
-set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Open diffview" })
-set("n", "<leader>gD", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" })
-
--- Code execution
-set("n", "<leader>r", "<cmd>SnipRun<cr>", { desc = "Run code snippet" })
-set("v", "<leader>r", "<cmd>SnipRun<cr>", { desc = "Run selected code" })
-
--- Testing
-set("n", "<leader>tf", function()
-  require("neotest").run.run(vim.fn.expand("%"))
-end, { desc = "Test file" })
-set("n", "<leader>ts", function()
-  require("neotest").run.stop()
-end, { desc = "Stop test" })
-set("n", "<leader>td", function()
-  require("neotest").run.run_last()
-end, { desc = "Run last test" })
-set("n", "<leader>to", function()
-  require("neotest").output.open({ enter = true, auto_close = true })
-end, { desc = "Open test output" })
-set("n", "<leader>tS", function()
-  require("neotest").summary.toggle()
-end, { desc = "Toggle test summary" })
-
--- Popup styling test
-set("n", "<leader>pt", function()
-  -- Try a more subtle approach - keep some transparency but fix colors
-  vim.cmd("hi Pmenu guibg=#1a1a1a guifg=#E0E0E0")
-  vim.cmd("hi PmenuSel guibg=#333333 guifg=#f8fe7a")
-  vim.cmd("hi NormalFloat guibg=#1a1a1a guifg=#E0E0E0")
-  vim.cmd("hi FloatBorder guibg=#1a1a1a guifg=#bbbbbb")
-  vim.cmd("hi Cmdline guibg=#1a1a1a guifg=#E0E0E0")
-  vim.cmd("hi CmdlineIcon guibg=#1a1a1a guifg=#f8fe7a")
-  
-  vim.notify("Popup colors fixed - test completion now", vim.log.levels.INFO)
-end, { desc = "Fix popup colors" })
-
--- Debug popup colors
-set("n", "<leader>pd", function()
-  local result = vim.api.nvim_get_hl(0, { name = "Pmenu" })
-  print("Pmenu: " .. vim.inspect(result))
-  local result2 = vim.api.nvim_get_hl(0, { name = "NormalFloat" })
-  print("NormalFloat: " .. vim.inspect(result2))
-end, { desc = "Debug popup colors" })
-
--- Status line controls
-set("n", "<leader>sr", function()
-  vim.cmd("redrawstatus")
-  vim.notify("Status line refreshed", vim.log.levels.INFO)
-end, { desc = "Refresh status line" })
-
-set("n", "<leader>st", function()
-  if vim.opt.laststatus:get() == 0 then
-    vim.cmd("set laststatus=2")
-    vim.notify("Status line enabled", vim.log.levels.INFO)
+-- Toggle transparency
+set("n", "<leader>t", function()
+  local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal" })
+  if normal_hl.bg == nil or normal_hl.bg == "NONE" then
+    -- Disable transparency
+    vim.api.nvim_set_hl(0, "Normal", { bg = "#000000", fg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "#000000", fg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "#000000", fg = "#ffffff" })
   else
-    vim.cmd("set laststatus=0")
-    vim.notify("Status line disabled", vim.log.levels.INFO)
+    -- Enable transparency
+    vim.api.nvim_set_hl(0, "Normal", { bg = "NONE", ctermbg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE", ctermbg = "NONE" })
+    vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "NONE", ctermbg = "NONE" })
   end
-end, { desc = "Toggle status line" })
+end, { desc = "Toggle transparency" })
 
--- Test command line status behavior
-set("n", "<leader>sc", function()
-  vim.notify("Testing command line status - press : or / to see it appear", vim.log.levels.INFO)
-  vim.cmd("echo 'Command line status will appear when you press : or /'")
-end, { desc = "Test command line status" })
+-- File navigation (essential)
+set("n", "-", "<cmd>Oil<cr>", { desc = "Open file explorer (Oil)" })
+set("n", "<leader>fd", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
+set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
+set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help" })
 
--- Colorscheme switching
-local colorscheme_switcher = require("custom.colorscheme-switcher")
+-- LSP keymaps (essential)
+set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+set("n", "K", vim.lsp.buf.hover, { desc = "Show hover info" })
+set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
+set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
+set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" })
+set("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
+set("n", "<leader>f", function()
+  vim.lsp.buf.format { async = true }
+end, { desc = "Format code" })
 
-set("n", "<leader>cn", colorscheme_switcher.next_colorscheme, { desc = "Next colorscheme" })
-set("n", "<leader>cp", colorscheme_switcher.prev_colorscheme, { desc = "Previous colorscheme" })
-set("n", "<leader>cs", colorscheme_switcher.picker, { desc = "Colorscheme picker" })
-set("n", "<leader>cc", function()
-  vim.notify("Current colorscheme: " .. colorscheme_switcher.get_current_colorscheme(), vim.log.levels.INFO)
-end, { desc = "Show current colorscheme" })
-set("n", "<leader>cr", colorscheme_switcher.refresh_variants, { desc = "Refresh colorscheme variants" })
-set("n", "<leader>cf", colorscheme_switcher.fix_status_line, { desc = "Fix status line visibility" })
-set("n", "<leader>cl", colorscheme_switcher.reinitialize_lualine, { desc = "Re-initialize lualine-max" })
+-- Git keymaps
+set("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Preview hunk" })
+set("n", "<leader>gb", "<cmd>Gitsigns blame_line<cr>", { desc = "Blame line" })
+set("n", "<leader>gd", "<cmd>Gitsigns diffthis<cr>", { desc = "Diff this" })
 
--- Debug status line
-set("n", "<leader>csd", function()
-  local status = vim.opt.laststatus:get()
-  local statusline = vim.api.nvim_get_hl(0, { name = "StatusLine" })
-  vim.notify("Status line: " .. status .. " | Colors: " .. vim.inspect(statusline), vim.log.levels.INFO)
-end, { desc = "Debug status line" })
+-- Comment keymaps
+set("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<cr>", { desc = "Toggle comment" })
+set("v", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", { desc = "Toggle comment" })
 
--- Debug colorscheme loading
-set("n", "<leader>cds", function()
-  local current_colorscheme = vim.g.colors_name or "none"
-  local available_colors = vim.fn.getcompletion("", "color")
-  local custombuddy_available = vim.tbl_contains(available_colors, "custombuddy")
-  
-  vim.notify("Current: " .. current_colorscheme .. " | CustomBuddy available: " .. tostring(custombuddy_available), vim.log.levels.INFO)
-  
-  -- Try to load CustomBuddy directly
-  pcall(vim.cmd.colorscheme, "custombuddy")
-end, { desc = "Debug colorscheme loading" })
+-- Which-key
+set("n", "<leader>", "<cmd>WhichKey '<leader>'<cr>", { desc = "Which-key" })
 
--- Force load CustomBuddy
-set("n", "<leader>crp", function()
-  pcall(vim.cmd.colorscheme, "custombuddy")
-  vim.cmd("set laststatus=2")
-  vim.cmd("redrawstatus")
-end, { desc = "Force load CustomBuddy" })
+-- LSP status and control
+set("n", "<leader>ls", "<cmd>LspStart<cr>", { desc = "Start LSP" })
+set("n", "<leader>lS", "<cmd>LspStop<cr>", { desc = "Stop LSP" })
+set("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Restart LSP" })
+set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP Info" })
 
--- Force fix lualine
-set("n", "<leader>clf", function()
-  local colorscheme_switcher = require("custom.colorscheme-switcher")
-  colorscheme_switcher._reinitialize_lualine()
-end, { desc = "Force fix lualine" })
+-- Treesitter text objects (enhanced)
+set("n", "af", "<cmd>lua require('treesitter-textobjects').select()<cr>", { desc = "Select function" })
+set("n", "ac", "<cmd>lua require('treesitter-textobjects').select()<cr>", { desc = "Select class" })
 
--- Transparency controls
-local transparency = require("custom.transparency")
+-- Git navigation (enhanced)
+set("n", "]c", "<cmd>Gitsigns next_hunk<cr>", { desc = "Next git hunk" })
+set("n", "[c", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Prev git hunk" })
 
-set("n", "<leader>ct", transparency.toggle_transparency, { desc = "Toggle background transparency" })
-set("n", "<leader>ce", transparency.enable_transparency, { desc = "Enable transparency" })
-set("n", "<leader>cd", transparency.disable_transparency, { desc = "Disable transparency" })
+-- Colorscheme switching (professional)
+set("n", "<leader>cn", function()
+  require("custom.colorscheme-switcher").next_colorscheme()
+end, { desc = "Next colorscheme" })
+set("n", "<leader>cp", function()
+  require("custom.colorscheme-switcher").prev_colorscheme()
+end, { desc = "Prev colorscheme" })
+set("n", "<leader>cl", function()
+  require("custom.colorscheme-switcher").list_colorschemes()
+end, { desc = "List colorschemes" })
+
+-- ThePrimeagen-inspired keymaps
+-- Harpoon navigation
+set("n", "<leader>a", function() require("harpoon"):list():append() end, { desc = "Harpoon: Add file" })
+set("n", "<leader>e", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, { desc = "Harpoon: Toggle quick menu" })
+set("n", "<leader>1", function() require("harpoon"):list():select(1) end, { desc = "Harpoon: Go to file 1" })
+set("n", "<leader>2", function() require("harpoon"):list():select(2) end, { desc = "Harpoon: Go to file 2" })
+set("n", "<leader>3", function() require("harpoon"):list():select(3) end, { desc = "Harpoon: Go to file 3" })
+set("n", "<leader>4", function() require("harpoon"):list():select(4) end, { desc = "Harpoon: Go to file 4" })
+set("n", "<leader>h", function() require("harpoon"):list():prev() end, { desc = "Harpoon: Previous file" })
+set("n", "<leader>l", function() require("harpoon"):list():next() end, { desc = "Harpoon: Next file" })
+
+-- Zen mode
+set("n", "<leader>z", function() require("zen-mode").toggle() end, { desc = "Toggle Zen mode" })
