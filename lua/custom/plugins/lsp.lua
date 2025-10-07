@@ -37,12 +37,16 @@ return {
         end
       end
       
-      -- Language servers with error handling
-      local lspconfig = require("lspconfig")
-      
-      -- Helper function to safely setup LSP servers
+      -- Language servers with error handling using modern vim.lsp.config
       local function safe_setup(server_name, config)
-        local ok, server = pcall(lspconfig[server_name].setup, config)
+        local ok, _ = pcall(function()
+          vim.lsp.config({
+            name = server_name,
+            on_attach = config.on_attach,
+            capabilities = config.capabilities,
+            settings = config.settings,
+          })
+        end)
         if not ok then
           vim.notify("LSP server " .. server_name .. " not available", vim.log.levels.WARN)
         end
