@@ -263,7 +263,7 @@ nvim
 - **Python** - pyright
 - **JavaScript/TypeScript** - ts_ls
 - **Go** - gopls
-- **Rust** - rust_analyzer
+- **Rust** - rust_analyzer (enhanced configuration)
 - **SQL** - sqls (optional)
 - **C#** - omnisharp (optional)
 

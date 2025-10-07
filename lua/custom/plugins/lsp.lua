@@ -72,16 +72,107 @@ return {
         capabilities = capabilities,
       })
       
-      -- Rust (rust_analyzer)
+      -- Rust (rust_analyzer) - Enhanced configuration
       safe_setup("rust_analyzer", {
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {
           ["rust-analyzer"] = {
-            checkOnSave = true,
+            checkOnSave = {
+              command = "clippy", -- Use clippy instead of check
+              extraArgs = { "--", "-W", "clippy::all" },
+            },
             cargo = {
               buildScripts = {
                 enable = true,
+              },
+              allFeatures = true,
+            },
+            procMacro = {
+              enable = true,
+            },
+            diagnostics = {
+              enable = true,
+              experimental = {
+                enable = true,
+              },
+            },
+            hover = {
+              actions = {
+                enable = true,
+                implementations = {
+                  enable = true,
+                },
+                references = {
+                  enable = true,
+                },
+                run = {
+                  enable = true,
+                },
+                debug = {
+                  enable = true,
+                },
+                gotoTypeDef = {
+                  enable = true,
+                },
+              },
+            },
+            lens = {
+              enable = true,
+              run = {
+                enable = true,
+              },
+              debug = {
+                enable = true,
+              },
+              implementations = {
+                enable = true,
+              },
+              references = {
+                enable = true,
+              },
+            },
+            inlayHints = {
+              enable = true,
+              bindingModeHints = {
+                enable = true,
+              },
+              chainingHints = {
+                enable = true,
+              },
+              closingBraceHints = {
+                enable = true,
+                minLines = 25,
+              },
+              closureReturnTypeHints = {
+                enable = "never",
+              },
+              discriminantHints = {
+                enable = "never",
+              },
+              expressionAdjustmentHints = {
+                enable = "never",
+                mode = "prefix",
+              },
+              implicitDrops = {
+                enable = true,
+              },
+              lifetimeElisionHints = {
+                enable = "never",
+                useParameterNames = false,
+              },
+              maxLength = 25,
+              parameterHints = {
+                enable = true,
+              },
+              reborrowHints = {
+                enable = "never",
+              },
+              renderColons = true,
+              typeHints = {
+                enable = true,
+                hideClosureInitialization = false,
+                hideNamedConstructor = false,
               },
             },
           },
