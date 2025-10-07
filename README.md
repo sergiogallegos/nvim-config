@@ -301,6 +301,16 @@ nvim
 - **`<leader>xw`** - Show workspace-wide diagnostics
 - **`<leader>xd`** - Show current document diagnostics
 
+### Toggling Diagnostics
+- **`<leader>dt`** - Toggle all diagnostics on/off
+- **`<leader>de`** - Toggle error diagnostics
+- **`<leader>dw`** - Toggle warning diagnostics  
+- **`<leader>di`** - Toggle info diagnostics
+- **`<leader>dh`** - Toggle hint diagnostics
+- **`<leader>ds`** - Toggle diagnostic signs (E, W, H, I indicators)
+- **`<leader>du`** - Toggle diagnostic underlines
+- **`<leader>dv`** - Toggle diagnostic virtual text
+
 ### Diagnostic Severity
 - **`E`** = Error (❌ Red) - Critical issues
 - **`W`** = Warning (⚠️ Yellow) - Potential problems
