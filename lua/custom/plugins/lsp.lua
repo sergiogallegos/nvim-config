@@ -6,34 +6,30 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/cmp-nvim-lsp",
+      -- "hrsh7th/cmp-nvim-lsp", -- Disabled for learning
     },
     config = function()
-      -- Enhanced LSP capabilities
+      -- Minimal LSP capabilities - Disable completion for learning
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      -- Disable completion capabilities
+      capabilities.textDocument.completion = nil
+      capabilities.textDocument.hover = nil
+      capabilities.textDocument.signatureHelp = nil
       
       -- Enhanced LSP settings
       local on_attach = function(client, bufnr)
         local opts = { noremap = true, silent = true, buffer = bufnr }
         
-        -- LSP keymaps
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        -- Minimal LSP keymaps - Only essential navigation
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
         vim.keymap.set("n", "<leader>f", function()
           vim.lsp.buf.format { async = true }
         end, opts)
         
-        -- Enhanced LSP features
+        -- Enhanced LSP features - Disable real-time inlay hints
         if client.supports_method("textDocument/inlayHints") then
-          vim.lsp.inlay_hint.enable(true)
+          vim.lsp.inlay_hint.enable(false)
         end
       end
       
@@ -134,47 +130,7 @@ return {
               },
             },
             inlayHints = {
-              enable = true,
-              bindingModeHints = {
-                enable = true,
-              },
-              chainingHints = {
-                enable = true,
-              },
-              closingBraceHints = {
-                enable = true,
-                minLines = 25,
-              },
-              closureReturnTypeHints = {
-                enable = "never",
-              },
-              discriminantHints = {
-                enable = "never",
-              },
-              expressionAdjustmentHints = {
-                enable = "never",
-                mode = "prefix",
-              },
-              implicitDrops = {
-                enable = true,
-              },
-              lifetimeElisionHints = {
-                enable = "never",
-                useParameterNames = false,
-              },
-              maxLength = 25,
-              parameterHints = {
-                enable = true,
-              },
-              reborrowHints = {
-                enable = "never",
-              },
-              renderColons = true,
-              typeHints = {
-                enable = true,
-                hideClosureInitialization = false,
-                hideNamedConstructor = false,
-              },
+              enable = false, -- Disable inlay hints while typing
             },
           },
         },
