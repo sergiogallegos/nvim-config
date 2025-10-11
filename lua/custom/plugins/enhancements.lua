@@ -270,46 +270,46 @@ return {
   --   end,
   -- },
   
-  -- Mini.statusline - Lightweight status line
-  {
-    "echasnovski/mini.statusline",
-    config = function()
-      local statusline = require("mini.statusline")
-      statusline.setup({
-        content = {
-          active = function()
-            local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
-            local git = statusline.section_git({ trunc_width = 75 })
-            local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
-            local filename = statusline.section_filename({ trunc_width = 140 })
-            local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
-            local location = statusline.section_location({ trunc_width = 75 })
-            
-            return statusline.combine_groups({
-              { hl = mode_hl, strings = { mode } },
-              { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
-              "%<",
-              { hl = "MiniStatuslineFilename", strings = { filename } },
-              "%=",
-              { hl = "MiniStatuslineDevinfo", strings = { fileinfo } },
-              { hl = mode_hl, strings = { location } },
-            })
-          end,
-          inactive = function()
-            return statusline.combine_groups({
-              "hlstatus",
-              "%<",
-              { hl = "MiniStatuslineInactive", strings = { "filename" } },
-              "%=",
-              { hl = "MiniStatuslineInactive", strings = { "fileinfo" } },
-            })
-          end,
-        },
-        use_icons = true,
-        set_vim_settings = false,
-      })
-    end,
-  },
+  -- Mini.statusline - Disabled to use lualine instead
+  -- {
+  --   "echasnovski/mini.statusline",
+  --   config = function()
+  --     local statusline = require("mini.statusline")
+  --     statusline.setup({
+  --       content = {
+  --         active = function()
+  --           local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+  --           local git = statusline.section_git({ trunc_width = 75 })
+  --           local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
+  --           local filename = statusline.section_filename({ trunc_width = 140, path = 1 })
+  --           local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
+  --           local location = statusline.section_location({ trunc_width = 75 })
+  --           
+  --           return statusline.combine_groups({
+  --             { hl = mode_hl, strings = { mode } },
+  --             { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
+  --             "%<",
+  --             { hl = "MiniStatuslineFilename", strings = { filename } },
+  --             "%=",
+  --             { hl = "MiniStatuslineDevinfo", strings = { fileinfo } },
+  --             { hl = mode_hl, strings = { location } },
+  --           })
+  --         end,
+  --         inactive = function()
+  --           return statusline.combine_groups({
+  --             "hlstatus",
+  --             "%<",
+  --             { hl = "MiniStatuslineInactive", strings = { statusline.section_filename({ trunc_width = 140, path = 1 }) } },
+  --             "%=",
+  --             { hl = "MiniStatuslineInactive", strings = { "fileinfo" } },
+  --           })
+  --         end,
+  --       },
+  --       use_icons = true,
+  --       set_vim_settings = false,
+  --     })
+  --   end,
+  -- },
   
   -- Mini.tabline - Better tab line
   {

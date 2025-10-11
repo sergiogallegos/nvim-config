@@ -46,9 +46,9 @@ vim.filetype.add {
   },
 }
 
--- Status line
+-- Enhanced Status line with full file path
 vim.opt.laststatus = 2
-vim.opt.statusline = "%#StatusLine# %f %h%w%m%r %=%y %l,%c %P"
+vim.opt.statusline = "%#StatusLine# %F %h%w%m%r %=%y %l,%c %P"
 
 -- ThePrimeagen's colorscheme approach
 -- Will be set by the colors plugin
