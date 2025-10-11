@@ -31,10 +31,45 @@ function M.setup()
   -- === TJ DEVRIES' PROFESSIONAL KEYMAPS ===
   
   -- Telescope (TJ's signature fuzzy finder - Windows compatible)
-  set("n", "<leader>ff", function() require("telescope").find_files() end, { desc = "Find files" })
-  set("n", "<leader>fg", function() require("telescope").live_grep() end, { desc = "Live grep" })
-  set("n", "<leader>fb", function() require("telescope").buffers() end, { desc = "Find buffers" })
-  set("n", "<leader>fh", function() require("telescope").help_tags() end, { desc = "Find help" })
+  set("n", "<leader>ff", function()
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok and telescope.find_files then
+      telescope.find_files()
+    else
+      -- Fallback to built-in file finder
+      vim.cmd(":find . -name '*.rs' -o -name '*.lua' -o -name '*.py' -o -name '*.js' -o -name '*.ts' | head -20")
+    end
+  end, { desc = "Find files" })
+  
+  set("n", "<leader>fg", function() 
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok and telescope.live_grep then
+      telescope.live_grep()
+    else
+      -- Fallback to built-in grep
+      vim.cmd(":grep -r . | head -20")
+    end
+  end, { desc = "Live grep" })
+  
+  set("n", "<leader>fb", function() 
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok and telescope.buffers then
+      telescope.buffers()
+    else
+      -- Fallback to built-in buffer list
+      vim.cmd(":buffers")
+    end
+  end, { desc = "Find buffers" })
+  
+  set("n", "<leader>fh", function() 
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok and telescope.help_tags then
+      telescope.help_tags()
+    else
+      -- Fallback to built-in help
+      vim.cmd(":help")
+    end
+  end, { desc = "Find help" })
   
   -- Oil file explorer (modern alternative to nvim-tree)
   set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })

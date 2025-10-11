@@ -6,22 +6,26 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      -- "hrsh7th/cmp-nvim-lsp", -- Disabled for learning
+      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      -- Minimal LSP capabilities - Disable completion for learning
+      -- Enhanced LSP capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- Disable completion capabilities
-      capabilities.textDocument.completion = nil
-      capabilities.textDocument.hover = nil
-      capabilities.textDocument.signatureHelp = nil
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
       
       -- Enhanced LSP settings
       local on_attach = function(client, bufnr)
         local opts = { noremap = true, silent = true, buffer = bufnr }
         
-        -- Minimal LSP keymaps - Only essential navigation
+        -- LSP keymaps
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
         vim.keymap.set("n", "<leader>f", function()
           vim.lsp.buf.format { async = true }
@@ -34,12 +38,28 @@ return {
       end
       
       -- Language servers with error handling
+      -- Suppress deprecation warning by overriding vim.notify temporarily
+      local original_notify = vim.notify
+      vim.notify = function(msg, level, opts)
+        if msg and (string.find(msg, "deprecated") or string.find(msg, "lspconfig")) then
+          return
+        end
+        return original_notify(msg, level, opts)
+      end
+      
       local lspconfig = require("lspconfig")
+      
+      -- Restore original notify
+      vim.notify = original_notify
       
       -- Helper function to safely setup LSP servers
       local function safe_setup(server_name, config)
-        local ok, server = pcall(lspconfig[server_name].setup, config)
-        if not ok then
+        if lspconfig[server_name] then
+          local ok, server = pcall(lspconfig[server_name].setup, config)
+          if not ok then
+            vim.notify("LSP server " .. server_name .. " setup failed", vim.log.levels.WARN)
+          end
+        else
           vim.notify("LSP server " .. server_name .. " not available", vim.log.levels.WARN)
         end
       end

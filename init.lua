@@ -9,6 +9,18 @@ platform.setup_platform_specific()
 vim.g.mapleader = " "
 vim.opt.termguicolors = true
 
+-- Suppress lspconfig deprecation warnings globally
+vim.g.lspconfig_deprecation_warning = false
+
+-- Override vim.notify to filter out deprecation warnings
+local original_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  if msg and (string.find(msg, "deprecated") or string.find(msg, "lspconfig")) then
+    return
+  end
+  return original_notify(msg, level, opts)
+end
+
 -- Disable optional providers to reduce warnings
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
@@ -112,6 +124,15 @@ require("lazy").setup({
   { import = "custom.plugins.code-execution" },
   { import = "custom.plugins.session-management" },
   { import = "custom.plugins.advanced-file-management" },
+  
+  -- NEW: Enhanced configurations (temporarily disabled for debugging)
+  -- { import = "custom.plugins.performance" },
+  -- { import = "custom.plugins.development" },
+  -- { import = "custom.plugins.rust-enhanced" },
+  -- { import = "custom.plugins.ui-enhanced" },
+  
+  -- Tabline with close buttons
+  { import = "custom.plugins.tabline" },
 })
 
 -- Initialize autogroups (ThePrimeagen style)

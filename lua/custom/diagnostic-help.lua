@@ -11,15 +11,15 @@ function M.setup()
   -- === KEYMAPS FOR READING DIAGNOSTICS ===
   local set = vim.keymap.set
   
-  -- Hover over diagnostic to see message
-  set("n", "K", vim.diagnostic.open_float, { desc = "Show diagnostic message" })
+  -- Hover over diagnostic to see message (disabled float)
+  -- set("n", "K", vim.diagnostic.open_float, { desc = "Show diagnostic message" })
   
   -- Navigate between diagnostics
   set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
   set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
   
-  -- Show all diagnostics in current line
-  set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+  -- Show all diagnostics in current line (disabled float)
+  -- set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
   
   -- Show diagnostics in location list
   set("n", "<leader>dL", vim.diagnostic.setloclist, { desc = "Show diagnostics in location list" })

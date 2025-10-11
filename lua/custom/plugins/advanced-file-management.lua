@@ -9,15 +9,15 @@ return {
         view_options = {
           show_hidden = true,
         },
-        float = {
-          padding = 2,
-          max_width = 0,
-          max_height = 0,
-          border = "rounded",
-          win_options = {
-            winblend = 0,
-          },
-        },
+        -- float = {
+        --   padding = 2,
+        --   max_width = 0,
+        --   max_height = 0,
+        --   border = "rounded",
+        --   win_options = {
+        --     winblend = 0,
+        --   },
+        -- },
         preview = {
           max_width = 0.9,
           min_width = { 40, 0.4 },
@@ -82,7 +82,7 @@ return {
       -- Keymaps
       local set = vim.keymap.set
       set("n", "<leader>e", function() require("oil").open() end, { desc = "Open file explorer" })
-      set("n", "<leader>E", function() require("oil").open_float() end, { desc = "Open floating file explorer" })
+      -- set("n", "<leader>E", function() require("oil").open_float() end, { desc = "Open floating file explorer" })
       set("n", "-", function() require("oil").open() end, { desc = "Open parent directory" })
     end,
   },
