@@ -125,6 +125,9 @@ require("lazy").setup({
   { import = "custom.plugins.session-management" },
   { import = "custom.plugins.advanced-file-management" },
   
+  -- AI Assistant
+  { import = "custom.plugins.luca" },
+  
   -- NEW: Enhanced configurations (temporarily disabled for debugging)
   -- { import = "custom.plugins.performance" },
   -- { import = "custom.plugins.development" },

@@ -95,7 +95,7 @@ function M.setup()
   -- Better location list
   set("n", "<leader>ln", "<cmd>lnext<cr>", { desc = "Next location" })
   set("n", "<leader>lp", "<cmd>lprevious<cr>", { desc = "Previous location" })
-  set("n", "<leader>lc", "<cmd>lclose<cr>", { desc = "Close location list" })
+  set("n", "<leader>lC", "<cmd>lclose<cr>", { desc = "Close location list" })  -- Changed from lc to lC to avoid conflict with Luca
   set("n", "<leader>lo", "<cmd>lopen<cr>", { desc = "Open location list" })
   
   -- Better marks
