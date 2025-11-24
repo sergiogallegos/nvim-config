@@ -16,6 +16,8 @@ return {
               model = "deepseek-r1:8b",
               base_url = "http://localhost:11434",  -- Make sure this is correct
               -- requires_api_key = false,  -- Now optional, auto-detected!
+              temperature = 0.7,  -- Optional: control randomness
+              num_predict = 2048,  -- Optional: Ollama uses num_predict instead of max_tokens
             },
           },
         },
