@@ -67,9 +67,23 @@ M.config = {
 function M.setup_platform_specific()
   -- Windows-specific settings
   if M.is_windows then
+    local function prepend_path(path)
+      if vim.fn.isdirectory(path) == 1 then
+        local current = vim.env.PATH or ""
+        if not current:lower():find(vim.pesc(path:lower()), 1) then
+          vim.env.PATH = path .. ";" .. current
+        end
+      end
+    end
+
+    -- Make Mason and search plugins see common Windows tool locations.
+    prepend_path("C:\\msys64\\usr\\bin")
+    prepend_path("C:\\Program Files\\Git\\usr\\bin")
+    prepend_path("C:\\Program Files\\7-Zip")
+
     -- Windows path handling
     vim.opt.shell = "powershell"
-    vim.opt.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command"
+    vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
     vim.opt.shellxquote = ""
     
     -- Windows clipboard

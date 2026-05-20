@@ -14,7 +14,7 @@ function M.setup_yank_highlighting()
     group = yank_group,
     pattern = "*",
     callback = function()
-      vim.highlight.on_yank({
+      vim.hl.on_yank({
         higroup = "IncSearch",
         timeout = 40,
       })
@@ -30,6 +30,10 @@ function M.setup_whitespace_removal()
     group = whitespace_group,
     pattern = "*",
     callback = function()
+      if vim.bo.buftype ~= "" or not vim.bo.modifiable then
+        return
+      end
+
       local save_cursor = vim.fn.getpos(".")
       vim.cmd([[%s/\s\+$//e]])
       vim.fn.setpos(".", save_cursor)

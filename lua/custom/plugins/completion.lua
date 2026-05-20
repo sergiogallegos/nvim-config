@@ -89,7 +89,30 @@ return {
   -- LuaSnip snippets
   {
     "L3MON4D3/LuaSnip",
-    build = "make install_jsregexp",
+    build = function(plugin)
+      if vim.fn.has("win32") == 1 then
+        local short_path = vim.fn.system({
+          "cmd.exe",
+          "/c",
+          'for %I in ("' .. plugin.dir .. '") do @echo %~sI',
+        }):gsub("%s+$", "")
+
+        local result = vim.system({
+          "mingw32-make",
+          "install_jsregexp",
+          "PROJECT_ROOT=" .. short_path:gsub("\\", "/"),
+        }, { cwd = plugin.dir, text = true }):wait()
+
+        if result.code ~= 0 then
+          error((result.stdout or "") .. (result.stderr or ""))
+        end
+      else
+        local result = vim.system({ "make", "install_jsregexp" }, { cwd = plugin.dir, text = true }):wait()
+        if result.code ~= 0 then
+          error((result.stdout or "") .. (result.stderr or ""))
+        end
+      end
+    end,
     config = function()
       require("luasnip").setup({
         history = true,

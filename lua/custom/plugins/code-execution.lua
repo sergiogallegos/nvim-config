@@ -3,6 +3,7 @@ return {
   -- Sniprun - Code execution
   {
     "michaelb/sniprun",
+    enabled = vim.fn.has("win32") == 0,
     build = "bash ./install.sh",
     config = function()
       require("sniprun").setup({

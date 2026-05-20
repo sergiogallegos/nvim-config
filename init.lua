@@ -23,9 +23,24 @@ vim.notify = function(msg, level, opts)
     return original_notify(msg, level, opts)
 end
 
--- Disable optional providers to reduce warnings
+-- Neovim 0.12 provider health checks call this helper, but some Windows
+-- release/runtime combinations can miss it. Define the expected behavior here
+-- so :checkhealth reports disabled providers instead of crashing.
+if vim.health and vim.health.provider_disabled == nil then
+  vim.health.provider_disabled = function(provider)
+    if vim.g["loaded_" .. provider .. "_provider"] == 0 then
+      vim.health.ok(provider .. " provider disabled")
+      return true
+    end
+    return false
+  end
+end
+
+-- Disable optional language providers to reduce warnings and startup work.
+vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- Essential options
 vim.opt.number = true
@@ -78,7 +93,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup {
+require("lazy").setup({
     -- Ultimate configuration - Best of ThePrimeagen + TJ DeVries
     { import = "custom.plugins.ultimate" },
     { import = "custom.plugins.lsp" },
@@ -110,7 +125,11 @@ require("lazy").setup {
 
     -- Tabline with close buttons
     { import = "custom.plugins.tabline" },
-}
+}, {
+  rocks = {
+    enabled = false,
+  },
+})
 
 -- Initialize autogroups (ThePrimeagen style)
 require("custom.autogroups").setup()
