@@ -92,7 +92,61 @@ return {
     "akinsho/git-conflict.nvim",
     version = "*",
     config = function()
-      require("git-conflict").setup({
+      local original_highlight = vim.highlight
+
+      if vim.hl then
+        vim.highlight = vim.hl
+      end
+
+      if not vim.g.git_conflict_validate_compat then
+        local original_validate = vim.validate
+        local type_aliases = {
+          b = "boolean",
+          c = "callable",
+          f = "function",
+          n = "number",
+          s = "string",
+          t = "table",
+        }
+
+        local function normalize_validator(arg_validator)
+          if type(arg_validator) == "string" then
+            return type_aliases[arg_validator] or arg_validator
+          end
+
+          if type(arg_validator) == "table" then
+            return vim.tbl_map(normalize_validator, arg_validator)
+          end
+
+          return arg_validator
+        end
+
+        vim.validate = function(name, value, validator, optional_or_msg, message)
+          if type(name) == "table" and value == nil then
+            for arg_name, spec in pairs(name) do
+              local arg_value = spec[1]
+              local arg_validator = normalize_validator(spec[2])
+              local optional = spec[3] == true
+              local arg_message = spec[4]
+
+              if not (optional and arg_value == nil) then
+                original_validate(arg_name, arg_value, arg_validator, optional, arg_message)
+              end
+            end
+            return
+          end
+
+          return original_validate(name, value, validator, optional_or_msg, message)
+        end
+
+        vim.g.git_conflict_validate_compat = true
+      end
+
+      local git_conflict = require("git-conflict")
+
+      vim.highlight = original_highlight
+
+      git_conflict.setup({
         default_mappings = true,
         default_commands = true,
         disable_diagnostics = false,
