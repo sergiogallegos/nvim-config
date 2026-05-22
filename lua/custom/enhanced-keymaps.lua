@@ -5,11 +5,9 @@ local set = vim.keymap.set
 
 function M.setup()
     -- Core editing
-    set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save" })
+    set("n", "<leader>W", "<cmd>w<cr>", { desc = "Save" })
     set("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-    set("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
-    set("n", "<leader>s", "/", { desc = "Search" })
-    set("n", "<leader>S", "?", { desc = "Search backwards" })
+    set("n", "<leader>n", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
     set("n", "<leader>ct", function()
         require("custom.transparency").toggle_transparency()
     end, { desc = "Toggle transparency" })
@@ -36,19 +34,13 @@ function M.setup()
         require("smart-splits").move_right()
     end, { desc = "Move right" })
 
-    -- Mini.surround
-    set("n", "sa", function()
-        require("mini.surround").add()
-    end, { desc = "Add surround" })
-    set("n", "sd", function()
-        require("mini.surround").delete()
-    end, { desc = "Delete surround" })
-    set("n", "sf", function()
-        require("mini.surround").find()
-    end, { desc = "Find surround" })
-    set("n", "sr", function()
-        require("mini.surround").replace()
-    end, { desc = "Replace surround" })
+    -- Helix-like Space mode: LSP and editing actions
+    set("n", "<leader>k", vim.lsp.buf.hover, { desc = "Hover" })
+    set("n", "<leader>r", vim.lsp.buf.rename, { desc = "Rename symbol" })
+    set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "Code action" })
+    set("n", "<leader>h", vim.lsp.buf.references, { desc = "References" })
+    set("n", "<leader>c", "gcc", { remap = true, desc = "Toggle comment" })
+    set("v", "<leader>c", "gc", { remap = true, desc = "Toggle comment" })
 
     -- Mini.bufremove
     set("n", "<leader>bd", function()
@@ -57,14 +49,6 @@ function M.setup()
     set("n", "<leader>bD", function()
         require("mini.bufremove").delete(0, true)
     end, { desc = "Delete buffer (force)" })
-
-    -- Mini.files
-    set("n", "<leader>mf", function()
-        require("mini.files").open()
-    end, { desc = "Mini files" })
-    set("n", "<leader>mF", function()
-        require("mini.files").open(vim.api.nvim_buf_get_name(0))
-    end, { desc = "Mini files current" })
 
     -- Mini.jump
     set("n", "<CR>", function()
@@ -90,22 +74,6 @@ function M.setup()
         require("mini.move").move_line "up"
     end, { desc = "Move line up" })
 
-    -- Mini.pick
-    set("n", "<leader>p", function()
-        require("mini.pick").start()
-    end, { desc = "Start picker" })
-
-    -- Mini.sessions
-    set("n", "<leader>ss", function()
-        require("mini.sessions").save()
-    end, { desc = "Save session" })
-    set("n", "<leader>sl", function()
-        require("mini.sessions").load()
-    end, { desc = "Load session" })
-    set("n", "<leader>sd", function()
-        require("mini.sessions").delete()
-    end, { desc = "Delete session" })
-
     -- Mini.trailspace
     set("n", "<leader>tw", function()
         require("mini.trailspace").trim()
@@ -115,14 +83,20 @@ function M.setup()
 
     -- Better window management
     set("n", "<leader>wv", "<C-w>v", { desc = "Split vertically" })
-    set("n", "<leader>wh", "<C-w>s", { desc = "Split horizontally" })
+    set("n", "<leader>ws", "<C-w>s", { desc = "Split horizontally" })
+    set("n", "<leader>wh", "<C-w>h", { desc = "Window left" })
+    set("n", "<leader>wj", "<C-w>j", { desc = "Window down" })
+    set("n", "<leader>wk", "<C-w>k", { desc = "Window up" })
+    set("n", "<leader>wl", "<C-w>l", { desc = "Window right" })
+    set("n", "<leader>ww", "<C-w>w", { desc = "Next window" })
+    set("n", "<leader>wq", "<C-w>q", { desc = "Close window" })
     set("n", "<leader>we", "<C-w>=", { desc = "Equalize windows" })
     set("n", "<leader>wo", "<C-w>o", { desc = "Close other windows" })
 
     -- Better buffer management
-    set("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
-    set("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
-    set("n", "<leader>bb", "<cmd>buffer #<cr>", { desc = "Switch to last buffer" })
+    set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
+    set("n", "[b", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+    set("n", "<leader><space>", "<cmd>buffer #<cr>", { desc = "Switch to last buffer" })
 
     -- Better tab management
     set("n", "<leader><tab>n", "<cmd>tabnew<cr>", { desc = "New tab" })
@@ -144,21 +118,16 @@ function M.setup()
     )
 
     -- Better quickfix
-    set("n", "<leader>cn", "<cmd>cnext<cr>", { desc = "Next quickfix" })
-    set("n", "<leader>cp", "<cmd>cprevious<cr>", { desc = "Previous quickfix" })
-    set("n", "<leader>cc", "<cmd>cclose<cr>", { desc = "Close quickfix" })
-    set("n", "<leader>co", "<cmd>copen<cr>", { desc = "Open quickfix" })
+    set("n", "<leader>qn", "<cmd>cnext<cr>", { desc = "Next quickfix" })
+    set("n", "<leader>qp", "<cmd>cprevious<cr>", { desc = "Previous quickfix" })
+    set("n", "<leader>qc", "<cmd>cclose<cr>", { desc = "Close quickfix" })
+    set("n", "<leader>qo", "<cmd>copen<cr>", { desc = "Open quickfix" })
 
     -- Better location list
     set("n", "<leader>ln", "<cmd>lnext<cr>", { desc = "Next location" })
     set("n", "<leader>lp", "<cmd>lprevious<cr>", { desc = "Previous location" })
     set("n", "<leader>lC", "<cmd>lclose<cr>", { desc = "Close location list" }) -- Changed from lc to lC to avoid conflict with Luca
     set("n", "<leader>lo", "<cmd>lopen<cr>", { desc = "Open location list" })
-
-    -- Better marks
-    set("n", "<leader>ma", "<cmd>marks<cr>", { desc = "Show marks" })
-    set("n", "<leader>mm", "m", { desc = "Set mark" })
-    set("n", "<leader>mg", "`", { desc = "Go to mark" })
 
     -- Better registers
     set("n", "<leader>ra", "<cmd>reg<cr>", { desc = "Show registers" })
@@ -185,9 +154,9 @@ function M.setup()
     set("n", "<leader>vdu", "<cmd>diffupdate<cr>", { desc = "Diff update" })
 
     -- Better terminal
-    set("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Open terminal" })
-    set("n", "<leader>tv", "<cmd>vsplit | terminal<cr>", { desc = "Open terminal (vertical split)" })
-    set("n", "<leader>th", "<cmd>split | terminal<cr>", { desc = "Open terminal (horizontal split)" })
+    set("n", "<leader>T", "<cmd>terminal<cr>", { desc = "Open terminal" })
+    set("n", "<leader>Tv", "<cmd>vsplit | terminal<cr>", { desc = "Open terminal vertical" })
+    set("n", "<leader>Ts", "<cmd>split | terminal<cr>", { desc = "Open terminal horizontal" })
 
     -- Better help
     set("n", "<leader>hh", "<cmd>help<cr>", { desc = "Open help" })

@@ -4,6 +4,8 @@ return {
         "rose-pine/neovim",
         name = "rose-pine",
         config = function()
+            local ghostty_bg = "#FAFAFA"
+
             require("rose-pine").setup {
                 variant = "dawn", -- light variant for light terminal backgrounds
                 dark_variant = "main", -- main, moon, or dawn
@@ -19,6 +21,13 @@ return {
                     ["@keyword"] = { bold = true },
                     ["@function"] = { bold = true },
                     ["@string"] = { bold = true },
+                    Normal = { bg = ghostty_bg },
+                    NormalNC = { bg = ghostty_bg },
+                    NormalFloat = { bg = ghostty_bg },
+                    FloatBorder = { bg = ghostty_bg },
+                    SignColumn = { bg = ghostty_bg },
+                    StatusLine = { bg = ghostty_bg },
+                    TabLineFill = { bg = ghostty_bg },
                 },
             }
 

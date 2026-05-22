@@ -6,33 +6,50 @@ return {
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
+                enabled = vim.fn.executable "make" == 1 and vim.fn.has "win32" == 0,
+            },
+        },
+        keys = {
+            { "<leader>ma", desc = "Harpoon: Add file" },
+            { "<leader>mm", desc = "Harpoon: Toggle quick menu" },
+            { "<leader>m1", desc = "Harpoon: Go to file 1" },
+            { "<leader>m2", desc = "Harpoon: Go to file 2" },
+            { "<leader>m3", desc = "Harpoon: Go to file 3" },
+            { "<leader>m4", desc = "Harpoon: Go to file 4" },
+            { "<leader>mh", desc = "Harpoon: Previous file" },
+            { "<leader>ml", desc = "Harpoon: Next file" },
+        },
         config = function()
             local harpoon = require "harpoon"
             harpoon:setup()
 
-            vim.keymap.set("n", "<leader>a", function()
+            vim.keymap.set("n", "<leader>ma", function()
                 harpoon:list():append()
             end, { desc = "Harpoon: Add file" })
-            vim.keymap.set("n", "<leader>e", function()
+            vim.keymap.set("n", "<leader>mm", function()
                 harpoon.ui:toggle_quick_menu(harpoon:list())
             end, { desc = "Harpoon: Toggle quick menu" })
-            vim.keymap.set("n", "<leader>1", function()
+            vim.keymap.set("n", "<leader>m1", function()
                 harpoon:list():select(1)
             end, { desc = "Harpoon: Go to file 1" })
-            vim.keymap.set("n", "<leader>2", function()
+            vim.keymap.set("n", "<leader>m2", function()
                 harpoon:list():select(2)
             end, { desc = "Harpoon: Go to file 2" })
-            vim.keymap.set("n", "<leader>3", function()
+            vim.keymap.set("n", "<leader>m3", function()
                 harpoon:list():select(3)
             end, { desc = "Harpoon: Go to file 3" })
-            vim.keymap.set("n", "<leader>4", function()
+            vim.keymap.set("n", "<leader>m4", function()
                 harpoon:list():select(4)
             end, { desc = "Harpoon: Go to file 4" })
-            vim.keymap.set("n", "<leader>h", function()
+            vim.keymap.set("n", "<leader>mh", function()
                 harpoon:list():prev()
             end, { desc = "Harpoon: Previous file" })
-            vim.keymap.set("n", "<leader>l", function()
+            vim.keymap.set("n", "<leader>ml", function()
                 harpoon:list():next()
             end, { desc = "Harpoon: Next file" })
         end,
@@ -41,6 +58,15 @@ return {
     -- Fugitive - ThePrimeagen's Git integration
     {
         "tpope/vim-fugitive",
+        cmd = { "Git", "G", "Gdiffsplit", "Gvdiffsplit" },
+        keys = {
+            { "<leader>gs", desc = "Git status" },
+            { "<leader>gp", desc = "Git push" },
+            { "<leader>gP", desc = "Git pull" },
+            { "<leader>gc", desc = "Git commit" },
+            { "<leader>gb", desc = "Git blame" },
+            { "<leader>gl", desc = "Git log" },
+        },
         config = function()
             vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
             vim.keymap.set("n", "<leader>gp", function()
@@ -67,6 +93,9 @@ return {
     -- Zen mode - ThePrimeagen's focus mode
     {
         "folke/zen-mode.nvim",
+        keys = {
+            { "<leader>z", desc = "Toggle Zen mode" },
+        },
         config = function()
             require("zen-mode").setup {
                 window = {
@@ -88,8 +117,20 @@ return {
     -- Telescope - TJ's signature fuzzy finder (Windows compatible)
     {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.6",
+        tag = "0.1.8",
         dependencies = { "nvim-lua/plenary.nvim" },
+        cmd = "Telescope",
+        keys = {
+            { "<leader>f", desc = "Find files" },
+            { "<leader>F", desc = "Find files in cwd" },
+            { "<leader>/", desc = "Search workspace" },
+            { "<leader>b", desc = "Find buffers" },
+            { "<leader>?", desc = "Command palette" },
+            { "<leader>'", desc = "Resume picker" },
+            { "<leader>sh", desc = "Find help" },
+            { "<leader>s", desc = "Document symbols" },
+            { "<leader>S", desc = "Workspace symbols" },
+        },
         config = function()
             local telescope = require "telescope"
             local builtin = require "telescope.builtin"
@@ -112,11 +153,20 @@ return {
                 },
             }
 
+            pcall(telescope.load_extension, "fzf")
+
             -- TJ's telescope keymaps (Windows compatible)
-            vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-            vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
-            vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
-            vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find help" })
+            vim.keymap.set("n", "<leader>f", builtin.find_files, { desc = "Find files" })
+            vim.keymap.set("n", "<leader>F", function()
+                builtin.find_files { cwd = vim.uv.cwd() }
+            end, { desc = "Find files in cwd" })
+            vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Search workspace" })
+            vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "Find buffers" })
+            vim.keymap.set("n", "<leader>?", builtin.commands, { desc = "Command palette" })
+            vim.keymap.set("n", "<leader>'", builtin.resume, { desc = "Resume picker" })
+            vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "Find help" })
+            vim.keymap.set("n", "<leader>s", builtin.lsp_document_symbols, { desc = "Document symbols" })
+            vim.keymap.set("n", "<leader>S", builtin.lsp_workspace_symbols, { desc = "Workspace symbols" })
         end,
     },
 
@@ -124,6 +174,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile" },
         config = function()
             require("nvim-treesitter.configs").setup {
                 ensure_installed = {
@@ -203,6 +254,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = "VeryLazy",
         config = function()
             require("lualine").setup {
                 options = {
@@ -282,6 +334,10 @@ return {
     -- Undotree - Visual undo history
     {
         "mbbill/undotree",
+        cmd = "UndotreeToggle",
+        keys = {
+            { "<leader>u", desc = "Toggle undotree" },
+        },
         config = function()
             vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
         end,
@@ -291,23 +347,26 @@ return {
     {
         "folke/trouble.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        cmd = "Trouble",
+        keys = {
+            { "<leader>d", desc = "Document diagnostics" },
+            { "<leader>D", desc = "Workspace diagnostics" },
+            { "<leader>x", desc = "Diagnostics" },
+            { "<leader>xl", desc = "Location list" },
+            { "<leader>xq", desc = "Quickfix list" },
+        },
         config = function()
             require("trouble").setup()
-            vim.keymap.set("n", "<leader>xx", function()
-                require("trouble").toggle()
-            end, { desc = "Toggle trouble" })
-            vim.keymap.set("n", "<leader>xw", function()
-                require("trouble").toggle "workspace_diagnostics"
-            end, { desc = "Workspace diagnostics" })
-            vim.keymap.set("n", "<leader>xd", function()
-                require("trouble").toggle "document_diagnostics"
-            end, { desc = "Document diagnostics" })
-            vim.keymap.set("n", "<leader>xl", function()
-                require("trouble").toggle "loclist"
-            end, { desc = "Location list" })
-            vim.keymap.set("n", "<leader>xq", function()
-                require("trouble").toggle "quickfix"
-            end, { desc = "Quickfix list" })
+            vim.keymap.set(
+                "n",
+                "<leader>d",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                { desc = "Document diagnostics" }
+            )
+            vim.keymap.set("n", "<leader>D", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Workspace diagnostics" })
+            vim.keymap.set("n", "<leader>x", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics" })
+            vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist toggle<cr>", { desc = "Location list" })
+            vim.keymap.set("n", "<leader>xq", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix list" })
         end,
     },
 }

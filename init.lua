@@ -11,29 +11,17 @@ vim.opt.termguicolors = true
 vim.opt.background = "light"
 vim.g.transparent_background = false
 
--- Suppress lspconfig deprecation warnings globally
-vim.g.lspconfig_deprecation_warning = false
-
--- Override vim.notify to filter out deprecation warnings
-local original_notify = vim.notify
-vim.notify = function(msg, level, opts)
-    if msg and (string.find(msg, "deprecated") or string.find(msg, "lspconfig")) then
-        return
-    end
-    return original_notify(msg, level, opts)
-end
-
 -- Neovim 0.12 provider health checks call this helper, but some Windows
 -- release/runtime combinations can miss it. Define the expected behavior here
 -- so :checkhealth reports disabled providers instead of crashing.
 if vim.health and vim.health.provider_disabled == nil then
-  vim.health.provider_disabled = function(provider)
-    if vim.g["loaded_" .. provider .. "_provider"] == 0 then
-      vim.health.ok(provider .. " provider disabled")
-      return true
+    vim.health.provider_disabled = function(provider)
+        if vim.g["loaded_" .. provider .. "_provider"] == 0 then
+            vim.health.ok(provider .. " provider disabled")
+            return true
+        end
+        return false
     end
-    return false
-  end
 end
 
 -- Disable optional language providers to reduce warnings and startup work.
@@ -113,6 +101,7 @@ require("lazy").setup({
     { import = "custom.plugins.code-execution" },
     { import = "custom.plugins.session-management" },
     { import = "custom.plugins.advanced-file-management" },
+    { import = "custom.plugins.formatting" },
 
     -- AI Assistant
     { import = "custom.plugins.luca" },
@@ -126,9 +115,9 @@ require("lazy").setup({
     -- Tabline with close buttons
     { import = "custom.plugins.tabline" },
 }, {
-  rocks = {
-    enabled = false,
-  },
+    rocks = {
+        enabled = false,
+    },
 })
 
 -- Initialize autogroups (ThePrimeagen style)
