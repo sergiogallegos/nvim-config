@@ -17,6 +17,7 @@ return {
         config = function()
             require("conform").setup {
                 formatters_by_ft = {
+                    zig = { "zigfmt" }, -- runs `zig fmt`
                     lua = { "stylua" },
                     rust = { "rustfmt" },
                     python = { "isort", "black" },

@@ -25,12 +25,7 @@ return {
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
                     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
                     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-                    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
                     vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-                    vim.keymap.set("n", "<leader>=", function()
-                        vim.lsp.buf.format { async = true }
-                    end, opts)
 
                     if client and client:supports_method("textDocument/inlayHint", bufnr) then
                         vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
@@ -39,6 +34,7 @@ return {
             })
 
             local servers = {
+                zls = {}, -- Zig (primary language)
                 clangd = {},
                 pyright = {},
                 ts_ls = {},
@@ -65,63 +61,8 @@ return {
                 rust_analyzer = {
                     settings = {
                         ["rust-analyzer"] = {
-                            checkOnSave = true,
                             check = {
                                 command = "clippy",
-                                extraArgs = { "--", "-W", "clippy::all" },
-                            },
-                            cargo = {
-                                buildScripts = {
-                                    enable = true,
-                                },
-                                allFeatures = true,
-                            },
-                            procMacro = {
-                                enable = true,
-                            },
-                            diagnostics = {
-                                enable = true,
-                                experimental = {
-                                    enable = true,
-                                },
-                            },
-                            hover = {
-                                actions = {
-                                    enable = true,
-                                    implementations = {
-                                        enable = true,
-                                    },
-                                    references = {
-                                        enable = true,
-                                    },
-                                    run = {
-                                        enable = true,
-                                    },
-                                    debug = {
-                                        enable = true,
-                                    },
-                                    gotoTypeDef = {
-                                        enable = true,
-                                    },
-                                },
-                            },
-                            lens = {
-                                enable = true,
-                                run = {
-                                    enable = true,
-                                },
-                                debug = {
-                                    enable = true,
-                                },
-                                implementations = {
-                                    enable = true,
-                                },
-                                references = {
-                                    enable = true,
-                                },
-                            },
-                            inlayHints = {
-                                enable = false,
                             },
                         },
                     },
@@ -161,31 +102,22 @@ return {
         lazy = false,
         dependencies = { "williamboman/mason.nvim" },
         config = function()
+            local servers = {
+                "zls",
+                "clangd",
+                "pyright",
+                "ts_ls",
+                "gopls",
+                "lua_ls",
+                "bashls",
+                "jsonls",
+                "yamlls",
+                "taplo",
+                "rust_analyzer",
+            }
             require("mason-lspconfig").setup {
-                ensure_installed = {
-                    "clangd",
-                    "pyright",
-                    "ts_ls",
-                    "gopls",
-                    "lua_ls",
-                    "bashls",
-                    "jsonls",
-                    "yamlls",
-                    "taplo",
-                    "rust_analyzer",
-                },
-                automatic_enable = {
-                    "clangd",
-                    "pyright",
-                    "ts_ls",
-                    "gopls",
-                    "lua_ls",
-                    "bashls",
-                    "jsonls",
-                    "yamlls",
-                    "taplo",
-                    "rust_analyzer",
-                },
+                ensure_installed = servers,
+                automatic_enable = servers,
             }
         end,
     },

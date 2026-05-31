@@ -127,7 +127,6 @@ return {
             { "<leader>b", desc = "Find buffers" },
             { "<leader>?", desc = "Command palette" },
             { "<leader>'", desc = "Resume picker" },
-            { "<leader>sh", desc = "Find help" },
             { "<leader>s", desc = "Document symbols" },
             { "<leader>S", desc = "Workspace symbols" },
         },
@@ -164,7 +163,6 @@ return {
             vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "Find buffers" })
             vim.keymap.set("n", "<leader>?", builtin.commands, { desc = "Command palette" })
             vim.keymap.set("n", "<leader>'", builtin.resume, { desc = "Resume picker" })
-            vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "Find help" })
             vim.keymap.set("n", "<leader>s", builtin.lsp_document_symbols, { desc = "Document symbols" })
             vim.keymap.set("n", "<leader>S", builtin.lsp_workspace_symbols, { desc = "Workspace symbols" })
         end,
@@ -315,20 +313,6 @@ return {
         end,
     },
 
-    -- Which-key temporarily disabled due to Windows compatibility issues
-    -- {
-    --   "folke/which-key.nvim",
-    --   event = "VeryLazy",
-    --   config = function()
-    --     require("which-key").setup({
-    --       window = {
-    --         border = "rounded",
-    --       },
-    --       show_help = true,
-    --     })
-    --   end,
-    -- },
-
     -- === COMBINED BEST PRACTICES ===
 
     -- Undotree - Visual undo history
@@ -349,22 +333,20 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         cmd = "Trouble",
         keys = {
-            { "<leader>d", desc = "Document diagnostics" },
-            { "<leader>D", desc = "Workspace diagnostics" },
-            { "<leader>x", desc = "Diagnostics" },
+            { "<leader>xx", desc = "Workspace diagnostics" },
+            { "<leader>xd", desc = "Document diagnostics" },
             { "<leader>xl", desc = "Location list" },
             { "<leader>xq", desc = "Quickfix list" },
         },
         config = function()
             require("trouble").setup()
+            vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Workspace diagnostics" })
             vim.keymap.set(
                 "n",
-                "<leader>d",
+                "<leader>xd",
                 "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
                 { desc = "Document diagnostics" }
             )
-            vim.keymap.set("n", "<leader>D", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Workspace diagnostics" })
-            vim.keymap.set("n", "<leader>x", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics" })
             vim.keymap.set("n", "<leader>xl", "<cmd>Trouble loclist toggle<cr>", { desc = "Location list" })
             vim.keymap.set("n", "<leader>xq", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix list" })
         end,

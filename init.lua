@@ -51,14 +51,10 @@ vim.filetype.add {
     },
 }
 
--- Enhanced Status line with full file path
+-- Status line (lualine provides the active statusline; this is a fallback)
 vim.opt.laststatus = 2
-vim.opt.statusline = "%#StatusLine# %F %h%w%m%r %=%y %l,%c %P"
 
--- ThePrimeagen's colorscheme approach
--- Will be set by the colors plugin
-
--- Auto-commands for persistence (ThePrimeagen style)
+-- Auto-commands to keep line numbers on
 vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
     pattern = "*",
     callback = function()
@@ -82,37 +78,19 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- Ultimate configuration - Best of ThePrimeagen + TJ DeVries
+    -- Core editing: navigation, syntax, statusline, diagnostics
     { import = "custom.plugins.ultimate" },
     { import = "custom.plugins.lsp" },
     { import = "custom.plugins.completion" },
     { import = "custom.plugins.git" },
     { import = "custom.plugins.colors" },
 
-    -- Modern enhancements - Latest best practices
+    -- A small, curated set of editing helpers (mini.pairs / mini.surround)
     { import = "custom.plugins.enhancements" },
 
-    -- Cross-platform compatibility
-    { import = "custom.plugins.cross-platform" },
-
-    -- Advanced features from sergiogallegos/nvim-config
-    { import = "custom.plugins.git-advanced" },
-    { import = "custom.plugins.testing" },
-    { import = "custom.plugins.code-execution" },
-    { import = "custom.plugins.session-management" },
+    -- File explorer (oil), formatting (conform), buffer tabline
     { import = "custom.plugins.advanced-file-management" },
     { import = "custom.plugins.formatting" },
-
-    -- AI Assistant
-    { import = "custom.plugins.luca" },
-
-    -- NEW: Enhanced configurations (temporarily disabled for debugging)
-    -- { import = "custom.plugins.performance" },
-    -- { import = "custom.plugins.development" },
-    -- { import = "custom.plugins.rust-enhanced" },
-    -- { import = "custom.plugins.ui-enhanced" },
-
-    -- Tabline with close buttons
     { import = "custom.plugins.tabline" },
 }, {
     rocks = {
