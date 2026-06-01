@@ -40,7 +40,7 @@ function M.toggle_transparency()
     if normal_bg == nil then
         -- Disable transparency with a light-friendly fallback background.
         vim.g.transparent_background = false
-        local bg_color = "#faf4ed"
+        local bg_color = "#ffffff"
         vim.api.nvim_set_hl(0, "Normal", { bg = bg_color })
         vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg_color })
         vim.api.nvim_set_hl(0, "NormalNC", { bg = bg_color })
@@ -53,8 +53,8 @@ function M.toggle_transparency()
             vim.api.nvim_set_hl(0, "Question", { bg = bg_color })
         end
 
-        vim.api.nvim_set_hl(0, "StatusLine", { bg = "#f2e9de", fg = "#575279" })
-        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#fffaf3", fg = "#797593" })
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = bg_color, fg = "#000000" })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = bg_color, fg = "#595959" })
         vim.notify(
             "Transparency disabled ("
                 .. (platform.is_windows and "Windows" or platform.is_macos and "macOS" or "Linux")

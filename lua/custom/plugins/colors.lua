@@ -9,7 +9,10 @@ return {
 
             require("modus-themes").setup {
                 style = "modus_operandi", -- light variant (Emacs default look)
-                variant = "default", -- "default" | "tinted" | "deuteranopia" | "tritanopia"
+                variants = {
+                    modus_operandi = "default",
+                    modus_vivendi = "default",
+                },
                 transparent = false,
                 dim_inactive = false,
 
