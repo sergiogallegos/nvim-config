@@ -1,38 +1,38 @@
--- Colorscheme Configuration - ThePrimeagen style (rose-pine)
+-- Colorscheme Configuration - Emacs Modus (modus-operandi light)
 return {
     {
-        "rose-pine/neovim",
-        name = "rose-pine",
+        "miikanissi/modus-themes.nvim",
+        name = "modus-themes",
+        priority = 1000,
         config = function()
-            local ghostty_bg = "#FAFAFA"
+            local ghostty_bg = "#FFFFFF"
 
-            require("rose-pine").setup {
-                variant = "dawn", -- light variant for light terminal backgrounds
-                dark_variant = "main", -- main, moon, or dawn
-                bold_vert_split = false,
-                dim_nc_background = false,
-                disable_background = false,
-                disable_float_background = false,
-                disable_italics = true, -- Disable all italics
+            require("modus-themes").setup {
+                style = "modus_operandi", -- light variant (Emacs default look)
+                variant = "default", -- "default" | "tinted" | "deuteranopia" | "tritanopia"
+                transparent = false,
+                dim_inactive = false,
 
-                -- Custom highlight groups (no italics, just bold)
-                highlight_groups = {
-                    -- Customize specific highlight groups
-                    ["@keyword"] = { bold = true },
-                    ["@function"] = { bold = true },
-                    ["@string"] = { bold = true },
-                    Normal = { bg = ghostty_bg },
-                    NormalNC = { bg = ghostty_bg },
-                    NormalFloat = { bg = ghostty_bg },
-                    FloatBorder = { bg = ghostty_bg },
-                    SignColumn = { bg = ghostty_bg },
-                    StatusLine = { bg = ghostty_bg },
-                    TabLineFill = { bg = ghostty_bg },
+                styles = {
+                    comments = { italic = false },
+                    keywords = { bold = true },
+                    functions = { bold = true },
                 },
+
+                -- Match the light terminal background and remove stray italics
+                on_highlights = function(highlights, colors)
+                    highlights.Normal = { bg = ghostty_bg }
+                    highlights.NormalNC = { bg = ghostty_bg }
+                    highlights.NormalFloat = { bg = ghostty_bg }
+                    highlights.FloatBorder = { bg = ghostty_bg }
+                    highlights.SignColumn = { bg = ghostty_bg }
+                    highlights.StatusLine = { bg = ghostty_bg }
+                    highlights.TabLineFill = { bg = ghostty_bg }
+                end,
             }
 
             -- Apply the colorscheme
-            vim.cmd "colorscheme rose-pine"
+            vim.cmd "colorscheme modus_operandi"
         end,
     },
 }
