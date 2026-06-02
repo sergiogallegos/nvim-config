@@ -102,7 +102,7 @@ return {
                     width = 90,
                     options = {
                         number = true,
-                        relativenumber = true,
+                        relativenumber = false,
                     },
                 },
             }

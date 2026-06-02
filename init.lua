@@ -32,7 +32,7 @@ vim.g.loaded_ruby_provider = 0
 
 -- Essential options
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.splitbelow = true
@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
     pattern = "*",
     callback = function()
         vim.opt.number = true
-        vim.opt.relativenumber = true
+        vim.opt.relativenumber = false
     end,
 })
 
