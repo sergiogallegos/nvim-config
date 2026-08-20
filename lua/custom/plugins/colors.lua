@@ -1,8 +1,8 @@
 -- Colorscheme Configuration
 --
--- Default: `emacs-default` (lua/../colors/emacs-default.lua) — a faithful port
--- of vanilla GNU Emacs's default font-lock faces (purple keywords, blue
--- functions, firebrick comments, etc.) on a white background.
+-- Default: `emacs-default` (lua/../colors/emacs-default.lua) — GNU Emacs's
+-- default font-lock hues, tuned for modern development (purple keywords, blue
+-- functions, dark gray comments, accessible diagnostics) on a white background.
 --
 -- Modus is kept installed as a fallback you can switch to any time with
 -- `:colorscheme modus_operandi` (or `modus_vivendi` for the dark variant).
@@ -21,7 +21,7 @@ return {
                 },
             }
 
-            -- Apply the local original-Emacs colorscheme by default.
+            -- Apply the local Emacs-inspired colorscheme by default.
             vim.cmd "colorscheme emacs-default"
         end,
     },

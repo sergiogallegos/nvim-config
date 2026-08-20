@@ -1,9 +1,8 @@
--- emacs-default: a faithful port of GNU Emacs's default `font-lock` faces
--- (light background, the classic `emacs -q` look) to Neovim + Treesitter + LSP.
+-- emacs-default: GNU Emacs's default `font-lock` palette, tuned for modern
+-- Neovim development on a light background (Treesitter, LSP, and plugins).
 --
--- Palette below uses the exact X11 color names Emacs defines its default faces
--- with, so syntax colors match vanilla Emacs ~95%. Emacs does NOT bold its
--- default faces (only warnings), so nothing here is bold either, for fidelity.
+-- The classic hues stay recognizable, while colors used for small text meet a
+-- comfortable contrast level and transient editor state gets subtle tinting.
 
 vim.cmd "highlight clear"
 if vim.fn.exists "syntax_on" then
@@ -19,17 +18,18 @@ local c = {
     keyword = "#A020F0", -- font-lock-keyword-face         (Purple)
     func = "#0000FF", -- font-lock-function-name-face    (Blue1)
     variable = "#A0522D", -- font-lock-variable-name-face    (sienna)
-    type = "#228B22", -- font-lock-type-face             (ForestGreen)
-    constant = "#008B8B", -- font-lock-constant-face         (dark cyan)
+    type = "#1E7A1E", -- accessible ForestGreen
+    constant = "#007070", -- accessible dark cyan
     builtin = "#483D8B", -- font-lock-builtin-face          (dark slate blue)
     string = "#8B2252", -- font-lock-string-face           (VioletRed4)
-    comment = "#B22222", -- font-lock-comment-face          (Firebrick)
-    warning = "#FF0000", -- font-lock-warning-face          (Red)
-    doc = "#8B2252", -- font-lock-doc-face (inherits string)
+    comment = "#595959", -- comments (dark gray)
+    warning = "#C00000", -- accessible red
 
     -- UI chrome (Emacs default frame faces)
-    region = "#EEDC82", -- region (default light selection, LightGoldenrod2)
+    region = "#DCEBFF", -- selection, distinct from search and diff changes
+    reference = "#E6F2FF",
     cursorline = "#F2F2F2",
+    colorcolumn = "#FFF4F4",
     linenr = "#999999",
     linenr_cur = "#000000",
     modeline_bg = "#E5E5E5", -- mode-line
@@ -37,10 +37,14 @@ local c = {
     fringe = "#FFFFFF",
     hl_line = "#F0F0F0",
     match_paren = "#40E0D0", -- show-paren-match (turquoise)
-    err = "#FF0000",
-    warn = "#FF8C00",
-    info = "#0000FF",
-    hint = "#008B8B",
+    err = "#C00000",
+    warn = "#A65D00",
+    info = "#0000CC",
+    hint = "#007070",
+    diag_error_bg = "#FFE8E8",
+    diag_warn_bg = "#FFF2CC",
+    diag_info_bg = "#E6F2FF",
+    diag_hint_bg = "#E5F5F5",
 }
 
 local function hl(group, opts)
@@ -56,8 +60,10 @@ hl("FloatTitle", { fg = c.func, bg = c.bg, bold = true })
 hl("Cursor", { fg = c.bg, bg = c.fg })
 hl("CursorLine", { bg = c.cursorline })
 hl("CursorLineNr", { fg = c.linenr_cur, bg = c.cursorline })
+hl("CursorLineSign", { bg = c.cursorline })
+hl("CursorLineFold", { bg = c.cursorline })
 hl("CursorColumn", { bg = c.cursorline })
-hl("ColorColumn", { bg = c.hl_line })
+hl("ColorColumn", { bg = c.colorcolumn })
 hl("LineNr", { fg = c.linenr, bg = c.bg })
 hl("SignColumn", { fg = c.fg, bg = c.fringe })
 hl("Folded", { fg = c.comment, bg = c.hl_line })
@@ -65,8 +71,8 @@ hl("FoldColumn", { fg = c.linenr, bg = c.bg })
 hl("Visual", { bg = c.region })
 hl("VisualNOS", { bg = c.region })
 hl("Search", { fg = c.fg, bg = "#FFFF00" }) -- isearch / lazy-highlight (yellow)
-hl("IncSearch", { fg = c.bg, bg = c.keyword })
-hl("CurSearch", { fg = c.bg, bg = c.keyword })
+hl("IncSearch", { fg = c.fg, bg = "#FFB000", bold = true })
+hl("CurSearch", { fg = c.fg, bg = "#FFB000", bold = true })
 hl("MatchParen", { bg = c.match_paren, bold = true })
 hl("NonText", { fg = "#CCCCCC" })
 hl("Whitespace", { fg = "#DDDDDD" })
@@ -89,6 +95,12 @@ hl("WildMenu", { fg = c.bg, bg = c.func })
 -- Popup menu (company/completion)
 hl("Pmenu", { fg = c.fg, bg = "#F0F0F0" })
 hl("PmenuSel", { fg = c.bg, bg = c.func })
+hl("PmenuMatch", { fg = c.func, bold = true })
+hl("PmenuMatchSel", { fg = c.bg, bg = c.func, bold = true })
+hl("PmenuKind", { fg = c.type, bg = "#F0F0F0" })
+hl("PmenuKindSel", { fg = c.bg, bg = c.func })
+hl("PmenuExtra", { fg = c.comment, bg = "#F0F0F0" })
+hl("PmenuExtraSel", { fg = c.bg, bg = c.func })
 hl("PmenuSbar", { bg = "#E0E0E0" })
 hl("PmenuThumb", { bg = c.linenr })
 
@@ -139,7 +151,7 @@ hl("Todo", { fg = c.warning, bg = c.bg, bold = true })
 -- ── Treesitter (@captures) ───────────────────────────────────────────────
 -- Comments / docs
 hl("@comment", { link = "Comment" })
-hl("@comment.documentation", { fg = c.doc })
+hl("@comment.documentation", { fg = c.comment })
 hl("@comment.error", { fg = c.err, bold = true })
 hl("@comment.warning", { fg = c.warn })
 hl("@comment.todo", { link = "Todo" })
@@ -195,7 +207,7 @@ hl("@character.special", { fg = c.constant })
 
 -- Strings (VioletRed4)
 hl("@string", { fg = c.string })
-hl("@string.documentation", { fg = c.doc })
+hl("@string.documentation", { fg = c.string })
 hl("@string.regexp", { fg = c.constant })
 hl("@string.escape", { fg = c.constant })
 hl("@string.special", { fg = c.constant })
@@ -256,19 +268,45 @@ hl("@lsp.type.macro", { fg = c.builtin })
 hl("@lsp.type.builtinType", { fg = c.type })
 hl("@lsp.type.decorator", { fg = c.builtin })
 
+-- LSP navigation and inline context
+hl("LspReferenceText", { bg = c.reference })
+hl("LspReferenceRead", { bg = c.reference })
+hl("LspReferenceWrite", { bg = c.reference, underline = true })
+hl("LspSignatureActiveParameter", { fg = c.func, bg = c.reference, bold = true })
+hl("LspInlayHint", { fg = c.comment, bg = c.cursorline })
+hl("LspCodeLens", { fg = c.comment })
+hl("LspCodeLensSeparator", { fg = c.linenr })
+
 -- ── Diagnostics ──────────────────────────────────────────────────────────
 hl("DiagnosticError", { fg = c.err })
 hl("DiagnosticWarn", { fg = c.warn })
 hl("DiagnosticInfo", { fg = c.info })
 hl("DiagnosticHint", { fg = c.hint })
+hl("DiagnosticOk", { fg = c.type })
+hl("DiagnosticSignError", { fg = c.err })
+hl("DiagnosticSignWarn", { fg = c.warn })
+hl("DiagnosticSignInfo", { fg = c.info })
+hl("DiagnosticSignHint", { fg = c.hint })
+hl("DiagnosticSignOk", { fg = c.type })
 hl("DiagnosticUnderlineError", { sp = c.err, undercurl = true })
 hl("DiagnosticUnderlineWarn", { sp = c.warn, undercurl = true })
 hl("DiagnosticUnderlineInfo", { sp = c.info, undercurl = true })
 hl("DiagnosticUnderlineHint", { sp = c.hint, undercurl = true })
-hl("DiagnosticVirtualTextError", { fg = c.err, bg = c.bg })
-hl("DiagnosticVirtualTextWarn", { fg = c.warn, bg = c.bg })
-hl("DiagnosticVirtualTextInfo", { fg = c.info, bg = c.bg })
-hl("DiagnosticVirtualTextHint", { fg = c.hint, bg = c.bg })
+hl("DiagnosticVirtualTextError", { fg = c.err, bg = c.diag_error_bg })
+hl("DiagnosticVirtualTextWarn", { fg = c.warn, bg = c.diag_warn_bg })
+hl("DiagnosticVirtualTextInfo", { fg = c.info, bg = c.diag_info_bg })
+hl("DiagnosticVirtualTextHint", { fg = c.hint, bg = c.diag_hint_bg })
+hl("DiagnosticFloatingError", { fg = c.err })
+hl("DiagnosticFloatingWarn", { fg = c.warn })
+hl("DiagnosticFloatingInfo", { fg = c.info })
+hl("DiagnosticFloatingHint", { fg = c.hint })
+
+-- Spelling and list navigation
+hl("SpellBad", { sp = c.err, undercurl = true })
+hl("SpellCap", { sp = c.info, undercurl = true })
+hl("SpellRare", { sp = c.keyword, undercurl = true })
+hl("SpellLocal", { sp = c.hint, undercurl = true })
+hl("QuickFixLine", { bg = c.reference, bold = true })
 
 -- ── Diffs / git ──────────────────────────────────────────────────────────
 hl("DiffAdd", { bg = "#DDFFDD" })
@@ -282,11 +320,86 @@ hl("GitSignsAdd", { fg = c.type })
 hl("GitSignsChange", { fg = c.func })
 hl("GitSignsDelete", { fg = c.err })
 
--- ── Misc plugin niceties ─────────────────────────────────────────────────
+-- ── Completion ───────────────────────────────────────────────────────────
+hl("CmpItemAbbr", { fg = c.fg })
+hl("CmpItemAbbrMatch", { fg = c.func, bold = true })
+hl("CmpItemAbbrMatchFuzzy", { fg = c.keyword, bold = true })
+hl("CmpItemAbbrDeprecated", { fg = c.linenr, strikethrough = true })
+hl("CmpItemMenu", { fg = c.comment })
+hl("CmpItemKindText", { fg = c.fg })
+hl("CmpItemKindMethod", { fg = c.func })
+hl("CmpItemKindFunction", { fg = c.func })
+hl("CmpItemKindConstructor", { fg = c.func })
+hl("CmpItemKindField", { fg = c.variable })
+hl("CmpItemKindVariable", { fg = c.variable })
+hl("CmpItemKindProperty", { fg = c.variable })
+hl("CmpItemKindClass", { fg = c.type })
+hl("CmpItemKindInterface", { fg = c.type })
+hl("CmpItemKindStruct", { fg = c.type })
+hl("CmpItemKindTypeParameter", { fg = c.type })
+hl("CmpItemKindModule", { fg = c.type })
+hl("CmpItemKindUnit", { fg = c.constant })
+hl("CmpItemKindValue", { fg = c.constant })
+hl("CmpItemKindEnum", { fg = c.constant })
+hl("CmpItemKindEnumMember", { fg = c.constant })
+hl("CmpItemKindConstant", { fg = c.constant })
+hl("CmpItemKindKeyword", { fg = c.keyword })
+hl("CmpItemKindSnippet", { fg = c.builtin })
+hl("CmpItemKindFile", { fg = c.func })
+hl("CmpItemKindFolder", { fg = c.func })
+hl("CmpItemKindReference", { fg = c.builtin })
+hl("CmpItemKindColor", { fg = c.constant })
+hl("CmpItemKindEvent", { fg = c.builtin })
+hl("CmpItemKindOperator", { fg = c.keyword })
+
+-- ── Plugin surfaces ──────────────────────────────────────────────────────
 hl("WhichKey", { fg = c.func })
 hl("WhichKeyGroup", { fg = c.keyword })
 hl("WhichKeyDesc", { fg = c.fg })
 hl("WhichKeySeparator", { fg = c.linenr })
+hl("WhichKeyNormal", { fg = c.fg, bg = c.bg })
+hl("WhichKeyBorder", { fg = c.linenr, bg = c.bg })
+hl("WhichKeyTitle", { fg = c.func, bg = c.bg, bold = true })
 hl("TelescopeBorder", { fg = c.linenr })
+hl("TelescopePromptBorder", { fg = c.func })
+hl("TelescopePromptTitle", { fg = c.bg, bg = c.func, bold = true })
+hl("TelescopeResultsTitle", { fg = c.func, bold = true })
+hl("TelescopePreviewTitle", { fg = c.type, bold = true })
 hl("TelescopeSelection", { bg = c.region })
+hl("TelescopeSelectionCaret", { fg = c.func, bg = c.region, bold = true })
 hl("TelescopeMatching", { fg = c.keyword, bold = true })
+
+-- Bufferline defaults are applied with `default = true`, so these colors win.
+hl("BufferLineFill", { bg = c.modeline_bg })
+hl("BufferLineBackground", { fg = c.comment, bg = c.hl_line })
+hl("BufferLineBufferVisible", { fg = c.fg, bg = c.hl_line })
+hl("BufferLineBufferSelected", { fg = c.fg, bg = c.bg, bold = true })
+hl("BufferLineIndicatorSelected", { fg = c.func, bg = c.bg })
+hl("BufferLineSeparator", { fg = c.modeline_bg, bg = c.hl_line })
+hl("BufferLineSeparatorVisible", { fg = c.modeline_bg, bg = c.hl_line })
+hl("BufferLineSeparatorSelected", { fg = c.modeline_bg, bg = c.bg })
+hl("BufferLineModified", { fg = c.warn, bg = c.hl_line })
+hl("BufferLineModifiedVisible", { fg = c.warn, bg = c.hl_line })
+hl("BufferLineModifiedSelected", { fg = c.warn, bg = c.bg, bold = true })
+hl("BufferLineCloseButton", { fg = c.comment, bg = c.hl_line })
+hl("BufferLineCloseButtonVisible", { fg = c.comment, bg = c.hl_line })
+hl("BufferLineCloseButtonSelected", { fg = c.err, bg = c.bg })
+
+hl("TroubleNormal", { fg = c.fg, bg = c.bg })
+hl("TroubleNormalNC", { fg = c.fg, bg = c.bg })
+hl("TroubleText", { fg = c.fg })
+hl("TroubleSource", { fg = c.comment })
+hl("TroubleCode", { fg = c.constant })
+hl("TroubleIndent", { fg = "#CCCCCC" })
+hl("TroublePreview", { bg = c.reference })
+
+hl("OilDir", { fg = c.func, bold = true })
+hl("OilDirIcon", { fg = c.func })
+hl("OilHidden", { fg = c.linenr })
+hl("OilLink", { fg = c.constant, underline = true })
+hl("OilOrphanLink", { fg = c.err, underline = true })
+hl("OilCreate", { fg = c.type })
+hl("OilDelete", { fg = c.err })
+hl("OilMove", { fg = c.warn })
+hl("OilCopy", { fg = c.func })
+hl("OilChange", { fg = c.keyword })
