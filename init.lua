@@ -4,11 +4,12 @@
 -- Platform detection and setup
 local platform = require "custom.platform"
 platform.setup_platform_specific()
+local appearance = require "custom.appearance"
 
 -- Basic settings
 vim.g.mapleader = " "
 vim.opt.termguicolors = true
-vim.opt.background = "light"
+vim.opt.background = appearance.detect()
 vim.g.transparent_background = false
 
 -- Neovim 0.12 provider health checks call this helper, but some Windows
@@ -98,6 +99,8 @@ require("lazy").setup({
     },
 })
 
+appearance.setup()
+
 -- Initialize autogroups (ThePrimeagen style)
 require("custom.autogroups").setup()
 
@@ -115,7 +118,7 @@ vim.keymap.set("n", "<leader>pi", function()
     platform.debug_platform()
 end, { desc = "Debug platform info" })
 
--- Keep light terminal colors opaque by default. Toggle with <leader>ct.
+-- Keep terminal colors opaque by default. Toggle with <leader>ct.
 vim.api.nvim_create_autocmd("ColorScheme", {
     pattern = "*",
     callback = function()

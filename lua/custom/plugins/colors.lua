@@ -1,8 +1,7 @@
 -- Colorscheme Configuration
 --
--- Default: `emacs-default` (lua/../colors/emacs-default.lua) — GNU Emacs's
--- default font-lock hues, tuned for modern development (purple keywords, blue
--- functions, dark gray comments, accessible diagnostics) on a white background.
+-- `emacs-default` and `emacs-default-dark` preserve the same semantic
+-- font-lock palette while following the system's light or dark appearance.
 --
 -- Modus is kept installed as a fallback you can switch to any time with
 -- `:colorscheme modus_operandi` (or `modus_vivendi` for the dark variant).
@@ -12,8 +11,9 @@ return {
         name = "modus-themes",
         priority = 1000,
         config = function()
+            local dark = vim.o.background == "dark"
             require("modus-themes").setup {
-                style = "modus_operandi",
+                style = dark and "modus_vivendi" or "modus_operandi",
                 transparent = false,
                 dim_inactive = false,
                 styles = {
@@ -21,8 +21,7 @@ return {
                 },
             }
 
-            -- Apply the local Emacs-inspired colorscheme by default.
-            vim.cmd "colorscheme emacs-default"
+            vim.cmd.colorscheme(dark and "emacs-default-dark" or "emacs-default")
         end,
     },
 }

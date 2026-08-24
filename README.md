@@ -13,10 +13,10 @@ A comprehensive, cross-platform Neovim configuration combining the best practice
 - **Debugging**: nvim-dap with Go and Python support
 
 ### Visual & UI
-- **Colorscheme**: Rose-pine (ThePrimeagen style) with TokyoNight fallback
+- **Colorscheme**: Matching Emacs-inspired light and dark themes that follow macOS appearance
 - **Status Line**: Lualine with icons and professional styling
 - **Syntax Highlighting**: Treesitter with 20+ language parsers
-- **Transparency**: Smart transparency system for Windows PowerShell
+- **Transparency**: Theme-aware transparency on Windows, macOS, and Linux
 - **Icons**: nvim-web-devicons for file type indicators
 
 ### Modern Enhancements
@@ -49,24 +49,22 @@ This configuration has been cleaned and optimized for maximum performance:
 │       │   ├── ultimate.lua    # ThePrimeagen + TJ DeVries plugins
 │       │   ├── lsp.lua         # LSP and language servers
 │       │   ├── git.lua         # Git integration
-│       │   ├── colors.lua      # Rose-pine colorscheme
-│       │   ├── fallback-colors.lua # TokyoNight fallback
+│       │   ├── colors.lua      # Emacs light/dark colorscheme setup
 │       │   ├── enhancements.lua # Modern mini plugins
-│       │   └── cross-platform.lua # Cross-platform compatibility
-│       ├── ultimate-keymaps.lua # ThePrimeagen + TJ DeVries keymaps
+│       │   └── ...
+│       ├── appearance.lua      # System appearance synchronization
 │       ├── enhanced-keymaps.lua # Modern enhancement keymaps
 │       ├── diagnostic-help.lua # Diagnostic viewing system
 │       ├── autogroups.lua      # Professional autocmd management
 │       ├── transparency.lua    # Cross-platform transparency
-│       ├── platform.lua        # Platform detection system
-│       └── colorscheme-switcher.lua # Colorscheme management
+│       └── platform.lua        # Platform detection system
 ├── plugin/                     # Plugin-specific configurations
 │   ├── keymaps.lua             # Basic key mappings
 │   ├── options.lua             # Neovim options
 │   └── ...
 └── colors/                     # Color schemes
-    ├── colorbuddy.vim          # Custom theme
-    └── nightshade.vim          # Alternative theme
+    ├── emacs-default.lua       # Custom light theme
+    └── emacs-default-dark.lua  # Matching custom dark theme
 ```
 
 ### Cleaned Files
@@ -193,8 +191,7 @@ nvim
 - `<leader>to` - Close other tabs
 
 #### Colorscheme & Transparency
-- `<leader>cn` - Next colorscheme
-- `<leader>cp` - Previous colorscheme
+- `:AppearanceSync` - Synchronize immediately with the macOS appearance
 - `<leader>ct` - Toggle transparency
 
 #### Advanced Git (From sergiogallegos/nvim-config)
@@ -246,14 +243,16 @@ nvim
 
 ## 🎨 Colorschemes
 
-### Primary Colorscheme: Rose-pine
-- **Rose-pine** - ThePrimeagen's signature colorscheme (default)
-- **TokyoNight** - Professional fallback
-- **Default** - Vim default (fallback)
+### Automatic system appearance
 
-### Switching Colorschemes
-- `<leader>cn` - Next colorscheme
-- `<leader>cp` - Previous colorscheme
+- **Light mode** uses the custom `emacs-default` colorscheme.
+- **Dark mode** uses the matching `emacs-default-dark` colorscheme.
+- On macOS, Neovim checks at startup, when it regains focus, and every two seconds while open.
+- Run `:AppearanceSync` to request an immediate refresh.
+- Set `NVIM_APPEARANCE=light` or `NVIM_APPEARANCE=dark` before starting Neovim to override automatic detection.
+
+### Transparency
+
 - `<leader>ct` - Toggle transparency
 
 ## 🔧 Language Support
