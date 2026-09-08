@@ -112,7 +112,7 @@ return {
     -- Telescope - TJ's signature fuzzy finder (Windows compatible)
     {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.8",
+        tag = "v0.2.2",
         dependencies = {
             "nvim-lua/plenary.nvim",
             {
