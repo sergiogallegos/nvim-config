@@ -1,6 +1,6 @@
 -- Keymaps - kept intentionally small.
 -- Philosophy: a handful of memorable bindings, no deep prefix trees.
--- LSP go-to bindings (gd, gD, gr, gi, K, <C-k>) live in plugins/lsp.lua.
+-- LSP go-to bindings (gd, gD, gr, gi, K, <leader>ls) live in plugins/lsp.lua.
 -- Git hunks (<leader>h*) live in plugins/git.lua. Diagnostics ([d, ]d) in
 -- custom/diagnostic-help.lua. Telescope/harpoon/trouble in plugins/ultimate.lua.
 local M = {}
@@ -39,6 +39,9 @@ function M.setup()
     set("n", "<leader>we", "<C-w>=", { desc = "Equalize windows" })
 
     -- Buffers
+    set("n", "<leader>B", function()
+        vim.api.nvim_buf_delete(0, { force = false })
+    end, { desc = "Close buffer (preserve unsaved changes)" })
     set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
     set("n", "[b", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
     set("n", "<leader><space>", "<cmd>buffer #<cr>", { desc = "Switch to last buffer" })
@@ -46,7 +49,14 @@ function M.setup()
     -- Terminal
     set("n", "<leader>T", "<cmd>terminal<cr>", { desc = "Open terminal" })
 
+    set("n", "[q", "<cmd>cprevious<cr>zz", { desc = "Previous quickfix item" })
+    set("n", "]q", "<cmd>cnext<cr>zz", { desc = "Next quickfix item" })
+
     -- A few quick toggles
+    set("n", "<leader>oh", function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+    end, { desc = "Toggle inlay hints" })
     set("n", "<leader>on", "<cmd>set number!<cr>", { desc = "Toggle line numbers" })
     set("n", "<leader>or", "<cmd>set relativenumber!<cr>", { desc = "Toggle relative numbers" })
     set("n", "<leader>ow", "<cmd>set wrap!<cr>", { desc = "Toggle wrap" })

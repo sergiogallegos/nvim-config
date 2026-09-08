@@ -43,6 +43,10 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.clipboard = "unnamedplus"
+vim.opt.undofile = true
+vim.opt.signcolumn = "yes"
+vim.opt.scrolloff = 4
+vim.opt.showmode = false
 
 -- File type settings
 vim.filetype.add {
@@ -54,15 +58,6 @@ vim.filetype.add {
 
 -- Status line (lualine provides the active statusline; this is a fallback)
 vim.opt.laststatus = 2
-
--- Auto-commands to keep line numbers on
-vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
-    pattern = "*",
-    callback = function()
-        vim.opt.number = true
-        vim.opt.relativenumber = false
-    end,
-})
 
 -- Lazy.nvim setup
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -82,6 +77,8 @@ require("lazy").setup({
     -- Core editing: navigation, syntax, statusline, diagnostics
     { import = "custom.plugins.ultimate" },
     { import = "custom.plugins.lsp" },
+    { import = "custom.plugins.rust" },
+    { import = "custom.plugins.syntax" },
     { import = "custom.plugins.completion" },
     { import = "custom.plugins.git" },
     { import = "custom.plugins.colors" },

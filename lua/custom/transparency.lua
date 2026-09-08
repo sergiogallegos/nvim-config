@@ -37,9 +37,7 @@ function M.toggle_transparency()
     local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
     if normal_bg == nil then
         vim.g.transparent_background = false
-        vim.cmd.colorscheme(
-            vim.g.colors_name or (vim.o.background == "dark" and "emacs-default-dark" or "emacs-default")
-        )
+        vim.cmd.colorscheme(vim.g.colors_name or (vim.o.background == "dark" and "gruvbox" or "emacs-default"))
         vim.notify(
             "Transparency disabled ("
                 .. (platform.is_windows and "Windows" or platform.is_macos and "macOS" or "Linux")

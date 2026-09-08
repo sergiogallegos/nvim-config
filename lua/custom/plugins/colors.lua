@@ -1,27 +1,26 @@
--- Colorscheme Configuration
---
--- `emacs-default` and `emacs-default-dark` preserve the same semantic
--- font-lock palette while following the system's light or dark appearance.
---
--- Modus is kept installed as a fallback you can switch to any time with
--- `:colorscheme modus_operandi` (or `modus_vivendi` for the dark variant).
+-- Keep the custom Emacs palette in light mode and use Gruvbox in dark mode.
+-- `custom.appearance` applies the correct theme when the system changes.
 return {
     {
-        "miikanissi/modus-themes.nvim",
-        name = "modus-themes",
+        "ellisonleao/gruvbox.nvim",
+        name = "gruvbox",
         priority = 1000,
         config = function()
-            local dark = vim.o.background == "dark"
-            require("modus-themes").setup {
-                style = dark and "modus_vivendi" or "modus_operandi",
-                transparent = false,
+            require("gruvbox").setup {
+                terminal_colors = true,
+                contrast = "",
                 dim_inactive = false,
-                styles = {
-                    comments = { italic = false },
+                transparent_mode = false,
+                italic = {
+                    strings = false,
+                    emphasis = true,
+                    comments = false,
+                    operators = false,
+                    folds = true,
                 },
             }
 
-            vim.cmd.colorscheme(dark and "emacs-default-dark" or "emacs-default")
+            vim.cmd.colorscheme(vim.o.background == "dark" and "gruvbox" or "emacs-default")
         end,
     },
 }

@@ -4,8 +4,8 @@ return {
         "neovim/nvim-lspconfig",
         lazy = false,
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
+            "mason-org/mason.nvim",
+            "mason-org/mason-lspconfig.nvim",
             "hrsh7th/cmp-nvim-lsp",
         },
         config = function()
@@ -18,13 +18,14 @@ return {
                 callback = function(event)
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
                     local bufnr = event.buf
-                    local opts = { noremap = true, silent = true, buf = bufnr }
+                    local opts = { noremap = true, silent = true, buffer = bufnr }
 
                     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
                     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-                    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+                    vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+                    vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
                     vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 
                     if client and client:supports_method("textDocument/inlayHint", bufnr) then
@@ -34,11 +35,15 @@ return {
             })
 
             local servers = {
-                zls = {}, -- Zig (primary language)
-                clangd = {},
-                pyright = {},
+                pyright = {
+                    settings = { pyright = { disableOrganizeImports = true } },
+                },
+                ruff = {
+                    on_attach = function(client)
+                        client.server_capabilities.hoverProvider = false
+                    end,
+                },
                 ts_ls = {},
-                gopls = {},
                 lua_ls = {
                     settings = {
                         Lua = {
@@ -54,19 +59,8 @@ return {
                         },
                     },
                 },
-                bashls = {},
-                jsonls = {},
-                yamlls = {},
                 taplo = {},
-                rust_analyzer = {
-                    settings = {
-                        ["rust-analyzer"] = {
-                            check = {
-                                command = "clippy",
-                            },
-                        },
-                    },
-                },
+
             }
 
             local function setup_server(server_name, config)
@@ -87,7 +81,7 @@ return {
         end,
     },
     {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         lazy = false,
         config = function()
             require("mason").setup {
@@ -98,26 +92,21 @@ return {
         end,
     },
     {
-        "williamboman/mason-lspconfig.nvim",
+        "mason-org/mason-lspconfig.nvim",
         lazy = false,
-        dependencies = { "williamboman/mason.nvim" },
+        dependencies = { "mason-org/mason.nvim" },
         config = function()
             local servers = {
-                "zls",
-                "clangd",
                 "pyright",
+                "ruff",
                 "ts_ls",
-                "gopls",
                 "lua_ls",
-                "bashls",
-                "jsonls",
-                "yamlls",
                 "taplo",
                 "rust_analyzer",
             }
             require("mason-lspconfig").setup {
                 ensure_installed = servers,
-                automatic_enable = servers,
+                automatic_enable = false, -- Enabled once above, with our settings.
             }
         end,
     },

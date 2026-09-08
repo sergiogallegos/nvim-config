@@ -1,0 +1,11 @@
+local function map(lhs, command, desc)
+    vim.keymap.set("n", lhs, function()
+        vim.cmd.RustLsp(command)
+    end, { buffer = true, silent = true, desc = desc })
+end
+map("<leader>Ra", "codeAction", "Rust: grouped code actions")
+map("<leader>Rr", "runnables", "Rust: run target")
+map("<leader>Rt", "testables", "Rust: run tests")
+map("<leader>Rm", "expandMacro", "Rust: expand macro")
+map("<leader>Re", "explainError", "Rust: explain error")
+map("<leader>Rd", "debuggables", "Rust: debug target")

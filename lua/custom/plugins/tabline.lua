@@ -13,8 +13,12 @@ return {
           mode = "buffers",
           themable = true,
           numbers = "none",
-          close_command = "bdelete! %d",
-          right_mouse_command = "bdelete! %d",
+          close_command = function(bufnr)
+            vim.api.nvim_buf_delete(bufnr, { force = false })
+          end,
+          right_mouse_command = function(bufnr)
+            vim.api.nvim_buf_delete(bufnr, { force = false })
+          end,
           left_mouse_command = "buffer %d",
           middle_mouse_command = nil,
           indicator = {
@@ -41,7 +45,7 @@ return {
           show_tab_indicators = true,
           separator_style = "thin",
           enforce_regular_tabs = false,
-          always_show_bufferline = true,
+          always_show_bufferline = false,
           hover = {
             enabled = true,
             delay = 200,

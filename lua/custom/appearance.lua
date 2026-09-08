@@ -4,7 +4,7 @@ local platform = require "custom.platform"
 
 local themes = {
     light = "emacs-default",
-    dark = "emacs-default-dark",
+    dark = "gruvbox",
 }
 
 local timer

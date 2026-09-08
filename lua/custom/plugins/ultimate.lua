@@ -8,11 +8,6 @@ return {
         branch = "harpoon2",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "make",
-                enabled = vim.fn.executable "make" == 1 and vim.fn.has "win32" == 0,
-            },
         },
         keys = {
             { "<leader>ma", desc = "Harpoon: Add file" },
@@ -29,7 +24,7 @@ return {
             harpoon:setup()
 
             vim.keymap.set("n", "<leader>ma", function()
-                harpoon:list():append()
+                harpoon:list():add()
             end, { desc = "Harpoon: Add file" })
             vim.keymap.set("n", "<leader>mm", function()
                 harpoon.ui:toggle_quick_menu(harpoon:list())
@@ -118,10 +113,20 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.8",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
+                enabled = vim.fn.executable "make" == 1 and vim.fn.has "win32" == 0,
+            },
+        },
         cmd = "Telescope",
         keys = {
             { "<leader>f", desc = "Find files" },
+            { "<C-p>", desc = "Find files" },
+            { "<leader>O", desc = "Recent project files" },
+            { "<leader>G", desc = "Search text in cwd" },
             { "<leader>F", desc = "Find files in cwd" },
             { "<leader>/", desc = "Search workspace" },
             { "<leader>b", desc = "Find buffers" },
@@ -155,96 +160,29 @@ return {
             pcall(telescope.load_extension, "fzf")
 
             -- TJ's telescope keymaps (Windows compatible)
-            vim.keymap.set("n", "<leader>f", builtin.find_files, { desc = "Find files" })
+            local project = require "custom.project"
+            local function find_project_files()
+                builtin.find_files { cwd = project.root() }
+            end
+            vim.keymap.set("n", "<leader>f", find_project_files, { desc = "Find project files" })
+            vim.keymap.set("n", "<C-p>", find_project_files, { desc = "Find project files" })
+            vim.keymap.set("n", "<leader>O", function()
+                builtin.oldfiles { cwd = project.root(), cwd_only = true }
+            end, { desc = "Recent project files" })
+            vim.keymap.set("n", "<leader>G", function()
+                builtin.live_grep { cwd = vim.uv.cwd() }
+            end, { desc = "Search text in cwd" })
             vim.keymap.set("n", "<leader>F", function()
                 builtin.find_files { cwd = vim.uv.cwd() }
             end, { desc = "Find files in cwd" })
-            vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Search workspace" })
+            vim.keymap.set("n", "<leader>/", function()
+                builtin.live_grep { cwd = project.root() }
+            end, { desc = "Search project" })
             vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "Find buffers" })
             vim.keymap.set("n", "<leader>?", builtin.commands, { desc = "Command palette" })
             vim.keymap.set("n", "<leader>'", builtin.resume, { desc = "Resume picker" })
             vim.keymap.set("n", "<leader>s", builtin.lsp_document_symbols, { desc = "Document symbols" })
             vim.keymap.set("n", "<leader>S", builtin.lsp_workspace_symbols, { desc = "Workspace symbols" })
-        end,
-    },
-
-    -- Treesitter - TJ's advanced syntax highlighting
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        event = { "BufReadPost", "BufNewFile" },
-        config = function()
-            require("nvim-treesitter.configs").setup {
-                ensure_installed = {
-                    "c",
-                    "cpp",
-                    "python",
-                    "java",
-                    "javascript",
-                    "typescript",
-                    "go",
-                    "rust",
-                    "zig",
-                    "sql",
-                    "lua",
-                    "vim",
-                    "vimdoc",
-                    "markdown",
-                    "json",
-                    "yaml",
-                    "toml",
-                    "bash",
-                    "fish",
-                    "dockerfile",
-                },
-                auto_install = true,
-                highlight = {
-                    enable = true,
-                    additional_vim_regex_highlighting = false,
-                },
-                indent = { enable = true },
-                incremental_selection = {
-                    enable = true,
-                    keymaps = {
-                        init_selection = "<C-space>",
-                        node_incremental = "<C-space>",
-                        scope_incremental = "<C-s>",
-                        node_decremental = "<C-backspace>",
-                    },
-                },
-                textobjects = {
-                    select = {
-                        enable = true,
-                        lookahead = true,
-                        keymaps = {
-                            ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
-                            ["ic"] = "@class.inner",
-                        },
-                    },
-                    move = {
-                        enable = true,
-                        set_jumps = true,
-                        goto_next_start = {
-                            ["]m"] = "@function.outer",
-                            ["]]"] = "@class.outer",
-                        },
-                        goto_next_end = {
-                            ["]M"] = "@function.outer",
-                            ["]["] = "@class.outer",
-                        },
-                        goto_previous_start = {
-                            ["[m"] = "@function.outer",
-                            ["[["] = "@class.outer",
-                        },
-                        goto_previous_end = {
-                            ["[M"] = "@function.outer",
-                            ["[]"] = "@class.outer",
-                        },
-                    },
-                },
-            }
         end,
     },
 

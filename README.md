@@ -1,425 +1,148 @@
-# Neovim Configuration - Cross-Platform Professional Setup
+# Neovim configuration
 
-A comprehensive, cross-platform Neovim configuration combining the best practices from ThePrimeagen and TJ DeVries, optimized for both Windows and macOS development with modern enhancements and advanced features.
+A compact Rust-first setup with Python and TypeScript support. Requires Neovim
+0.12+ (tested on 0.12.5), Git, a C compiler and make for native plugins/parsers,
+tree-sitter CLI 0.26.1+ (`brew install tree-sitter-cli` on macOS),
+Node.js/npm for TypeScript and Prettier, and ripgrep for searching file contents.
+Use a Nerd Font if you want file icons.
 
-## 🚀 Features
+## Languages and formatting
 
-### Core Functionality
-- **LSP Support**: Comprehensive language server support for C/C++, Python, JavaScript/TypeScript, Go, Rust, SQL, and C#
-- **Completion**: nvim-cmp with LSP, snippets, and path completion
-- **Fuzzy Finding**: Telescope with built-in functionality (Windows compatible)
-- **Git Integration**: Complete git workflow with Fugitive and Gitsigns
-- **File Navigation**: Harpoon for quick file switching and Oil for modern file management
-- **Debugging**: nvim-dap with Go and Python support
+| Language | Language server | Formatting |
+| --- | --- | --- |
+| Rust | rustaceanvim / rust-analyzer with Clippy checks | rustfmt from your Rust toolchain |
+| Python | Pyright for types; Ruff for linting | Ruff import sorting, then formatting |
+| TypeScript / JavaScript / TSX | ts_ls | Prettier (project-local installation preferred) |
+| Lua | lua_ls | StyLua |
+| TOML | taplo | Taplo |
 
-### Visual & UI
-- **Colorscheme**: Matching Emacs-inspired light and dark themes that follow macOS appearance
-- **Status Line**: Lualine with icons and professional styling
-- **Syntax Highlighting**: Treesitter with 20+ language parsers
-- **Transparency**: Theme-aware transparency on Windows, macOS, and Linux
-- **Icons**: nvim-web-devicons for file type indicators
+Mason installs the language servers. mason-tool-installer installs missing
+Prettier, StyLua, and CodeLLDB executables without automatically upgrading existing versions.
+Run `:MasonToolsInstall` to retry formatter installation, and `:Mason` to inspect
+language servers. Rust tools are managed by rustup:
 
-### Modern Enhancements
-- **Auto-save**: Automatic file saving on text changes
-- **Smart Splits**: Enhanced window management
-- **Mini Plugins**: Lightweight alternatives for better performance
-- **Session Management**: Mini.sessions for workspace persistence
-- **Diagnostic Help**: Comprehensive error viewing with Trouble.nvim
-
-### Advanced Features (From sergiogallegos/nvim-config)
-- **Advanced Git**: Diffview, git worktrees, conflict resolution, git blame
-- **Testing Framework**: Neotest with Go, Python, and Jest support
-- **Code Execution**: Sniprun for running code snippets
-- **Session Management**: Persistence for workspace management
-- **Advanced File Management**: Oil with floating windows and preview
-
-## 📁 Structure
-
-### Clean & Organized
-This configuration has been cleaned and optimized for maximum performance:
-
-```
-~/.config/nvim/
-├── init.lua                     # Main configuration entry point
-├── lazy-lock.json              # Plugin version lock file
-├── README.md                   # This documentation
-├── lua/
-│   └── custom/
-│       ├── plugins/            # Plugin configurations (cleaned)
-│       │   ├── ultimate.lua    # ThePrimeagen + TJ DeVries plugins
-│       │   ├── lsp.lua         # LSP and language servers
-│       │   ├── git.lua         # Git integration
-│       │   ├── colors.lua      # Emacs light/dark colorscheme setup
-│       │   ├── enhancements.lua # Modern mini plugins
-│       │   └── ...
-│       ├── appearance.lua      # System appearance synchronization
-│       ├── enhanced-keymaps.lua # Modern enhancement keymaps
-│       ├── diagnostic-help.lua # Diagnostic viewing system
-│       ├── autogroups.lua      # Professional autocmd management
-│       ├── transparency.lua    # Cross-platform transparency
-│       └── platform.lua        # Platform detection system
-├── plugin/                     # Plugin-specific configurations
-│   ├── keymaps.lua             # Basic key mappings
-│   ├── options.lua             # Neovim options
-│   └── ...
-└── colors/                     # Color schemes
-    ├── emacs-default.lua       # Custom light theme
-    └── emacs-default-dark.lua  # Matching custom dark theme
+```sh
+rustup component add rust-src rustfmt clippy
 ```
 
-### Cleaned Files
-The following unused files have been removed for better performance:
-- **Old plugin files**: autopairs.lua, comment.lua, completion.lua, etc.
-- **Unused snippets**: elixir.lua, snippets.lua
-- **Redundant configurations**: telescope.lua, treesitter.lua, f.lua
-- **Empty directories**: snippets/, telescope/
+Formatting runs on save; `Space =` formats manually, including visual selections.
+`:ConformInfo` shows which executable is selected. Project-local Prettier takes
+precedence over the Mason fallback; keep Prettier in each TypeScript project's
+devDependencies to match its team's version and configuration. ESLint is not
+configured globally. C/C++ formatting on save remains disabled.
 
-## 🔧 Installation
+Launch Neovim from the project directory. Activate your Python virtual environment
+before launching, or use `:LspPyrightSetPythonPath /path/to/.venv/bin/python`.
+Project `pyproject.toml`, Ruff configuration, and TypeScript `tsconfig.json` remain
+the source of project-specific rules. TypeScript workspace detection uses the
+nearest package-manager lockfile or Git root, falling back to the working directory.
 
-### Cross-Platform Setup
+## Navigation
 
-#### Windows Installation:
-```bash
-# Install Neovim 0.10+
-# Option 1: Chocolatey
-choco install neovim
+The leader key is Space. These shortcuts work in normal mode:
 
-# Option 2: Winget
-winget install Neovim.Neovim
+| Shortcut | Action |
+| --- | --- |
+| `Space f` / `Ctrl-p` | Find project files |
+| `Space /` | Search text in the current project |
+| `Space O` | Recent files in the current project |
+| `Space F` / `Space G` | Find files / search text in the working directory |
+| `Space b` | Pick an open buffer |
+| `-` / `Space e` | Browse the current file's directory with Oil |
+| `Shift-h` / `Shift-l` | Previous / next open buffer |
+| `[b` / `]b` | Previous / next open buffer |
+| `Space Space` | Switch to the last buffer |
+| `Space B` | Close buffer; refuse if it contains unsaved changes |
+| `Space ma` | Add current file to Harpoon |
+| `Space mm` | Show Harpoon's saved files |
+| `Space m1`–`Space m4` | Jump to a saved file |
+| `Ctrl-h/j/k/l` | Move between split windows |
+| `Space wv` / `Space ws` | Vertical / horizontal split |
+| `gd` / `gr` / `gi` | Definition / references / implementation |
+| `Space s` / `Space S` | Document / workspace symbols |
 
-# Option 3: Download from: https://github.com/neovim/neovim/releases
+In Telescope, type to filter, press Enter to open, or Ctrl-v / Ctrl-x to open in
+a vertical / horizontal split. In Oil, Enter opens a file or directory, `-` goes
+up a directory, and `g.` toggles hidden files. Oil keeps `Ctrl-p` and `Ctrl-h/j/k/l` available for file and window navigation.
+Use `gV` / `gS` to open vertical / horizontal splits, `gp` for preview, and `gR` to refresh.
+Project search uses the current file or Oil directory: nearest Git/Hg repository,
+then nearest language project marker, then that directory. This includes sibling
+crates in a repository without changing cwd. Working-directory searches remain
+available with `Space F` / `Space G`.
+
+## Editing
+
+- `K` / `Space k`: hover documentation; `Space ls`: signature help.
+- `Space r`: rename a symbol; `Space a`: code actions.
+- `[d` / `]d`: previous / next diagnostic with its message.
+- `Space xx` / `Space xd`: workspace / document diagnostics in Trouble.
+- `gcc` / `gc`: built-in line / selection commenting.
+- `sa`, `sd`, `sr`: add, delete, replace surrounding delimiters.
+- `Space W`: save; `Space q`: quit; `Space u`: undo tree.
+- `Space gs`: Git status; `Space z`: Zen Mode.
+- `Space on`, `Space or`, `Space ow`: toggle numbers, relative numbers, wrapping.
+
+Bufferline appears when multiple buffers are open. Its close buttons refuse to
+discard unsaved edits. Saving does not blindly strip trailing whitespace from
+strings, Markdown hard breaks, or files without a formatter.
+
+## Appearance
+
+Dark mode uses **Gruvbox**; light mode uses the custom `emacs-default` palette.
+macOS appearance is checked on startup, focus, and every two seconds.
+`:AppearanceSync` refreshes it manually. To force dark mode:
+
+```sh
+NVIM_APPEARANCE=dark nvim
 ```
 
-#### macOS Installation:
-```bash
-# Install Neovim 0.10+
-# Option 1: Homebrew
-brew install neovim
+The background is opaque by default; `Space ct` toggles transparency.
 
-# Option 2: MacPorts
-sudo port install neovim
-```
+## Maintenance
 
-### Configuration Setup:
-```bash
-# Clone this repository
-git clone https://github.com/sergiogallegos/nvim-config.git ~/.config/nvim
-cd ~/.config/nvim
+`:Lazy` manages plugins, `:Mason` manages external tools, and `:checkhealth`
+provides diagnostics. Keep `lazy-lock.json` for reproducible plugin versions.
+Treesitter uses the current `main` API and installs matching parsers and queries
+under Neovim’s data directory. Run `:TSUpdate` after updating it. Syntax highlighting
+and indentation attach by filetype. `Ctrl-Space` starts Flash syntax selection;
+repeat `Ctrl-Space` to expand, Backspace to shrink. Normal find/search motions
+remain unchanged. No legacy Treesitter configuration is used.
 
-# Start Neovim (plugins will auto-install)
-nvim
-```
+The selected parsers cover Rust, Python, TypeScript/TSX, JavaScript, Lua, Vim,
+Markdown, JSON, YAML, TOML, and Bash. Additional servers/parsers can be added when
+needed; previously installed tools are not uninstalled by this cleanup.
 
-### Platform-Specific Notes:
-- **Windows**: Works with PowerShell, CMD, and Windows Terminal
-- **macOS**: Works with Terminal, iTerm2, and other terminal emulators
-- **Transparency**: Automatically enabled on supported terminals
-- **Clipboard**: Auto-detects and configures appropriate clipboard tools
+## Rust tools and editing improvements
 
-## ⌨️ Key Mappings
+rustaceanvim is the sole Rust LSP owner. Mason installs rust-analyzer but does not
+start a second client. Default Clippy checks remain enabled; feature selection
+is left to project settings (`rust-analyzer.json`).
 
-### Leader Key: `<Space>`
+| Shortcut | Action |
+| --- | --- |
+| `Space Rr` | Select a runnable target |
+| `Space Rt` | Select and run tests |
+| `Space Rm` | Expand the macro under the cursor |
+| `Space Re` | Explain a Rust error |
+| `Space Ra` | Rust-specific grouped code actions |
+| `Space Rd` | Select a debug target |
+| `F9` | Toggle breakpoint |
+| `F5` | Continue debugging |
+| `F10` / `F11` / `F12` | Step over / into / out |
+| `Space oh` | Toggle inlay hints for the current buffer |
+| `gy` | Go to type definition |
+| `[q` / `]q` | Previous / next quickfix item |
 
-#### ThePrimeagen's Signature Features
-- `<leader>a` - Add file to Harpoon
-- `<leader>e` - Toggle Harpoon quick menu
-- `<leader>1-4` - Jump to Harpoon files 1-4
-- `<leader>h` - Previous Harpoon file
-- `<leader>l` - Next Harpoon file
-- `<leader>z` - Toggle Zen mode
-- `<leader>gs` - Git status (Fugitive)
-- `<leader>gp` - Git push
-- `<leader>gP` - Git pull
-- `<leader>gc` - Git commit
-- `<leader>gb` - Git blame
-- `<leader>gd` - Git diff split
-- `<leader>gl` - Git log
+CodeLLDB and nvim-dap provide debugging without a permanent debug sidebar.
+`:DapTerminate` ends a session; `:lua require('dap').repl.open()` opens its console.
+Cargo.toml loads crates.nvim for dependency versions, completion, and actions.
+`:lua require('crates').show_popup()` shows details for the dependency under the
+cursor; `:lua require('crates').update_crate()` applies a compatible version update
+on request. Dependency files are not automatically upgraded.
 
-#### TJ DeVries' Professional Features
-- `<leader>ff` - Find files (Telescope)
-- `<leader>fg` - Live grep (Telescope)
-- `<leader>fb` - Find buffers (Telescope)
-- `<leader>fh` - Find help tags (Telescope)
-- `-` - Open parent directory (Oil)
-- `<leader>u` - Toggle undotree
-- `<leader>xx` - Toggle Trouble (diagnostics)
-- `<leader>xw` - Workspace diagnostics
-- `<leader>xd` - Document diagnostics
-- `<leader>xq` - Quickfix list
-- `<leader>xl` - Location list
-
-#### LSP & Development
-- `gd` - Go to definition
-- `gr` - Go to references
-- `K` - Hover information
-- `<leader>ca` - Code actions
-- `<leader>rn` - Rename symbol
-- `<leader>f` - Format code
-- `]d` / `[d` - Next/Previous diagnostic
-- `<leader>dl` - Show line diagnostics
-- `<leader>dL` - Show diagnostics in location list
-- `<leader>dQ` - Show diagnostics in quickfix list
-
-#### Modern Enhancements
-- `<leader>e` - Open file explorer (Mini.files)
-- `<leader>E` - Open file explorer (current file)
-- `<leader>bd` - Delete buffer
-- `<leader>bD` - Delete buffer (force)
-- `<leader>ss` - Save session
-- `<leader>sl` - Load session
-- `<leader>sd` - Delete session
-- `<leader>st` - Open starter screen
-- `<leader>tw` - Trim trailing whitespace
-- `<leader>j` - Jump 2D
-- `<leader>p` - Start picker
-
-#### Window Management
-- `<leader>wv` - Split vertically
-- `<leader>wh` - Split horizontally
-- `<leader>we` - Equalize windows
-- `<leader>wo` - Close other windows
-- `<C-h/j/k/l>` - Smart window navigation
-
-#### Buffer Management
-- `<leader>bn` - Next buffer
-- `<leader>bp` - Previous buffer
-- `<leader>bb` - Switch to last buffer
-
-#### Tab Management
-- `<leader>tn` - New tab
-- `<leader>tc` - Close tab
-- `<leader>to` - Close other tabs
-
-#### Colorscheme & Transparency
-- `:AppearanceSync` - Synchronize immediately with the macOS appearance
-- `<leader>ct` - Toggle transparency
-
-#### Advanced Git (From sergiogallegos/nvim-config)
-- `<leader>gd` - Open diffview
-- `<leader>gD` - Close diffview
-- `<leader>gf` - Focus files
-- `<leader>gh` - File history
-- `<leader>gco` - Choose ours (conflict)
-- `<leader>gct` - Choose theirs (conflict)
-- `<leader>gcb` - Choose both (conflict)
-- `<leader>gcn` - Next conflict
-- `<leader>gcp` - Previous conflict
-- `<leader>gw` - Git worktrees
-- `<leader>gW` - Create git worktree
-- `<leader>tb` - Toggle git blame (via gitsigns)
-
-#### Testing
-- `<leader>tf` - Test file
-- `<leader>ts` - Stop test
-- `<leader>td` - Run last test
-- `<leader>to` - Open test output
-- `<leader>tS` - Toggle test summary
-- `<leader>tn` - Test nearest
-- `<leader>tl` - Test last
-
-#### Code Execution
-- `<leader>r` - Run code
-- `<leader>rr` - Run line
-- `<leader>rc` - Close all
-- `<leader>rl` - Reset
-
-#### Session Management
-- `<leader>qs` - Restore session
-- `<leader>ql` - Restore last session
-- `<leader>qd` - Don't save current session
-
-#### Advanced File Management
-- `<leader>e` - Open file explorer
-- `<leader>E` - Open floating file explorer
-- `-` - Open parent directory
-
-#### Essential
-- `<leader>w` - Save file
-- `<leader>q` - Quit
-- `<leader>Q` - Quit all
-- `<leader>s` - Search
-- `<leader>S` - Search backwards
-- `<leader>ln` - Toggle line numbers
-
-## 🎨 Colorschemes
-
-### Automatic system appearance
-
-- **Light mode** uses the custom `emacs-default` colorscheme.
-- **Dark mode** uses the matching `emacs-default-dark` colorscheme.
-- On macOS, Neovim checks at startup, when it regains focus, and every two seconds while open.
-- Run `:AppearanceSync` to request an immediate refresh.
-- Set `NVIM_APPEARANCE=light` or `NVIM_APPEARANCE=dark` before starting Neovim to override automatic detection.
-
-### Transparency
-
-- `<leader>ct` - Toggle transparency
-
-## 🔧 Language Support
-
-### LSP Servers (Auto-installed via Mason)
-- **C/C++** - clangd
-- **Python** - pyright
-- **JavaScript/TypeScript** - ts_ls
-- **Go** - gopls
-- **Rust** - rust_analyzer (enhanced configuration)
-- **SQL** - sqls (optional)
-- **C#** - omnisharp (optional)
-
-### Treesitter Parsers
-- **Languages**: C, C++, Python, Java, JavaScript, TypeScript, Go, Rust, Zig, SQL, Lua, Vim, Markdown, JSON, YAML, TOML, Bash, Fish, Dockerfile
-
-## 🚀 Performance Features
-
-### Optimizations
-- **Lazy Loading**: Most plugins load only when needed
-- **Mini Plugins**: Lightweight alternatives for better performance
-- **Smart Caching**: Enhanced startup times
-- **Cross-Platform**: Works seamlessly on Windows, macOS, and Linux
-- **Clean Structure**: Removed unused files for better performance
-
-### Cross-Platform Compatibility
-- **Windows & macOS Support**: Seamlessly works on both platforms
-- **Automatic Detection**: Detects OS, terminal, and clipboard automatically
-- **Platform-Specific Optimizations**: Windows PowerShell, macOS pbcopy, Linux xclip
-- **Smart Transparency**: Different transparency methods per platform
-- **Unified Experience**: Same configuration works everywhere
-
-### Startup Time
-- **Fast Startup**: Optimized for quick loading
-- **Error Handling**: Graceful fallbacks for missing dependencies
-- **Safe LSP Setup**: Only loads available language servers
-
-## 🔍 Diagnostic System
-
-### Reading Error Messages
-- **`K`** - Hover over diagnostic to see message
-- **`<leader>dl`** - Show all diagnostics in current line
-- **`]d`** and **`[d`** - Navigate between diagnostics
-- **`<leader>xx`** - Open Trouble diagnostic viewer
-- **`<leader>xw`** - Show workspace-wide diagnostics
-- **`<leader>xd`** - Show current document diagnostics
-
-### Toggling Diagnostics
-- **`<leader>dt`** - Toggle all diagnostics on/off
-- **`<leader>de`** - Toggle error diagnostics
-- **`<leader>dw`** - Toggle warning diagnostics  
-- **`<leader>di`** - Toggle info diagnostics
-- **`<leader>dh`** - Toggle hint diagnostics
-- **`<leader>ds`** - Toggle diagnostic signs (E, W, H, I indicators)
-- **`<leader>du`** - Toggle diagnostic underlines
-- **`<leader>dv`** - Toggle diagnostic virtual text
-
-### Diagnostic Severity
-- **`E`** = Error (❌ Red) - Critical issues
-- **`W`** = Warning (⚠️ Yellow) - Potential problems
-- **`I`** = Info (ℹ️ Blue) - Informational messages
-- **`H`** = Hint (💡 Green) - Suggestions
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-1. **Plugins not loading**:
-   ```bash
-   :Lazy sync
-   ```
-
-2. **LSP not working**:
-   ```bash
-   :Mason
-   # Install the required LSP server
-   ```
-
-3. **Diagnostic messages**:
-   ```bash
-   :Trouble
-   # Or use <leader>xx
-   ```
-
-4. **Performance issues**:
-   ```bash
-   :checkhealth
-   # Check system health
-   ```
-
-### Debug Commands
-- `<leader>xx` - Open Trouble (diagnostic viewer)
-- `<leader>dl` - Show line diagnostics
-- `<leader>dL` - Show diagnostics in location list
-- `<leader>dQ` - Show diagnostics in quickfix list
-
-## 📦 Plugin Architecture
-
-### Core Plugins
-- **lazy.nvim** - Plugin manager
-- **nvim-lspconfig** - LSP configuration
-- **mason.nvim** - LSP/DAP installer
-- **nvim-cmp** - Completion engine
-- **telescope.nvim** - Fuzzy finder
-- **treesitter** - Syntax highlighting
-
-### ThePrimeagen's Signature Plugins
-- **harpoon** - File navigation
-- **vim-fugitive** - Git integration
-- **zen-mode** - Focus mode
-
-### TJ DeVries' Professional Plugins
-- **telescope.nvim** - Fuzzy finder
-- **treesitter** - Syntax highlighting
-- **lualine.nvim** - Status line
-- **oil.nvim** - File explorer
-
-### Modern Enhancements
-- **mini.ai** - Enhanced text objects
-- **mini.surround** - Better surround functionality
-- **mini.comment** - Smart commenting
-- **mini.pairs** - Better auto-pairs
-- **mini.bufremove** - Better buffer management
-- **mini.files** - Modern file explorer
-- **mini.sessions** - Session management
-- **trouble.nvim** - Diagnostic viewer
-- **undotree** - Visual undo history
-
-## 🎯 Best Practices
-
-### Configuration Structure
-- **Modular Design**: Separate files for different concerns
-- **Error Handling**: Graceful fallbacks for missing dependencies
-- **Windows Compatibility**: All plugins tested on Windows
-- **Performance Optimized**: Lazy loading and smart caching
-
-### Development Workflow
-- **Harpoon**: Quick file navigation
-- **Telescope**: Fuzzy finding
-- **Trouble**: Diagnostic management
-- **Git Integration**: Complete git workflow
-- **LSP Support**: Professional language support
-
-## 📝 License
-
-This configuration is for personal use. Feel free to adapt it for your needs.
-
-## 🤝 Contributing
-
-If you find issues or have improvements:
-1. Fork the repository
-2. Make your changes
-3. Test thoroughly
-4. Submit a pull request
-
----
-
-**Happy coding with your cross-platform professional Neovim setup! 🎉✨**
-
-## 🌟 What Makes This Special
-
-This configuration is designed to be your **main Neovim setup** that works seamlessly across platforms:
-
-- **🏠 Home Setup**: Perfect for personal development on both Windows and macOS
-- **💼 Professional**: Combines the best practices from top Neovim developers
-- **🚀 Modern**: Latest plugins and features with optimal performance
-- **🔧 Maintainable**: Clean structure that's easy to customize and extend
-- **🌍 Cross-Platform**: Same experience whether you're on Windows or macOS
-
-Whether you're coding on your Windows machine at work or your MacBook at home, this configuration provides a consistent, powerful development environment.
+Undo history persists across restarts, and reopening a file restores the last
+cursor position (except commit messages). The diagnostic column stays reserved.
+Completion loads on the first insert **or command-line** entry and uses Neovim's
+native snippets: Tab / Shift-Tab navigate snippet fields or completion entries.
+LuaSnip and its build step are no longer required. Pause after a shortcut prefix
+such as `Space R` to see which-key's available actions.
