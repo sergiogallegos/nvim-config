@@ -14,17 +14,41 @@ local function normalized_mode(value)
     return themes[value] and value or nil
 end
 
+local function macos_is_dark()
+    local result = vim.system({ "/usr/bin/defaults", "read", "-g", "AppleInterfaceStyle" }, { text = true }):wait()
+    return result.code == 0 and normalized_mode(result.stdout) == "dark"
+end
+
+local function windows_is_dark()
+    -- HKCU\...\Themes\Personalize\AppsUseLightTheme is 0x0 in dark mode, 0x1 in light mode.
+    local result = vim.system({
+        "reg",
+        "query",
+        "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        "/v",
+        "AppsUseLightTheme",
+    }, { text = true }):wait()
+
+    if result.code ~= 0 then
+        return false
+    end
+
+    local value = tostring(result.stdout):match "AppsUseLightTheme%s+REG_DWORD%s+0x(%x+)"
+    return value ~= nil and tonumber(value, 16) == 0
+end
+
 function M.detect()
     local override = normalized_mode(vim.env.NVIM_APPEARANCE)
     if override then
         return override
     end
 
-    if platform.is_macos then
-        local result = vim.system({ "/usr/bin/defaults", "read", "-g", "AppleInterfaceStyle" }, { text = true }):wait()
-        if result.code == 0 and normalized_mode(result.stdout) == "dark" then
-            return "dark"
-        end
+    if platform.is_macos and macos_is_dark() then
+        return "dark"
+    end
+
+    if platform.is_windows and windows_is_dark() then
+        return "dark"
     end
 
     return "light"
@@ -56,7 +80,7 @@ function M.setup()
         desc = "Synchronize colors when Neovim regains focus",
     })
 
-    if platform.is_macos and normalized_mode(vim.env.NVIM_APPEARANCE) == nil then
+    if (platform.is_macos or platform.is_windows) and normalized_mode(vim.env.NVIM_APPEARANCE) == nil then
         timer = vim.uv.new_timer()
         timer:start(2000, 2000, vim.schedule_wrap(M.sync))
 
