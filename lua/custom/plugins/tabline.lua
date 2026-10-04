@@ -11,7 +11,9 @@ return {
       require("bufferline").setup({
         options = {
           mode = "buffers",
-          themable = true,
+          -- Replace old highlights on ColorScheme instead of preserving defaults.
+          -- Otherwise light tab backgrounds survive the switch to Gruvbox.
+          themable = false,
           numbers = "none",
           close_command = function(bufnr)
             vim.api.nvim_buf_delete(bufnr, { force = false })

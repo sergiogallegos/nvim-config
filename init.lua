@@ -96,6 +96,7 @@ require("lazy").setup({
     },
 })
 
+appearance.sync()
 appearance.setup()
 
 -- Initialize autogroups (ThePrimeagen style)

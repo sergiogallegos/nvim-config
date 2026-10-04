@@ -3,8 +3,8 @@ local M = {}
 local platform = require "custom.platform"
 
 local themes = {
-    light = "emacs-default",
-    dark = "gruvbox",
+    light = "xcode-light",
+    dark = "xcode-dark",
 }
 
 local timer

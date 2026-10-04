@@ -1,0 +1,36 @@
+-- Xcode 27.0 Default (Dark), extracted from the installed Apple theme.
+-- Source: /Applications/Xcode.app/Contents/SharedFrameworks/DVTUserInterfaceKit.framework/Versions/A/Resources/FontAndColorThemes/Default (Dark).xccolortheme
+-- RGB values rounded to 8-bit. UI accents extend the source editor palette.
+return {
+    fg = "#FFFFFF",
+    comment = "#6C7986",
+    doc_keyword = "#92A1B1",
+    keyword = "#FC5FA3",
+    string = "#FC6A5D",
+    number = "#D0BF69",
+    character = "#D0BF69",
+    type = "#9EF1DD",
+    system_type = "#D0A8FF",
+    identifier = "#67B7A4",
+    system_identifier = "#A167E6",
+    declaration = "#41A1C0",
+    type_declaration = "#5DD8FF",
+    macro = "#FD8F3F",
+    attribute = "#BF8555",
+    url = "#5482FF",
+    bg = "#1F1F24",
+    subtle = "#23252B",
+    selection = "#515B70",
+    border = "#6C7986",
+    green = "#67B7A4",
+    warning = "#EFB759",
+    markup_code = "#AA0D91",
+    aside = "#FFDB8B",
+    invisibles = "#424D5B",
+    error = "#F74A4A",
+    info = "#675FFF",
+    hint = "#A482FF",
+    diff = "#8E8E8E",
+    -- ANSI slots are an adaptation; Xcode defines syntax roles, not ANSI slots.
+    ansi = { "#1F1F24", "#FC6A5D", "#67B7A4", "#D0BF69", "#41A1C0", "#FC5FA3", "#9EF1DD", "#FFFFFF", "#6C7986", "#F74A4A", "#9EF1DD", "#EFB759", "#5482FF", "#A167E6", "#5DD8FF", "#FFFFFF" },
+}

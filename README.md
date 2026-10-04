@@ -12,7 +12,7 @@ Use a Nerd Font if you want file icons.
 | --- | --- | --- |
 | Rust | rustaceanvim / rust-analyzer with Clippy checks | rustfmt from your Rust toolchain |
 | Python | Pyright for types; Ruff for linting | Ruff import sorting, then formatting |
-| TypeScript / JavaScript / TSX | ts_ls | Prettier (project-local installation preferred) |
+| TypeScript / JavaScript / TSX | tsc (TypeScript 7+), ts_ls (older projects) | Prettier (project-local installation preferred) |
 | Lua | lua_ls | StyLua |
 | TOML | taplo | Taplo |
 
@@ -36,6 +36,8 @@ before launching, or use `:LspPyrightSetPythonPath /path/to/.venv/bin/python`.
 Project `pyproject.toml`, Ruff configuration, and TypeScript `tsconfig.json` remain
 the source of project-specific rules. TypeScript workspace detection uses the
 nearest package-manager lockfile or Git root, falling back to the working directory.
+When that root has TypeScript 7+ installed in `node_modules`, Neovim uses its native
+`tsc --lsp --stdio` server. Other projects use `ts_ls`; only one server is selected.
 
 ## Navigation
 
@@ -88,7 +90,18 @@ strings, Markdown hard breaks, or files without a formatter.
 
 ## Appearance
 
-Dark mode uses **Gruvbox**; light mode uses the custom `emacs-default` palette.
+Dark mode uses **Xcode Default (Dark)** with its `#1F1F24` background; light mode
+uses **Xcode Default (Light)** with its pure-white `#FFFFFF` background. Both
+match Ghostty's Xcode-Light/Xcode-Dark palettes and retain the no-italics preference.
+The local `xcode-light` and `xcode-dark` themes use syntax colors extracted from
+Xcode 27.0, with shared Tree-sitter, LSP, and plugin mappings.
+Current-line, selection, invisible-character, Markdown code, and aside colors
+come from the same Xcode themes. Markdown `[!NOTE]`-style admonitions use the aside
+color. Ghostty and embedded Neovim terminals share an ANSI adaptation made from
+Xcode colors (Xcode itself does not define ANSI slots).
+Ghostty uses SF Mono at 12 pt: Regular/Semibold in light mode and Medium/Bold in
+dark mode. Terminal Neovim inherits that font. A terminal cannot reproduce Xcode's
+per-token proportional documentation fonts or every native UI detail.
 macOS appearance is checked on startup, focus, and every two seconds.
 `:AppearanceSync` refreshes it manually. To force dark mode:
 

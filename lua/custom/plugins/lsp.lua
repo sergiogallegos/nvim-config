@@ -34,6 +34,32 @@ return {
                 end,
             })
 
+            -- TypeScript 7 ships a native LSP instead of tsserver.js.
+            -- Keep the existing root/Deno detection and select one server per project.
+            local typescript_root = vim.lsp.config.ts_ls.root_dir
+            local function native_typescript(root)
+                local package = root .. "/node_modules/typescript/package.json"
+                local binary = root .. "/node_modules/.bin/tsc"
+                if vim.fn.filereadable(package) ~= 1 or vim.fn.executable(binary) ~= 1 then
+                    return false
+                end
+                local ok, metadata = pcall(function()
+                    return vim.json.decode(table.concat(vim.fn.readfile(package), "\n"))
+                end)
+                local major = ok and type(metadata) == "table"
+                    and tonumber(tostring(metadata.version):match("^(%d+)"))
+                return major and major >= 7 or false
+            end
+            local function typescript_root_for(native)
+                return function(bufnr, on_dir)
+                    typescript_root(bufnr, function(root)
+                        if native_typescript(root) == native then
+                            on_dir(root)
+                        end
+                    end)
+                end
+            end
+
             local servers = {
                 pyright = {
                     settings = { pyright = { disableOrganizeImports = true } },
@@ -43,7 +69,17 @@ return {
                         client.server_capabilities.hoverProvider = false
                     end,
                 },
-                ts_ls = {},
+                ts_ls = { root_dir = typescript_root_for(false) },
+                tsc = {
+                    root_dir = typescript_root_for(true),
+                    cmd = function(dispatchers, config)
+                        return vim.lsp.rpc.start({
+                            config.root_dir .. "/node_modules/.bin/tsc",
+                            "--lsp",
+                            "--stdio",
+                        }, dispatchers)
+                    end,
+                },
                 lua_ls = {
                     settings = {
                         Lua = {
